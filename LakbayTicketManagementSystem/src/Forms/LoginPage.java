@@ -5,8 +5,19 @@
 package Forms;
 
 import com.formdev.flatlaf.FlatIntelliJLaf;
+import java.awt.Toolkit;
+import java.awt.event.WindowEvent;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+
+import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -38,7 +49,7 @@ public class LoginPage extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         rootPanel.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -65,6 +76,11 @@ public class LoginPage extends javax.swing.JFrame {
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Login");
         jButton1.setToolTipText("");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout loginBasePanelLayout = new javax.swing.GroupLayout(loginBasePanel);
         loginBasePanel.setLayout(loginBasePanelLayout);
@@ -89,9 +105,9 @@ public class LoginPage extends javax.swing.JFrame {
             .addGroup(loginBasePanelLayout.createSequentialGroup()
                 .addGap(154, 154, 154)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
-                .addGap(44, 44, 44)
+                .addGap(50, 50, 50)
                 .addComponent(userField, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(38, 38, 38)
                 .addComponent(passField, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -106,7 +122,7 @@ public class LoginPage extends javax.swing.JFrame {
             rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rootPanelLayout.createSequentialGroup()
                 .addComponent(loginBasePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(1103, Short.MAX_VALUE))
+                .addContainerGap(819, Short.MAX_VALUE))
         );
         rootPanelLayout.setVerticalGroup(
             rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -127,12 +143,127 @@ public class LoginPage extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+       
+    public void close()
+    {
+        WindowEvent closeWindow = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
+        Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(closeWindow);
+    }
+    
+    // Connect database code
+    Connection con;
+    PreparedStatement ps;
+    ResultSet rs;
+    
+    public void sqlConnect()
+    {
+        
+        try {
+           String url1 = "jdbc:mysql://localhost:3306/accountdemo";
+           String user = "root";
+           String password = "Cj06032002";
+           
+           con = DriverManager.getConnection(url1, user, password);
+           if(con != null)
+           {
+               System.out.println("Connected to the database.");
+           }
+           
+        } catch (SQLException ex) {
+            System.out.println("An error occurred. Maybe user/password is invalid");
+            ex.printStackTrace();
+        }
+    }
+    
+    public boolean Login(String u, String p){
+        sqlConnect();
+        try {
+            ps = con.prepareStatement("SELECT * FROM user_tb");
+            rs = ps.executeQuery();
+            
+            while(rs.next())
+            {
+                String uname = rs.getString("user_name");
+                String pword = rs.getString("pass_word");
+                String fname = rs.getString("first_name");
+                
+                if(u.equals(uname) && p.equals(pword))
+                {
+                    close();
+                    return true;
+                }
+                            
+            }
+                    
+        } catch (SQLException ex) 
+        {
+            Logger.getLogger(LoginPage.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    
+    // Retrieve Dataa
+    public String getString(String u)
+    {
+        String fName = null;
+        
+        String query = 
+                "SELECT first_name FROM user_tb WHERE user_name = ?";
+        
+        try {
+            ps = con.prepareStatement(query);
+            ps.setString(1, u);
+            rs = ps.executeQuery();
+            
+            while(rs.next())
+            {    
+                fName = rs.getString("first_name");
+                return fName;
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginPage.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return fName;
+    }
+    
+    
+    
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+       
 
+        // TODO add your handling code here:
+        String username = userField.getText();
+        String password = passField.getText();
+        
+        
+        
+        if (Login(username, password))
+        {
+            HomePage hp = new HomePage(getString(username));
+            hp.setVisible(true);
+        }
+        else if(!Login(username, password))
+        {
+          JOptionPane.showMessageDialog(rootPane, "Please double check your details or\n"
+                  + "contact the administrator.",
+                  "Account not found.", 
+                  JOptionPane.ERROR_MESSAGE);
+        }
+ 
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        
+        
         
         // region Set the Look and Feel of the Project
         try {
@@ -141,7 +272,7 @@ public class LoginPage extends javax.swing.JFrame {
             
         }
         // endregion
-
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
@@ -149,6 +280,8 @@ public class LoginPage extends javax.swing.JFrame {
                 new LoginPage().setVisible(true);
             }
         });
+        
+           
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
