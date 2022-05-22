@@ -51,21 +51,18 @@ public class LoginPage extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        rootPanel.setBackground(new java.awt.Color(255, 255, 255));
-
+        loginBasePanel.setBackground(new java.awt.Color(255, 255, 255));
         loginBasePanel.setPreferredSize(new java.awt.Dimension(461, 720));
 
-        userField.setBackground(new java.awt.Color(242, 242, 242));
         userField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         userField.setToolTipText("HELLO");
         userField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(46, 196, 182), 2, true), "Username:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 16), new java.awt.Color(102, 102, 102))); // NOI18N
 
-        passField.setBackground(new java.awt.Color(242, 242, 242));
         passField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         passField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(46, 196, 182), 2, true), "Password:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 16), new java.awt.Color(102, 102, 102))); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Open Sans", 1, 27)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(46, 196, 182));
+        jLabel2.setForeground(new java.awt.Color(255, 159, 28));
         jLabel2.setText("LOGIN");
 
         jLabel1.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N

@@ -47,29 +47,34 @@ public class HomePage extends javax.swing.JFrame {
         ttlRoutes = new javax.swing.JLabel();
         noBuses = new javax.swing.JLabel();
         ttlBuses = new javax.swing.JLabel();
+        tIxIcon = new javax.swing.JLabel();
+        tIxIcon1 = new javax.swing.JLabel();
+        noBuses1 = new javax.swing.JLabel();
+        ttlBuses1 = new javax.swing.JLabel();
+        tIxIcon2 = new javax.swing.JLabel();
+        tIxIcon3 = new javax.swing.JLabel();
         ovrvwTxt = new javax.swing.JLabel();
         ticketPanel = new javax.swing.JPanel();
         ttlTxt1 = new javax.swing.JLabel();
-        noTickets1 = new javax.swing.JLabel();
+        tixDesc = new javax.swing.JLabel();
         addTicketsBtn = new javax.swing.JButton();
         viewTicketsBtn = new javax.swing.JButton();
         busPanel = new javax.swing.JPanel();
         ttlTxt2 = new javax.swing.JLabel();
-        noTickets2 = new javax.swing.JLabel();
+        busDesc = new javax.swing.JLabel();
         addBusBtn = new javax.swing.JButton();
         busPanel1 = new javax.swing.JPanel();
         ttlTxt3 = new javax.swing.JLabel();
-        noTickets3 = new javax.swing.JLabel();
+        drvrDesc = new javax.swing.JLabel();
         addDriversBtn = new javax.swing.JButton();
         busPanel2 = new javax.swing.JPanel();
         ttlTxt4 = new javax.swing.JLabel();
-        noTickets4 = new javax.swing.JLabel();
+        routeDesc = new javax.swing.JLabel();
         addRoutesBtn = new javax.swing.JButton();
-        noTickets5 = new javax.swing.JLabel();
+        ttlTickets1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
-        setPreferredSize(new java.awt.Dimension(1280, 720));
         setResizable(false);
 
         rootPanel.setPreferredSize(new java.awt.Dimension(1280, 720));
@@ -89,7 +94,7 @@ public class HomePage extends javax.swing.JFrame {
         );
 
         overviewPanel.setBackground(new java.awt.Color(255, 255, 255));
-        overviewPanel.setPreferredSize(new java.awt.Dimension(784, 112));
+        overviewPanel.setPreferredSize(new java.awt.Dimension(1009, 112));
 
         noTickets.setFont(new java.awt.Font("Open Sans", 1, 23)); // NOI18N
         noTickets.setForeground(new java.awt.Color(255, 159, 28));
@@ -115,43 +120,88 @@ public class HomePage extends javax.swing.JFrame {
         ttlBuses.setForeground(new java.awt.Color(85, 85, 85));
         ttlBuses.setText("Total Buses");
 
+        tIxIcon.setFont(new java.awt.Font("Open Sans", 0, 15)); // NOI18N
+        tIxIcon.setForeground(new java.awt.Color(85, 85, 85));
+        tIxIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Icons/Ticket-64x64.png"))); // NOI18N
+
+        tIxIcon1.setFont(new java.awt.Font("Open Sans", 0, 15)); // NOI18N
+        tIxIcon1.setForeground(new java.awt.Color(85, 85, 85));
+        tIxIcon1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Icons/driver-64x64.png"))); // NOI18N
+
+        noBuses1.setFont(new java.awt.Font("Open Sans", 1, 23)); // NOI18N
+        noBuses1.setForeground(new java.awt.Color(255, 159, 28));
+        noBuses1.setText("000");
+
+        ttlBuses1.setFont(new java.awt.Font("Open Sans", 0, 15)); // NOI18N
+        ttlBuses1.setForeground(new java.awt.Color(85, 85, 85));
+        ttlBuses1.setText("Total Drivers");
+
+        tIxIcon2.setFont(new java.awt.Font("Open Sans", 0, 15)); // NOI18N
+        tIxIcon2.setForeground(new java.awt.Color(85, 85, 85));
+        tIxIcon2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Icons/route-64x64.png"))); // NOI18N
+
+        tIxIcon3.setFont(new java.awt.Font("Open Sans", 0, 15)); // NOI18N
+        tIxIcon3.setForeground(new java.awt.Color(85, 85, 85));
+        tIxIcon3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Icons/bus-64x64.png"))); // NOI18N
+
         javax.swing.GroupLayout overviewPanelLayout = new javax.swing.GroupLayout(overviewPanel);
         overviewPanel.setLayout(overviewPanelLayout);
         overviewPanelLayout.setHorizontalGroup(
             overviewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(overviewPanelLayout.createSequentialGroup()
-                .addGap(84, 84, 84)
+                .addGap(52, 52, 52)
+                .addComponent(tIxIcon)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(overviewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(ttlTickets)
                     .addComponent(noTickets))
-                .addGap(230, 230, 230)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
+                .addComponent(tIxIcon2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(overviewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(ttlRoutes)
                     .addComponent(noRoutes))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 234, Short.MAX_VALUE)
+                .addGap(80, 80, 80)
+                .addComponent(tIxIcon1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(overviewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ttlBuses1)
+                    .addComponent(noBuses1))
+                .addGap(77, 77, 77)
+                .addComponent(tIxIcon3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(overviewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(ttlBuses)
                     .addComponent(noBuses))
-                .addGap(74, 74, 74))
+                .addGap(59, 59, 59))
         );
         overviewPanelLayout.setVerticalGroup(
             overviewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, overviewPanelLayout.createSequentialGroup()
-                .addContainerGap(30, Short.MAX_VALUE)
-                .addGroup(overviewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(overviewPanelLayout.createSequentialGroup()
-                        .addComponent(ttlBuses)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(noBuses))
-                    .addGroup(overviewPanelLayout.createSequentialGroup()
-                        .addComponent(ttlRoutes)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(noRoutes))
-                    .addGroup(overviewPanelLayout.createSequentialGroup()
-                        .addComponent(ttlTickets)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(noTickets)))
-                .addGap(23, 23, 23))
+            .addGroup(overviewPanelLayout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addGroup(overviewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(tIxIcon3)
+                    .addComponent(tIxIcon1)
+                    .addComponent(tIxIcon)
+                    .addGroup(overviewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(overviewPanelLayout.createSequentialGroup()
+                            .addComponent(ttlBuses)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(noBuses))
+                        .addGroup(overviewPanelLayout.createSequentialGroup()
+                            .addComponent(ttlRoutes)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(noRoutes))
+                        .addGroup(overviewPanelLayout.createSequentialGroup()
+                            .addComponent(ttlTickets)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(noTickets))
+                        .addGroup(overviewPanelLayout.createSequentialGroup()
+                            .addComponent(ttlBuses1)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(noBuses1)))
+                    .addComponent(tIxIcon2))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         ovrvwTxt.setFont(new java.awt.Font("Open Sans", 1, 20)); // NOI18N
@@ -159,22 +209,22 @@ public class HomePage extends javax.swing.JFrame {
         ovrvwTxt.setText("Overview");
 
         ticketPanel.setBackground(new java.awt.Color(28, 162, 150));
-        ticketPanel.setPreferredSize(new java.awt.Dimension(246, 147));
+        ticketPanel.setPreferredSize(new java.awt.Dimension(322, 192));
 
-        ttlTxt1.setFont(new java.awt.Font("Open Sans", 1, 22)); // NOI18N
+        ttlTxt1.setFont(new java.awt.Font("Open Sans", 1, 28)); // NOI18N
         ttlTxt1.setForeground(new java.awt.Color(255, 255, 255));
         ttlTxt1.setText("Tickets");
 
-        noTickets1.setFont(new java.awt.Font("Open Sans", 0, 15)); // NOI18N
-        noTickets1.setForeground(new java.awt.Color(255, 255, 255));
-        noTickets1.setText("Manange bookings, and  add tickets.");
+        tixDesc.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        tixDesc.setForeground(new java.awt.Color(255, 255, 255));
+        tixDesc.setText("Manange bookings, and  add tickets.");
 
         addTicketsBtn.setBackground(new java.awt.Color(255, 159, 28));
-        addTicketsBtn.setFont(new java.awt.Font("Open Sans", 0, 13)); // NOI18N
+        addTicketsBtn.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
         addTicketsBtn.setForeground(new java.awt.Color(255, 255, 255));
         addTicketsBtn.setText("Add Now");
         addTicketsBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 159, 28), 1, true));
-        addTicketsBtn.setPreferredSize(new java.awt.Dimension(80, 30));
+        addTicketsBtn.setPreferredSize(new java.awt.Dimension(104, 39));
         addTicketsBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addTicketsBtnActionPerformed(evt);
@@ -182,11 +232,11 @@ public class HomePage extends javax.swing.JFrame {
         });
 
         viewTicketsBtn.setBackground(new java.awt.Color(28, 162, 150));
-        viewTicketsBtn.setFont(new java.awt.Font("Open Sans", 0, 13)); // NOI18N
+        viewTicketsBtn.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
         viewTicketsBtn.setForeground(new java.awt.Color(255, 255, 255));
         viewTicketsBtn.setText("View All");
         viewTicketsBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 1, true));
-        viewTicketsBtn.setPreferredSize(new java.awt.Dimension(80, 30));
+        viewTicketsBtn.setPreferredSize(new java.awt.Dimension(104, 39));
         viewTicketsBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 viewTicketsBtnActionPerformed(evt);
@@ -204,9 +254,9 @@ public class HomePage extends javax.swing.JFrame {
                         .addComponent(addTicketsBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(viewTicketsBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(noTickets1)
+                    .addComponent(tixDesc)
                     .addComponent(ttlTxt1))
-                .addContainerGap(7, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
         ticketPanelLayout.setVerticalGroup(
             ticketPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -214,8 +264,8 @@ public class HomePage extends javax.swing.JFrame {
                 .addGap(19, 19, 19)
                 .addComponent(ttlTxt1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(noTickets1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addComponent(tixDesc)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addGroup(ticketPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addTicketsBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(viewTicketsBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -225,20 +275,20 @@ public class HomePage extends javax.swing.JFrame {
         busPanel.setBackground(new java.awt.Color(255, 255, 255));
         busPanel.setPreferredSize(new java.awt.Dimension(246, 147));
 
-        ttlTxt2.setFont(new java.awt.Font("Open Sans", 1, 22)); // NOI18N
+        ttlTxt2.setFont(new java.awt.Font("Open Sans", 1, 28)); // NOI18N
         ttlTxt2.setForeground(new java.awt.Color(255, 159, 28));
         ttlTxt2.setText("Bus");
 
-        noTickets2.setFont(new java.awt.Font("Open Sans", 0, 15)); // NOI18N
-        noTickets2.setForeground(new java.awt.Color(51, 51, 51));
-        noTickets2.setText("Add buses and assign drivers");
+        busDesc.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        busDesc.setForeground(new java.awt.Color(51, 51, 51));
+        busDesc.setText("Add buses and assign drivers");
 
         addBusBtn.setBackground(new java.awt.Color(28, 162, 150));
-        addBusBtn.setFont(new java.awt.Font("Open Sans", 0, 13)); // NOI18N
+        addBusBtn.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
         addBusBtn.setForeground(new java.awt.Color(255, 255, 255));
         addBusBtn.setText("Add Now");
         addBusBtn.setBorder(null);
-        addBusBtn.setPreferredSize(new java.awt.Dimension(80, 30));
+        addBusBtn.setPreferredSize(new java.awt.Dimension(104, 39));
         addBusBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addBusBtnActionPerformed(evt);
@@ -253,9 +303,9 @@ public class HomePage extends javax.swing.JFrame {
                 .addGap(14, 14, 14)
                 .addGroup(busPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(addBusBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(noTickets2)
+                    .addComponent(busDesc)
                     .addComponent(ttlTxt2))
-                .addContainerGap(59, Short.MAX_VALUE))
+                .addContainerGap(84, Short.MAX_VALUE))
         );
         busPanelLayout.setVerticalGroup(
             busPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -263,8 +313,8 @@ public class HomePage extends javax.swing.JFrame {
                 .addGap(15, 15, 15)
                 .addComponent(ttlTxt2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(noTickets2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addComponent(busDesc)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
                 .addComponent(addBusBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22))
         );
@@ -272,20 +322,20 @@ public class HomePage extends javax.swing.JFrame {
         busPanel1.setBackground(new java.awt.Color(255, 255, 255));
         busPanel1.setPreferredSize(new java.awt.Dimension(246, 147));
 
-        ttlTxt3.setFont(new java.awt.Font("Open Sans", 1, 22)); // NOI18N
+        ttlTxt3.setFont(new java.awt.Font("Open Sans", 1, 28)); // NOI18N
         ttlTxt3.setForeground(new java.awt.Color(255, 159, 28));
         ttlTxt3.setText("Drivers");
 
-        noTickets3.setFont(new java.awt.Font("Open Sans", 0, 15)); // NOI18N
-        noTickets3.setForeground(new java.awt.Color(51, 51, 51));
-        noTickets3.setText("Add and manage drivers.");
+        drvrDesc.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        drvrDesc.setForeground(new java.awt.Color(51, 51, 51));
+        drvrDesc.setText("Add and manage drivers.");
 
         addDriversBtn.setBackground(new java.awt.Color(28, 162, 150));
-        addDriversBtn.setFont(new java.awt.Font("Open Sans", 0, 13)); // NOI18N
+        addDriversBtn.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
         addDriversBtn.setForeground(new java.awt.Color(255, 255, 255));
         addDriversBtn.setText("Add Now");
         addDriversBtn.setBorder(null);
-        addDriversBtn.setPreferredSize(new java.awt.Dimension(80, 30));
+        addDriversBtn.setPreferredSize(new java.awt.Dimension(104, 39));
         addDriversBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addDriversBtnActionPerformed(evt);
@@ -300,9 +350,9 @@ public class HomePage extends javax.swing.JFrame {
                 .addGap(14, 14, 14)
                 .addGroup(busPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(addDriversBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(noTickets3)
+                    .addComponent(drvrDesc)
                     .addComponent(ttlTxt3))
-                .addContainerGap(87, Short.MAX_VALUE))
+                .addContainerGap(115, Short.MAX_VALUE))
         );
         busPanel1Layout.setVerticalGroup(
             busPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -310,8 +360,8 @@ public class HomePage extends javax.swing.JFrame {
                 .addGap(15, 15, 15)
                 .addComponent(ttlTxt3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(noTickets3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addComponent(drvrDesc)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
                 .addComponent(addDriversBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22))
         );
@@ -319,29 +369,25 @@ public class HomePage extends javax.swing.JFrame {
         busPanel2.setBackground(new java.awt.Color(255, 255, 255));
         busPanel2.setPreferredSize(new java.awt.Dimension(246, 147));
 
-        ttlTxt4.setFont(new java.awt.Font("Open Sans", 1, 22)); // NOI18N
+        ttlTxt4.setFont(new java.awt.Font("Open Sans", 1, 28)); // NOI18N
         ttlTxt4.setForeground(new java.awt.Color(255, 159, 28));
         ttlTxt4.setText("Routes");
 
-        noTickets4.setFont(new java.awt.Font("Open Sans", 0, 15)); // NOI18N
-        noTickets4.setForeground(new java.awt.Color(51, 51, 51));
-        noTickets4.setText("Manage routes and departure ");
+        routeDesc.setFont(new java.awt.Font("Open Sans", 0, 17)); // NOI18N
+        routeDesc.setForeground(new java.awt.Color(51, 51, 51));
+        routeDesc.setText("Manage routes and departure. ");
 
         addRoutesBtn.setBackground(new java.awt.Color(28, 162, 150));
-        addRoutesBtn.setFont(new java.awt.Font("Open Sans", 0, 13)); // NOI18N
+        addRoutesBtn.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
         addRoutesBtn.setForeground(new java.awt.Color(255, 255, 255));
         addRoutesBtn.setText("Add Now");
         addRoutesBtn.setBorder(null);
-        addRoutesBtn.setPreferredSize(new java.awt.Dimension(80, 30));
+        addRoutesBtn.setPreferredSize(new java.awt.Dimension(104, 39));
         addRoutesBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addRoutesBtnActionPerformed(evt);
             }
         });
-
-        noTickets5.setFont(new java.awt.Font("Open Sans", 0, 15)); // NOI18N
-        noTickets5.setForeground(new java.awt.Color(51, 51, 51));
-        noTickets5.setText("schedule.");
 
         javax.swing.GroupLayout busPanel2Layout = new javax.swing.GroupLayout(busPanel2);
         busPanel2.setLayout(busPanel2Layout);
@@ -350,11 +396,10 @@ public class HomePage extends javax.swing.JFrame {
             .addGroup(busPanel2Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addGroup(busPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(noTickets5)
                     .addComponent(addRoutesBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(noTickets4)
+                    .addComponent(routeDesc)
                     .addComponent(ttlTxt4))
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addContainerGap(67, Short.MAX_VALUE))
         );
         busPanel2Layout.setVerticalGroup(
             busPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -362,13 +407,15 @@ public class HomePage extends javax.swing.JFrame {
                 .addGap(15, 15, 15)
                 .addComponent(ttlTxt4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(noTickets4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(noTickets5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addComponent(routeDesc)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
                 .addComponent(addRoutesBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22))
         );
+
+        ttlTickets1.setFont(new java.awt.Font("Open Sans", 0, 15)); // NOI18N
+        ttlTickets1.setForeground(new java.awt.Color(85, 85, 85));
+        ttlTickets1.setText("USER001");
 
         javax.swing.GroupLayout rootPanelLayout = new javax.swing.GroupLayout(rootPanel);
         rootPanel.setLayout(rootPanelLayout);
@@ -376,19 +423,22 @@ public class HomePage extends javax.swing.JFrame {
             rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rootPanelLayout.createSequentialGroup()
                 .addComponent(menuPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(81, 81, 81)
+                .addGap(18, 18, 18)
                 .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ovrvwTxt)
-                    .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, rootPanelLayout.createSequentialGroup()
-                            .addComponent(ticketPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(busPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(busPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(overviewPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 878, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(busPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 94, Short.MAX_VALUE))
+                    .addGroup(rootPanelLayout.createSequentialGroup()
+                        .addComponent(ticketPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(busPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(busPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(busPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(rootPanelLayout.createSequentialGroup()
+                            .addComponent(ovrvwTxt)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(ttlTickets1))
+                        .addComponent(overviewPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 26, Short.MAX_VALUE))
         );
         rootPanelLayout.setVerticalGroup(
             rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -396,17 +446,19 @@ public class HomePage extends javax.swing.JFrame {
                 .addComponent(menuPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(rootPanelLayout.createSequentialGroup()
-                .addGap(51, 51, 51)
-                .addComponent(ovrvwTxt)
-                .addGap(18, 18, 18)
+                .addGap(32, 32, 32)
+                .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ovrvwTxt)
+                    .addComponent(ttlTickets1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(overviewPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40)
-                .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ticketPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(busPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(busPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(busPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(busPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ticketPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(busPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(busPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -476,31 +528,31 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JButton addDriversBtn;
     private javax.swing.JButton addRoutesBtn;
     private javax.swing.JButton addTicketsBtn;
+    private javax.swing.JLabel busDesc;
     private javax.swing.JPanel busPanel;
     private javax.swing.JPanel busPanel1;
     private javax.swing.JPanel busPanel2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel6;
+    private javax.swing.JLabel drvrDesc;
     private javax.swing.JPanel menuPanel;
     private javax.swing.JLabel noBuses;
+    private javax.swing.JLabel noBuses1;
     private javax.swing.JLabel noRoutes;
     private javax.swing.JLabel noTickets;
-    private javax.swing.JLabel noTickets1;
-    private javax.swing.JLabel noTickets2;
-    private javax.swing.JLabel noTickets3;
-    private javax.swing.JLabel noTickets4;
-    private javax.swing.JLabel noTickets5;
     private javax.swing.JPanel overviewPanel;
     private javax.swing.JLabel ovrvwTxt;
     private javax.swing.JPanel rootPanel;
+    private javax.swing.JLabel routeDesc;
+    private javax.swing.JLabel tIxIcon;
+    private javax.swing.JLabel tIxIcon1;
+    private javax.swing.JLabel tIxIcon2;
+    private javax.swing.JLabel tIxIcon3;
     private javax.swing.JPanel ticketPanel;
+    private javax.swing.JLabel tixDesc;
     private javax.swing.JLabel ttlBuses;
+    private javax.swing.JLabel ttlBuses1;
     private javax.swing.JLabel ttlRoutes;
     private javax.swing.JLabel ttlTickets;
+    private javax.swing.JLabel ttlTickets1;
     private javax.swing.JLabel ttlTxt1;
     private javax.swing.JLabel ttlTxt2;
     private javax.swing.JLabel ttlTxt3;
