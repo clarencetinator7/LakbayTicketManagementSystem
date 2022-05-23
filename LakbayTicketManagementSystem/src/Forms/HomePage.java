@@ -5,6 +5,8 @@
 package Forms;
 
 import com.formdev.flatlaf.FlatIntelliJLaf;
+import java.awt.Toolkit;
+import java.awt.event.WindowEvent;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -28,6 +30,13 @@ public class HomePage extends javax.swing.JFrame {
         this.userName = u;
         //userNameAppear.setText("Hello, " + userName + "!");
     }
+    
+    public void close()
+    {
+        WindowEvent closeWindow = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
+        Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(closeWindow);
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -483,6 +492,9 @@ public class HomePage extends javax.swing.JFrame {
 
     private void addTicketsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addTicketsBtnActionPerformed
         // TODO add your handling code here:
+        close();
+        AddTicket tx = new AddTicket();
+        tx.setVisible(true);
     }//GEN-LAST:event_addTicketsBtnActionPerformed
 
     private void viewTicketsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewTicketsBtnActionPerformed
@@ -499,6 +511,7 @@ public class HomePage extends javax.swing.JFrame {
 
     private void addRoutesBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addRoutesBtnActionPerformed
         // TODO add your handling code here:
+       
     }//GEN-LAST:event_addRoutesBtnActionPerformed
 
     /**
