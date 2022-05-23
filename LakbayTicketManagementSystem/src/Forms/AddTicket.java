@@ -65,6 +65,7 @@ public class AddTicket extends javax.swing.JFrame {
         addTicketsBtn1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         rootPanel.setPreferredSize(new java.awt.Dimension(1280, 720));
 

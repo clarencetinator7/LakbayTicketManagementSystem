@@ -47,6 +47,7 @@ public class AddDriver extends javax.swing.JFrame {
         driverTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         rootPanel.setPreferredSize(new java.awt.Dimension(1280, 720));
 
