@@ -5,6 +5,7 @@
 package Forms;
 
 import UtilityClasses.SQLBasic;
+import UtilityClasses.Staff;
 
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.mysql.cj.jdbc.result.ResultSetMetaData;
@@ -71,7 +72,7 @@ public class AddStaff extends javax.swing.JFrame {
         clearForm = new javax.swing.JButton();
         accDetailsPanel = new javax.swing.JPanel();
         ovrvwTxt1 = new javax.swing.JLabel();
-        staffIdField1 = new javax.swing.JTextField();
+        userName = new javax.swing.JTextField();
         passField = new javax.swing.JPasswordField();
         conPassField = new javax.swing.JPasswordField();
         accessOptionPane = new javax.swing.JPanel();
@@ -235,12 +236,12 @@ public class AddStaff extends javax.swing.JFrame {
         ovrvwTxt1.setForeground(new java.awt.Color(255, 159, 28));
         ovrvwTxt1.setText("Account Details");
 
-        staffIdField1.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        staffIdField1.setToolTipText("HELLO");
-        staffIdField1.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Username:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
-        staffIdField1.addActionListener(new java.awt.event.ActionListener() {
+        userName.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        userName.setToolTipText("HELLO");
+        userName.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Username:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
+        userName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                staffIdField1ActionPerformed(evt);
+                userNameActionPerformed(evt);
             }
         });
 
@@ -257,13 +258,13 @@ public class AddStaff extends javax.swing.JFrame {
             .addGroup(accDetailsPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(accDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(userName)
                     .addGroup(accDetailsPanelLayout.createSequentialGroup()
                         .addComponent(ovrvwTxt1)
                         .addGap(0, 207, Short.MAX_VALUE))
                     .addComponent(passField)
                     .addComponent(conPassField))
                 .addContainerGap())
-            .addComponent(staffIdField1)
         );
         accDetailsPanelLayout.setVerticalGroup(
             accDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -271,7 +272,7 @@ public class AddStaff extends javax.swing.JFrame {
                 .addGap(14, 14, 14)
                 .addComponent(ovrvwTxt1)
                 .addGap(22, 22, 22)
-                .addComponent(staffIdField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(userName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(passField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29)
@@ -360,18 +361,22 @@ public class AddStaff extends javax.swing.JFrame {
             rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rootPanelLayout.createSequentialGroup()
                 .addComponent(headerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(rootPanelLayout.createSequentialGroup()
-                        .addComponent(accDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(accessOptionPane, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(addStaffBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(clearForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(passengerDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 620, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(rootPanelLayout.createSequentialGroup()
+                                .addComponent(accDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(accessOptionPane, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(addStaffBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(clearForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(passengerDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(rootPanelLayout.createSequentialGroup()
+                        .addGap(47, 47, 47)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 585, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 18, Short.MAX_VALUE))
         );
 
@@ -423,10 +428,12 @@ public class AddStaff extends javax.swing.JFrame {
         Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(closeWindow);
     }
     
+    
+    // CODE TO INSERT DATABASE IN TABLE
     private void Fetch()
     {
         int q;
-        String query = "select staff_id, first_name, user_name, pass_word"
+        String query = "select staff_id, first_name, last_name, user_name, pass_word"
                 + " from staff";
         try {
             ps = con.prepareStatement(query);
@@ -442,92 +449,68 @@ public class AddStaff extends javax.swing.JFrame {
                 for(int a=1; a<=q; a++)
                 {
                     v2.add(rs.getString("staff_id"));
-                    v2.add(rs.getString("first_name"));
+                    v2.add(rs.getString("first_name") + " " + rs.getString("last_name"));
                     v2.add(rs.getString("user_name"));
                     v2.add(rs.getString("pass_word"));    
                 }
                 df.addRow(v2);
             }
-            
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(AddStaff.class.getName()).log(Level.SEVERE, null, ex);
-        }
         
-    }
-    
-    public void displayDataBase()
-    {
-        try {
-            ps = con.prepareStatement("SELECT * FROM staff");
-            rs = ps.executeQuery();
         } catch (SQLException ex) {
             Logger.getLogger(AddStaff.class.getName()).log(Level.SEVERE, null, ex);
         } 
-        
     }
     
-    
-    
-    
-    
-    
-    
-    private void addStaffBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addStaffBtnActionPerformed
-        // TODO add your handling code here:
-        
-        
+    public void insertStaff()
+    {
         try {
-            String staffId = staffIdField.getText();
-            String fname = firstNameField.getText();
-            String mname = middleNameField.getText();
-            String lname = lastNameField.getText();
-            String contact = contactNoField.getText();
-            String email = emailField.getText();
-            String account = staffIdField1.getText();
-            String pass = String.valueOf(passField.getPassword());
-            String conPass = String.valueOf(conPassField.getPassword());
-            String position =positionField.getSelectedItem().toString();
+            Staff sf = new Staff();
+             
+            sf.setStaffID(staffIdField.getText());
+            sf.setfName(firstNameField.getText());
+            sf.setmName(middleNameField.getText());
+            sf.setlName(lastNameField.getText());
+            sf.setPhoneNo(Integer.parseInt(contactNoField.getText()));
+            sf.setEmail(emailField.getText());
+            sf.setUserName(userName.getText());
+            sf.setPassWord(String.valueOf(passField.getPassword()));
+            sf.setPosition(positionField.getSelectedItem().toString());
+        
             
-            ps = con.prepareStatement("INSERT INTO staff (staff_id,first_name,middle_name,last_name,email_address,contact_number,user_name,pass_word,privilege) VALUES (?,?,?,?,?,?,?,?,?)");
-            ps.setString(1, staffId);
-            ps.setString(2, fname);
-            ps.setString(3, mname);
-            ps.setString(4, lname);
-            ps.setString(5, email);
-            ps.setString(6, contact);
-            ps.setString(7, account);
-            ps.setString(8, pass);
-            ps.setString(9, position);
+            ps = con.prepareStatement("INSERT INTO staff "
+                    + "(staff_id,first_name,middle_name,last_name,email_address,contact_number,user_name,pass_word,privilege) VALUES "
+                    + "(?,?,?,?,?,?,?,?,?)");
+            ps.setString(1, sf.getStaffID());
+            ps.setString(2, sf.getfName());
+            ps.setString(3, sf.getmName());
+            ps.setString(4, sf.getlName());
+            ps.setString(5, sf.getEmail());
+            ps.setString(6, Integer.toString(sf.getPhoneNo()));
+            ps.setString(7, sf.getUserName());
+            ps.setString(8, sf.getPassWord());
+            ps.setString(9, sf.getPosition());
             
             int k = ps.executeUpdate();
             
             if (k == 1) {
-                JOptionPane.showMessageDialog(this, "Record Added Successfuly hahaha paka galing");
+                JOptionPane.showMessageDialog(this, "Record Added Successfuly");
                 Fetch();
                 
             }else
             {
-                JOptionPane.showMessageDialog(this, "HAHAHA BOBO AMPOTA!");
+                JOptionPane.showMessageDialog(this, "Record is not added");
             }
             
         } catch (SQLException ex) {
             Logger.getLogger(AddStaff.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
-        /*
-            System.out.println(staffId);
-            System.out.println(fname);
-            System.out.println(mname);
-            System.out.println(lname);
-            System.out.println(contact);
-            System.out.println(email);
-            System.out.println(account);
-            System.out.println(pass);
-            System.out.println(conPass);
-            System.out.println(position);
-            */
+    }
+     
+    private void addStaffBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addStaffBtnActionPerformed
+        // TODO add your handling code here:
+       
+        //insertStaff();
+
     }//GEN-LAST:event_addStaffBtnActionPerformed
 
     private void clearFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearFormActionPerformed
@@ -548,9 +531,9 @@ public class AddStaff extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_middleNameFieldActionPerformed
 
-    private void staffIdField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_staffIdField1ActionPerformed
+    private void userNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userNameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_staffIdField1ActionPerformed
+    }//GEN-LAST:event_userNameActionPerformed
 
     /**
      * @param args the command line arguments
@@ -597,6 +580,6 @@ public class AddStaff extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> positionField;
     private javax.swing.JPanel rootPanel;
     private javax.swing.JTextField staffIdField;
-    private javax.swing.JTextField staffIdField1;
+    private javax.swing.JTextField userName;
     // End of variables declaration//GEN-END:variables
 }
