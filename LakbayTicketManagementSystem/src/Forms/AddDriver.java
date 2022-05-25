@@ -40,7 +40,7 @@ public class AddDriver extends javax.swing.JFrame {
         middleNameField = new javax.swing.JTextField();
         emailField = new javax.swing.JTextField();
         contactNoField = new javax.swing.JTextField();
-        driverIdField = new javax.swing.JTextField();
+        driverID = new javax.swing.JTextField();
         addDriverBtn = new javax.swing.JButton();
         clearForm = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -63,16 +63,16 @@ public class AddDriver extends javax.swing.JFrame {
         headerPanelLayout.setHorizontalGroup(
             headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerPanelLayout.createSequentialGroup()
-                .addContainerGap(596, Short.MAX_VALUE)
+                .addContainerGap(574, Short.MAX_VALUE)
                 .addComponent(ovrvwTxt2)
-                .addGap(562, 562, 562))
+                .addGap(584, 584, 584))
         );
         headerPanelLayout.setVerticalGroup(
             headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(headerPanelLayout.createSequentialGroup()
-                .addGap(21, 21, 21)
+                .addGap(18, 18, 18)
                 .addComponent(ovrvwTxt2)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         passengerDetailsPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -80,11 +80,11 @@ public class AddDriver extends javax.swing.JFrame {
 
         ovrvwTxt.setFont(new java.awt.Font("Open Sans", 1, 20)); // NOI18N
         ovrvwTxt.setForeground(new java.awt.Color(255, 159, 28));
-        ovrvwTxt.setText("Driver Details");
+        ovrvwTxt.setText("Staff Details");
 
         lastNameField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         lastNameField.setToolTipText("HELLO");
-        lastNameField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Last Name", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
+        lastNameField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Last Name:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
 
         firstNameField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         firstNameField.setToolTipText("HELLO");
@@ -96,15 +96,15 @@ public class AddDriver extends javax.swing.JFrame {
 
         emailField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         emailField.setToolTipText("HELLO");
-        emailField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Email", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
+        emailField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Email:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
 
         contactNoField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         contactNoField.setToolTipText("HELLO");
-        contactNoField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Contact No.", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
+        contactNoField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Contact No.:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
 
-        driverIdField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        driverIdField.setToolTipText("HELLO");
-        driverIdField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Driver Id", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
+        driverID.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        driverID.setToolTipText("HELLO");
+        driverID.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Driver ID:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
 
         javax.swing.GroupLayout passengerDetailsPanelLayout = new javax.swing.GroupLayout(passengerDetailsPanel);
         passengerDetailsPanel.setLayout(passengerDetailsPanelLayout);
@@ -118,12 +118,12 @@ public class AddDriver extends javax.swing.JFrame {
                     .addComponent(lastNameField)
                     .addComponent(middleNameField)
                     .addComponent(firstNameField)
-                    .addComponent(driverIdField))
+                    .addComponent(driverID))
                 .addGap(15, 15, 15))
             .addGroup(passengerDetailsPanelLayout.createSequentialGroup()
                 .addGap(6, 6, 6)
                 .addComponent(ovrvwTxt)
-                .addContainerGap(245, Short.MAX_VALUE))
+                .addContainerGap(259, Short.MAX_VALUE))
         );
         passengerDetailsPanelLayout.setVerticalGroup(
             passengerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -131,7 +131,7 @@ public class AddDriver extends javax.swing.JFrame {
                 .addGap(15, 15, 15)
                 .addComponent(ovrvwTxt)
                 .addGap(18, 18, 18)
-                .addComponent(driverIdField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(driverID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(47, 47, 47)
                 .addComponent(firstNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(44, 44, 44)
@@ -190,13 +190,13 @@ public class AddDriver extends javax.swing.JFrame {
                 .addComponent(headerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(rootPanelLayout.createSequentialGroup()
-                .addGap(35, 35, 35)
+                .addContainerGap()
                 .addComponent(passengerDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(rootPanelLayout.createSequentialGroup()
                         .addComponent(addDriverBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(171, 171, 171)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(clearForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 702, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -206,15 +206,17 @@ public class AddDriver extends javax.swing.JFrame {
             .addGroup(rootPanelLayout.createSequentialGroup()
                 .addComponent(headerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, rootPanelLayout.createSequentialGroup()
+                .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(rootPanelLayout.createSequentialGroup()
+                        .addComponent(passengerDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 18, Short.MAX_VALUE))
+                    .addGroup(rootPanelLayout.createSequentialGroup()
                         .addComponent(jScrollPane2)
                         .addGap(18, 18, 18)
                         .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(addDriverBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(clearForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(passengerDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 18, Short.MAX_VALUE))
+                            .addComponent(clearForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(45, 45, 45))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -265,10 +267,12 @@ public class AddDriver extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel accDetailsPanel1;
     private javax.swing.JButton addDriverBtn;
     private javax.swing.JButton clearForm;
+    private javax.swing.JPasswordField conPassField1;
     private javax.swing.JTextField contactNoField;
-    private javax.swing.JTextField driverIdField;
+    private javax.swing.JTextField driverID;
     private javax.swing.JTable driverTable;
     private javax.swing.JTextField emailField;
     private javax.swing.JTextField firstNameField;
@@ -278,7 +282,10 @@ public class AddDriver extends javax.swing.JFrame {
     private javax.swing.JTextField middleNameField;
     private javax.swing.JLabel ovrvwTxt;
     private javax.swing.JLabel ovrvwTxt2;
+    private javax.swing.JLabel ovrvwTxt3;
+    private javax.swing.JPasswordField passField1;
     private javax.swing.JPanel passengerDetailsPanel;
     private javax.swing.JPanel rootPanel;
+    private javax.swing.JTextField staffIdField2;
     // End of variables declaration//GEN-END:variables
 }

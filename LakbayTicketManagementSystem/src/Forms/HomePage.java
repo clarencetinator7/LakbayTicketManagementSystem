@@ -49,6 +49,8 @@ public class HomePage extends javax.swing.JFrame {
 
         rootPanel = new javax.swing.JPanel();
         menuPanel = new javax.swing.JPanel();
+        homeBtn = new javax.swing.JButton();
+        admBtn = new javax.swing.JButton();
         overviewPanel = new javax.swing.JPanel();
         noTickets = new javax.swing.JLabel();
         ttlTickets = new javax.swing.JLabel();
@@ -91,15 +93,47 @@ public class HomePage extends javax.swing.JFrame {
         menuPanel.setBackground(new java.awt.Color(255, 255, 255));
         menuPanel.setPreferredSize(new java.awt.Dimension(227, 720));
 
+        homeBtn.setBackground(new java.awt.Color(28, 162, 150));
+        homeBtn.setFont(new java.awt.Font("Open Sans", 1, 16)); // NOI18N
+        homeBtn.setForeground(new java.awt.Color(255, 255, 255));
+        homeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Icons/home-24x24-white.png"))); // NOI18N
+        homeBtn.setText(" HOME");
+        homeBtn.setToolTipText("");
+        homeBtn.setBorder(null);
+        homeBtn.setPreferredSize(new java.awt.Dimension(104, 39));
+        homeBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                homeBtnActionPerformed(evt);
+            }
+        });
+
+        admBtn.setFont(new java.awt.Font("Open Sans", 1, 16)); // NOI18N
+        admBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Icons/admin-24x24.png"))); // NOI18N
+        admBtn.setText("ADMIN");
+        admBtn.setToolTipText("");
+        admBtn.setBorder(null);
+        admBtn.setPreferredSize(new java.awt.Dimension(104, 39));
+        admBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                admBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout menuPanelLayout = new javax.swing.GroupLayout(menuPanel);
         menuPanel.setLayout(menuPanelLayout);
         menuPanelLayout.setHorizontalGroup(
             menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 227, Short.MAX_VALUE)
+            .addComponent(homeBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(admBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
         );
         menuPanelLayout.setVerticalGroup(
             menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 720, Short.MAX_VALUE)
+            .addGroup(menuPanelLayout.createSequentialGroup()
+                .addGap(197, 197, 197)
+                .addComponent(homeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(admBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(433, Short.MAX_VALUE))
         );
 
         overviewPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -492,7 +526,7 @@ public class HomePage extends javax.swing.JFrame {
 
     private void addTicketsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addTicketsBtnActionPerformed
         // TODO add your handling code here:
-        close();
+        this.setVisible(false);
         AddTicket tx = new AddTicket();
         tx.setVisible(true);
     }//GEN-LAST:event_addTicketsBtnActionPerformed
@@ -503,16 +537,35 @@ public class HomePage extends javax.swing.JFrame {
 
     private void addBusBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBusBtnActionPerformed
         // TODO add your handling code here:
+        this.setVisible(false);
+        AddBus ab = new AddBus();
+        ab.setVisible(true);
     }//GEN-LAST:event_addBusBtnActionPerformed
 
     private void addDriversBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDriversBtnActionPerformed
         // TODO add your handling code here:
+        this.setVisible(false);
+        AddDriver ad = new AddDriver();
+        ad.setVisible(true);
     }//GEN-LAST:event_addDriversBtnActionPerformed
 
     private void addRoutesBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addRoutesBtnActionPerformed
         // TODO add your handling code here:
-       
+        this.setVisible(false);
+        AddRoute ar = new AddRoute();
+        ar.setVisible(true);
     }//GEN-LAST:event_addRoutesBtnActionPerformed
+
+    private void homeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_homeBtnActionPerformed
+
+    private void admBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_admBtnActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        AdminPage ap = new AdminPage();
+        ap.setVisible(true);
+    }//GEN-LAST:event_admBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -541,11 +594,13 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JButton addDriversBtn;
     private javax.swing.JButton addRoutesBtn;
     private javax.swing.JButton addTicketsBtn;
+    private javax.swing.JButton admBtn;
     private javax.swing.JLabel busDesc;
     private javax.swing.JPanel busPanel;
     private javax.swing.JPanel busPanel1;
     private javax.swing.JPanel busPanel2;
     private javax.swing.JLabel drvrDesc;
+    private javax.swing.JButton homeBtn;
     private javax.swing.JPanel menuPanel;
     private javax.swing.JLabel noBuses;
     private javax.swing.JLabel noBuses1;

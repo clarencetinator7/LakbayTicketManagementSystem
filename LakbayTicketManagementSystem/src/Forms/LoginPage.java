@@ -177,7 +177,7 @@ public class LoginPage extends javax.swing.JFrame {
     public boolean Login(String u, String p){
         sqlConnect();
         try {
-            ps = con.prepareStatement("SELECT * FROM user_tb");
+                ps = con.prepareStatement("SELECT * FROM user_tb");
             rs = ps.executeQuery();
             
             while(rs.next())
