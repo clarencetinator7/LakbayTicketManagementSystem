@@ -4,6 +4,7 @@
  */
 package Forms;
 
+import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.mysql.cj.xdevapi.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,6 +15,8 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -29,7 +32,6 @@ public class ViewStaff extends javax.swing.JFrame {
         initComponents();
         sqlConnect();
         Fetch();
-        populateComboBox();
     }
     
     // Connect database code
@@ -74,9 +76,7 @@ public class ViewStaff extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         warningTxt = new javax.swing.JLabel();
-        staffIdCombo = new javax.swing.JComboBox<>();
-        jLabel10 = new javax.swing.JLabel();
-        addStaffBtn = new javax.swing.JButton();
+        deleteRecordBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -150,22 +150,16 @@ public class ViewStaff extends javax.swing.JFrame {
         warningTxt.setForeground(new java.awt.Color(204, 0, 0));
         warningTxt.setToolTipText("");
 
-        staffIdCombo.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        staffIdCombo.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true));
-
-        jLabel10.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel10.setText("Delete:");
-
-        addStaffBtn.setBackground(new java.awt.Color(255, 159, 28));
-        addStaffBtn.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
-        addStaffBtn.setForeground(new java.awt.Color(255, 255, 255));
-        addStaffBtn.setText("Confirm Delete");
-        addStaffBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 159, 28), 1, true));
-        addStaffBtn.setPreferredSize(new java.awt.Dimension(104, 39));
-        addStaffBtn.addActionListener(new java.awt.event.ActionListener() {
+        deleteRecordBtn.setBackground(new java.awt.Color(255, 159, 28));
+        deleteRecordBtn.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
+        deleteRecordBtn.setForeground(new java.awt.Color(255, 255, 255));
+        deleteRecordBtn.setText("Delete Selected");
+        deleteRecordBtn.setActionCommand("Delete Selected");
+        deleteRecordBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 159, 28), 1, true));
+        deleteRecordBtn.setPreferredSize(new java.awt.Dimension(104, 39));
+        deleteRecordBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addStaffBtnActionPerformed(evt);
+                deleteRecordBtnActionPerformed(evt);
             }
         });
 
@@ -184,29 +178,21 @@ public class ViewStaff extends javax.swing.JFrame {
                     .addGroup(rootPanelLayout.createSequentialGroup()
                         .addGap(14, 14, 14)
                         .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(rootPanelLayout.createSequentialGroup()
-                                .addComponent(jLabel10)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(staffIdCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(addStaffBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1245, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1245, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(deleteRecordBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         rootPanelLayout.setVerticalGroup(
             rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rootPanelLayout.createSequentialGroup()
                 .addComponent(headerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(staffIdCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10)
-                    .addComponent(addStaffBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 22, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(deleteRecordBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 567, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(warningTxt)
-                .addGap(0, 7, Short.MAX_VALUE))
+                .addGap(0, 8, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -263,31 +249,7 @@ public class ViewStaff extends javax.swing.JFrame {
         } 
     }
     
-    /*
-     String fName = null;
-        
-        String query = 
-                "SELECT staff_id FROM staff WHERE user_name = ?";
-        
-        try {
-            ps = con.prepareStatement(query);
-            ps.setString(1, u);
-            rs = ps.executeQuery();
-            
-            while(rs.next())
-            {    
-                fName = rs.getString("staff_id");
-                return fName;
-            }
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(LoginPage.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        return fName;
-    */
-    
-    public void populateComboBox()
+    /*public void populateComboBox()
     {
        String query = 
                "SELECT staff_id FROM staff";
@@ -303,6 +265,28 @@ public class ViewStaff extends javax.swing.JFrame {
             
         } catch (Exception e) {
         }
+    }*/
+    
+    public void deleteRecord(String d)
+    {
+        String query = "DELETE FROM staff WHERE staff_id = ?";
+        
+        try {
+            ps = con.prepareStatement(query);
+            ps.setString(1, d);
+            
+            int k = ps.executeUpdate();
+            
+            if(k==1)
+            {
+                JOptionPane.showMessageDialog(rootPane, d + " has been deleted from the record.", "Delete Success", JOptionPane.OK_OPTION);
+                
+            }
+                    
+        } catch (SQLException ex) {
+            Logger.getLogger(ViewStaff.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
     
     // REGION - button events
@@ -314,43 +298,38 @@ public class ViewStaff extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_backBtnActionPerformed
 
-    private void addStaffBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addStaffBtnActionPerformed
+    private void deleteRecordBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteRecordBtnActionPerformed
+      
+        int column = 0;
+        int row = jTable1.getSelectedRow();
+        String val = jTable1.getModel().getValueAt(row, column).toString();
+        
+        System.out.println(val);
         
         Object[] options = { "CONFIRM", "CANCEL" };
-        JOptionPane.showOptionDialog(null, "You are deleting: " + staffIdCombo.getSelectedItem(), "Warning",
-        JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
-        null, options, options[0]);
-
+        int choice = JOptionPane.showOptionDialog(null, "You are deleting: " + val, "Warning",
+            JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
+            null, options, options[0]);
         
-        
-    }//GEN-LAST:event_addStaffBtnActionPerformed
+        if(choice == 0)
+        {
+            deleteRecord(val);
+            Fetch();
+        }
+     
+    }//GEN-LAST:event_deleteRecordBtnActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+        // region Set the Look and Feel of the Project
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ViewStaff.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ViewStaff.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ViewStaff.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ViewStaff.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            UIManager.setLookAndFeel(new FlatIntelliJLaf());
+        } catch (UnsupportedLookAndFeelException e) {
+            
         }
-        //</editor-fold>
+        // endregion
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -361,15 +340,13 @@ public class ViewStaff extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addStaffBtn;
     private javax.swing.JButton backBtn;
+    private javax.swing.JButton deleteRecordBtn;
     private javax.swing.JPanel headerPanel;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel ovrvwTxt2;
     private javax.swing.JPanel rootPanel;
-    private javax.swing.JComboBox<String> staffIdCombo;
     private javax.swing.JLabel warningTxt;
     // End of variables declaration//GEN-END:variables
 }

@@ -40,6 +40,10 @@ public class AddStaff extends javax.swing.JFrame {
         Fetch();
         
         
+        String currentSelected = positionField.getSelectedItem().toString();
+        String countFormated = String.format("%03d", countRec(currentSelected) + 1);
+        
+        setStaffID("CS", countFormated); 
         
     }
     // Connect database code
@@ -69,6 +73,7 @@ public class AddStaff extends javax.swing.JFrame {
         emailField = new javax.swing.JTextField();
         contactNoField = new javax.swing.JTextField();
         staffIdField = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
         addStaffBtn = new javax.swing.JButton();
         clearForm = new javax.swing.JButton();
         accDetailsPanel = new javax.swing.JPanel();
@@ -172,6 +177,11 @@ public class AddStaff extends javax.swing.JFrame {
         staffIdField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         staffIdField.setToolTipText("HELLO");
         staffIdField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Staff ID:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
+        staffIdField.setEnabled(false);
+
+        jLabel11.setFont(new java.awt.Font("Open Sans", 2, 14)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel11.setText("Staff ID is Auto Generated");
 
         javax.swing.GroupLayout passengerDetailsPanelLayout = new javax.swing.GroupLayout(passengerDetailsPanel);
         passengerDetailsPanel.setLayout(passengerDetailsPanelLayout);
@@ -179,40 +189,55 @@ public class AddStaff extends javax.swing.JFrame {
             passengerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(passengerDetailsPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(passengerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(emailField)
-                    .addComponent(contactNoField)
-                    .addComponent(lastNameField)
-                    .addComponent(middleNameField)
-                    .addComponent(staffIdField))
-                .addGap(15, 15, 15))
+                .addGroup(passengerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(passengerDetailsPanelLayout.createSequentialGroup()
+                        .addComponent(staffIdField)
+                        .addGap(15, 15, 15))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, passengerDetailsPanelLayout.createSequentialGroup()
+                        .addComponent(firstNameField)
+                        .addContainerGap())
+                    .addGroup(passengerDetailsPanelLayout.createSequentialGroup()
+                        .addComponent(emailField)
+                        .addContainerGap())
+                    .addGroup(passengerDetailsPanelLayout.createSequentialGroup()
+                        .addComponent(contactNoField)
+                        .addContainerGap())
+                    .addGroup(passengerDetailsPanelLayout.createSequentialGroup()
+                        .addComponent(lastNameField)
+                        .addContainerGap())
+                    .addGroup(passengerDetailsPanelLayout.createSequentialGroup()
+                        .addComponent(middleNameField)
+                        .addContainerGap())))
             .addGroup(passengerDetailsPanelLayout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addComponent(ovrvwTxt)
-                .addContainerGap(259, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, passengerDetailsPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(firstNameField)
-                .addContainerGap())
+                .addGroup(passengerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(passengerDetailsPanelLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(ovrvwTxt))
+                    .addGroup(passengerDetailsPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel11)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         passengerDetailsPanelLayout.setVerticalGroup(
             passengerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(passengerDetailsPanelLayout.createSequentialGroup()
-                .addGap(15, 15, 15)
+                .addGap(22, 22, 22)
                 .addComponent(ovrvwTxt)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addComponent(jLabel11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(staffIdField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(48, 48, 48)
+                .addGap(18, 18, 18)
                 .addComponent(firstNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43)
+                .addGap(18, 18, 18)
                 .addComponent(middleNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(lastNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(48, 48, 48)
+                .addGap(18, 18, 18)
                 .addComponent(contactNoField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(51, 51, 51)
+                .addGap(18, 18, 18)
                 .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31))
+                .addContainerGap())
         );
 
         addStaffBtn.setBackground(new java.awt.Color(255, 159, 28));
@@ -307,6 +332,16 @@ public class AddStaff extends javax.swing.JFrame {
         positionField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         positionField.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cashier", "Manager", "Admin" }));
         positionField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true));
+        positionField.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                positionFieldItemStateChanged(evt);
+            }
+        });
+        positionField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                positionFieldActionPerformed(evt);
+            }
+        });
 
         jLabel10.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(102, 102, 102));
@@ -324,7 +359,7 @@ public class AddStaff extends javax.swing.JFrame {
                         .addGroup(accessOptionPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(ovrvwTxt4)
                             .addComponent(jLabel10))
-                        .addGap(0, 196, Short.MAX_VALUE)))
+                        .addGap(0, 208, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         accessOptionPaneLayout.setVerticalGroup(
@@ -389,16 +424,18 @@ public class AddStaff extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(rootPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(passengerDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(accessOptionPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(accDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(rootPanelLayout.createSequentialGroup()
-                        .addComponent(addStaffBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(clearForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(warningTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 379, Short.MAX_VALUE))
+                    .addComponent(passengerDetailsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 385, Short.MAX_VALUE)
+                    .addComponent(accessOptionPane, javax.swing.GroupLayout.DEFAULT_SIZE, 385, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(warningTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(rootPanelLayout.createSequentialGroup()
+                            .addComponent(addStaffBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(clearForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(accDetailsPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -409,24 +446,28 @@ public class AddStaff extends javax.swing.JFrame {
             rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rootPanelLayout.createSequentialGroup()
                 .addComponent(headerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(rootPanelLayout.createSequentialGroup()
-                        .addGap(7, 7, 7)
-                        .addComponent(viewAllBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 562, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(rootPanelLayout.createSequentialGroup()
+                                .addGap(7, 7, 7)
+                                .addComponent(viewAllBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 562, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(rootPanelLayout.createSequentialGroup()
+                                .addComponent(accDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(addStaffBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(clearForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(170, 170, 170)
+                                .addComponent(warningTxt))))
                     .addGroup(rootPanelLayout.createSequentialGroup()
-                        .addComponent(accDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(5, 5, 5)
                         .addComponent(accessOptionPane, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(addStaffBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(clearForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(warningTxt))
-                    .addComponent(passengerDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(passengerDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 18, Short.MAX_VALUE))
         );
 
@@ -556,6 +597,33 @@ public class AddStaff extends javax.swing.JFrame {
         }
     }
     
+    public int countRec(String priv)
+    {
+        String query = "SELECT count(*) FROM staff WHERE privilege = ?";
+        
+        try {
+            ps = con.prepareStatement(query);
+            ps.setString(1, priv);
+            
+            rs = ps.executeQuery();
+            
+            rs.next();
+            return rs.getInt(1);
+            
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(AddStaff.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return 0;
+    }
+    
+    public void setStaffID(String p, String c)
+    {
+        staffIdField.setText(p + "-" + c);
+    }
+    
     public boolean isFieldsEmpty()
     {
         if(staffIdField.getText().isEmpty() || firstNameField.getText().isEmpty() || middleNameField.getText().isEmpty() || lastNameField.getText().isEmpty() || contactNoField.getText().isEmpty() || emailField.getText().isEmpty() || 
@@ -611,6 +679,8 @@ public class AddStaff extends javax.swing.JFrame {
     }//GEN-LAST:event_addStaffBtnActionPerformed
 
     private void clearFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearFormActionPerformed
+        //System.out.println("Numbers of data: " + countRec(positionField.getSelectedItem().toString()));
+        
         clearFields(); 
         warningTxt.setText("");
         passWarningTxt.setText("");
@@ -654,6 +724,32 @@ public class AddStaff extends javax.swing.JFrame {
         vs.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_viewAllBtnActionPerformed
+
+    private void positionFieldItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_positionFieldItemStateChanged
+        // TODO add your handling code here:
+        //System.out.println("i changed.");
+    }//GEN-LAST:event_positionFieldItemStateChanged
+
+    private void positionFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_positionFieldActionPerformed
+        // TODO add your handling code here:
+        String currentSelected = positionField.getSelectedItem().toString();
+        String posCode = "";
+        
+        if(currentSelected.equals("Cashier"))
+        {
+            posCode = "CS";
+        } else if (currentSelected.equals("Manager"))
+        {
+            posCode = "MG";
+        } else if (currentSelected.equals("Admin"))
+        {
+            posCode = "AD";
+        }
+        
+        String countFormated = String.format("%03d", countRec(currentSelected) + 1);
+        
+        setStaffID(posCode, countFormated); 
+    }//GEN-LAST:event_positionFieldActionPerformed
     
     // END REGION
     /**
@@ -687,6 +783,7 @@ public class AddStaff extends javax.swing.JFrame {
     private javax.swing.JTextField firstNameField;
     private javax.swing.JPanel headerPanel;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField lastNameField;
