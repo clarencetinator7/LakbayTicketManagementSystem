@@ -18,6 +18,9 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import jdk.dynalink.beans.StaticClass;
+
+import UtilityClasses.StaticVar;
 
 /**
  *
@@ -156,9 +159,8 @@ public class LoginPage extends javax.swing.JFrame {
     
     public void sqlConnect()
     {
-        
         try {
-           String url1 = "jdbc:mysql://localhost:3306/accountdemo";
+           String url1 = "jdbc:mysql://localhost:3306/lakbay_ticket_management_system";
            String user = "root";
            String password = "Cj06032002";
            
@@ -177,14 +179,14 @@ public class LoginPage extends javax.swing.JFrame {
     public boolean Login(String u, String p){
         sqlConnect();
         try {
-                ps = con.prepareStatement("SELECT * FROM user_tb");
+            ps = con.prepareStatement("SELECT * FROM staff");
             rs = ps.executeQuery();
             
             while(rs.next())
             {
                 String uname = rs.getString("user_name");
                 String pword = rs.getString("pass_word");
-                String fname = rs.getString("first_name");
+                String fname = rs.getString("staff_id");
                 
                 if(u.equals(uname) && p.equals(pword))
                 {
@@ -200,14 +202,14 @@ public class LoginPage extends javax.swing.JFrame {
         }
         return false;
     }
-    
+
     // Retrieve Dataa
     public String getString(String u)
     {
         String fName = null;
         
         String query = 
-                "SELECT first_name FROM user_tb WHERE user_name = ?";
+                "SELECT staff_id FROM staff WHERE user_name = ?";
         
         try {
             ps = con.prepareStatement(query);
@@ -216,7 +218,7 @@ public class LoginPage extends javax.swing.JFrame {
             
             while(rs.next())
             {    
-                fName = rs.getString("first_name");
+                fName = rs.getString("staff_id");
                 return fName;
             }
             
@@ -235,13 +237,16 @@ public class LoginPage extends javax.swing.JFrame {
 
         // TODO add your handling code here:
         String username = userField.getText();
-        String password = passField.getText();
+        String password = String.valueOf(passField.getText());
         
         
         
         if (Login(username, password))
         {
-            HomePage hp = new HomePage(getString(username));
+            StaticVar.userId = getString(username);
+            StaticVar.userName = username;
+            
+            HomePage hp = new HomePage();
             hp.setVisible(true);
         }
         else if(!Login(username, password))

@@ -2,8 +2,8 @@ package UtilityClasses;
 
 public class Person {
     
-    private String fName, mName, lName, email;
-    int phoneNo;
+    private String fName, mName, lName, email, phoneNo;
+    
     
     //Setter Methods
 
@@ -23,7 +23,7 @@ public class Person {
         this.email = email;
     }
 
-    public void setPhoneNo(int phoneNo) {
+    public void setPhoneNo(String phoneNo) {
         this.phoneNo = phoneNo;
     }
     
@@ -46,7 +46,7 @@ public class Person {
         return email;
     }
 
-    public int getPhoneNo() {
+    public String getPhoneNo() {
         return phoneNo;
     }
       

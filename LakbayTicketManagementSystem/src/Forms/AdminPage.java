@@ -4,6 +4,7 @@
  */
 package Forms;
 
+import UtilityClasses.StaticVar;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
@@ -21,6 +22,7 @@ public class AdminPage extends javax.swing.JFrame {
      */
     public AdminPage() {
         initComponents();
+        userTxt.setText(StaticVar.userId);
     }
 
     /**
@@ -40,7 +42,7 @@ public class AdminPage extends javax.swing.JFrame {
         ttlTxt1 = new javax.swing.JLabel();
         tixDesc = new javax.swing.JLabel();
         addStaffBtn = new javax.swing.JButton();
-        ttlTickets1 = new javax.swing.JLabel();
+        userTxt = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -139,9 +141,9 @@ public class AdminPage extends javax.swing.JFrame {
                 .addGap(22, 22, 22))
         );
 
-        ttlTickets1.setFont(new java.awt.Font("Open Sans", 0, 15)); // NOI18N
-        ttlTickets1.setForeground(new java.awt.Color(85, 85, 85));
-        ttlTickets1.setText("USER001");
+        userTxt.setFont(new java.awt.Font("Open Sans", 0, 15)); // NOI18N
+        userTxt.setForeground(new java.awt.Color(85, 85, 85));
+        userTxt.setText("USER001");
 
         javax.swing.GroupLayout rootPanelLayout = new javax.swing.GroupLayout(rootPanel);
         rootPanel.setLayout(rootPanelLayout);
@@ -152,7 +154,7 @@ public class AdminPage extends javax.swing.JFrame {
                 .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(rootPanelLayout.createSequentialGroup()
                         .addGap(964, 964, 964)
-                        .addComponent(ttlTickets1))
+                        .addComponent(userTxt))
                     .addGroup(rootPanelLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(staffPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -165,7 +167,7 @@ public class AdminPage extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(rootPanelLayout.createSequentialGroup()
                 .addGap(38, 38, 38)
-                .addComponent(ttlTickets1)
+                .addComponent(userTxt)
                 .addGap(10, 10, 10)
                 .addComponent(staffPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -243,7 +245,7 @@ public class AdminPage extends javax.swing.JFrame {
     private javax.swing.JPanel rootPanel;
     private javax.swing.JPanel staffPanel;
     private javax.swing.JLabel tixDesc;
-    private javax.swing.JLabel ttlTickets1;
     private javax.swing.JLabel ttlTxt1;
+    private javax.swing.JLabel userTxt;
     // End of variables declaration//GEN-END:variables
 }

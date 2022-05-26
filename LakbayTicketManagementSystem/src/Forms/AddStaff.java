@@ -37,8 +37,9 @@ public class AddStaff extends javax.swing.JFrame {
     public AddStaff() {
         initComponents();
         sqlConnect();
-        
         Fetch();
+        
+        
         
     }
     // Connect database code
@@ -75,12 +76,15 @@ public class AddStaff extends javax.swing.JFrame {
         userName = new javax.swing.JTextField();
         passField = new javax.swing.JPasswordField();
         conPassField = new javax.swing.JPasswordField();
+        passWarningTxt = new javax.swing.JLabel();
         accessOptionPane = new javax.swing.JPanel();
         ovrvwTxt4 = new javax.swing.JLabel();
         positionField = new javax.swing.JComboBox<>();
         jLabel10 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        warningTxt = new javax.swing.JLabel();
+        viewAllBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -94,6 +98,7 @@ public class AddStaff extends javax.swing.JFrame {
         ovrvwTxt2.setText("ADD STAFF");
 
         backBtn.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
+        backBtn.setForeground(new java.awt.Color(255, 159, 28));
         backBtn.setText("Back");
         backBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -107,8 +112,8 @@ public class AddStaff extends javax.swing.JFrame {
             headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerPanelLayout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addComponent(backBtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 500, Short.MAX_VALUE)
+                .addComponent(backBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 488, Short.MAX_VALUE)
                 .addComponent(ovrvwTxt2)
                 .addGap(584, 584, 584))
         );
@@ -118,8 +123,8 @@ public class AddStaff extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ovrvwTxt2)
-                    .addComponent(backBtn))
-                .addContainerGap(22, Short.MAX_VALUE))
+                    .addComponent(backBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         passengerDetailsPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -158,6 +163,11 @@ public class AddStaff extends javax.swing.JFrame {
         contactNoField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         contactNoField.setToolTipText("HELLO");
         contactNoField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Contact No.:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
+        contactNoField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                contactNoFieldKeyTyped(evt);
+            }
+        });
 
         staffIdField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         staffIdField.setToolTipText("HELLO");
@@ -251,6 +261,10 @@ public class AddStaff extends javax.swing.JFrame {
         conPassField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         conPassField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Confirm Password:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
 
+        passWarningTxt.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        passWarningTxt.setForeground(new java.awt.Color(204, 0, 0));
+        passWarningTxt.setToolTipText("");
+
         javax.swing.GroupLayout accDetailsPanelLayout = new javax.swing.GroupLayout(accDetailsPanel);
         accDetailsPanel.setLayout(accDetailsPanelLayout);
         accDetailsPanelLayout.setHorizontalGroup(
@@ -263,7 +277,8 @@ public class AddStaff extends javax.swing.JFrame {
                         .addComponent(ovrvwTxt1)
                         .addGap(0, 207, Short.MAX_VALUE))
                     .addComponent(passField)
-                    .addComponent(conPassField))
+                    .addComponent(conPassField)
+                    .addComponent(passWarningTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE))
                 .addContainerGap())
         );
         accDetailsPanelLayout.setVerticalGroup(
@@ -273,11 +288,13 @@ public class AddStaff extends javax.swing.JFrame {
                 .addComponent(ovrvwTxt1)
                 .addGap(22, 22, 22)
                 .addComponent(userName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(passField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(conPassField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addComponent(passWarningTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         accessOptionPane.setBackground(new java.awt.Color(255, 255, 255));
@@ -324,16 +341,44 @@ public class AddStaff extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Staff ID", "Name", "Username", "Password"
+                "Staff ID", "Name", "Privilege"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(10);
+        }
+
+        warningTxt.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        warningTxt.setForeground(new java.awt.Color(204, 0, 0));
+        warningTxt.setToolTipText("");
+
+        viewAllBtn.setBackground(new java.awt.Color(255, 159, 28));
+        viewAllBtn.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
+        viewAllBtn.setForeground(new java.awt.Color(255, 255, 255));
+        viewAllBtn.setText("View All");
+        viewAllBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 159, 28), 1, true));
+        viewAllBtn.setPreferredSize(new java.awt.Dimension(104, 39));
+        viewAllBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewAllBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout rootPanelLayout = new javax.swing.GroupLayout(rootPanel);
         rootPanel.setLayout(rootPanelLayout);
@@ -352,31 +397,36 @@ public class AddStaff extends javax.swing.JFrame {
                     .addGroup(rootPanelLayout.createSequentialGroup()
                         .addComponent(addStaffBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(clearForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(clearForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(warningTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 379, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(viewAllBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         rootPanelLayout.setVerticalGroup(
             rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rootPanelLayout.createSequentialGroup()
                 .addComponent(headerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(rootPanelLayout.createSequentialGroup()
+                        .addGap(7, 7, 7)
+                        .addComponent(viewAllBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(rootPanelLayout.createSequentialGroup()
-                                .addComponent(accDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(accessOptionPane, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(addStaffBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(clearForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(passengerDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 562, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(rootPanelLayout.createSequentialGroup()
-                        .addGap(47, 47, 47)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 585, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(accDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(accessOptionPane, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(addStaffBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(clearForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(warningTxt))
+                    .addComponent(passengerDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 18, Short.MAX_VALUE))
         );
 
@@ -405,7 +455,7 @@ public class AddStaff extends javax.swing.JFrame {
     {
         
         try {
-           String url1 = "jdbc:mysql://localhost:3306/ticket_demo";
+           String url1 = "jdbc:mysql://localhost:3306/lakbay_ticket_management_system";
            String user = "root";
            String password = "Cj06032002";
            
@@ -429,11 +479,11 @@ public class AddStaff extends javax.swing.JFrame {
     }
     
     
-    // CODE TO INSERT DATABASE IN TABLE
+    // CODE TO DISPLAY DATABASE IN TABLE
     private void Fetch()
     {
         int q;
-        String query = "select staff_id, first_name, last_name, user_name, pass_word"
+        String query = "select staff_id, first_name, last_name, privilege"
                 + " from staff";
         try {
             ps = con.prepareStatement(query);
@@ -450,8 +500,7 @@ public class AddStaff extends javax.swing.JFrame {
                 {
                     v2.add(rs.getString("staff_id"));
                     v2.add(rs.getString("first_name") + " " + rs.getString("last_name"));
-                    v2.add(rs.getString("user_name"));
-                    v2.add(rs.getString("pass_word"));    
+                    v2.add(rs.getString("privilege")); 
                 }
                 df.addRow(v2);
             }
@@ -461,6 +510,7 @@ public class AddStaff extends javax.swing.JFrame {
         } 
     }
     
+    // CODE TO INSERT STAFF IN DATABASE
     public void insertStaff()
     {
         try {
@@ -470,7 +520,7 @@ public class AddStaff extends javax.swing.JFrame {
             sf.setfName(firstNameField.getText());
             sf.setmName(middleNameField.getText());
             sf.setlName(lastNameField.getText());
-            sf.setPhoneNo(Integer.parseInt(contactNoField.getText()));
+            sf.setPhoneNo(contactNoField.getText());
             sf.setEmail(emailField.getText());
             sf.setUserName(userName.getText());
             sf.setPassWord(String.valueOf(passField.getPassword()));
@@ -485,7 +535,7 @@ public class AddStaff extends javax.swing.JFrame {
             ps.setString(3, sf.getmName());
             ps.setString(4, sf.getlName());
             ps.setString(5, sf.getEmail());
-            ps.setString(6, Integer.toString(sf.getPhoneNo()));
+            ps.setString(6, sf.getPhoneNo());
             ps.setString(7, sf.getUserName());
             ps.setString(8, sf.getPassWord());
             ps.setString(9, sf.getPosition());
@@ -505,22 +555,76 @@ public class AddStaff extends javax.swing.JFrame {
             Logger.getLogger(AddStaff.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public boolean isFieldsEmpty()
+    {
+        if(staffIdField.getText().isEmpty() || firstNameField.getText().isEmpty() || middleNameField.getText().isEmpty() || lastNameField.getText().isEmpty() || contactNoField.getText().isEmpty() || emailField.getText().isEmpty() || 
+                userName.getText().isEmpty() || String.valueOf(passField.getPassword()).isEmpty() || String.valueOf(conPassField.getPassword()).isEmpty())
+        {
+            System.out.println("Incomplete INPUT");
+            return true;
+        }
+        
+        return false;
+    }
+    
+    public void clearFields()
+    {
+        staffIdField.setText("");
+        firstNameField.setText("");
+        middleNameField.setText("");
+        lastNameField.setText("");
+        contactNoField.setText("");
+        emailField.setText("");
+        userName.setText("");
+        passField.setText("");
+        conPassField.setText("");
+        positionField.setSelectedIndex(0);
+    }
+    
+    
+    //REGION - BTN Events
      
     private void addStaffBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addStaffBtnActionPerformed
-        // TODO add your handling code here:
-       
-        //insertStaff();
+
+        warningTxt.setText("");
+        passWarningTxt.setText("");
+        
+        
+        // check if the field is empty.
+        if (!isFieldsEmpty()) {
+            //check if password match the confirm password
+            if (String.valueOf(passField.getPassword()).equals(String.valueOf(conPassField.getPassword()))) {
+                insertStaff();
+                Fetch();
+                clearFields(); 
+            }
+            else{
+                passWarningTxt.setText("Password doesn't match.");
+            }
+
+        } else if(isFieldsEmpty())
+        {
+            warningTxt.setText("Make sure to fill all reuqired spaces.");
+        }
 
     }//GEN-LAST:event_addStaffBtnActionPerformed
 
     private void clearFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearFormActionPerformed
-        // TODO add your handling code here:
-        
-        
+        clearFields(); 
+        warningTxt.setText("");
+        passWarningTxt.setText("");
+        /*int num = 5+2;
+        String formatted = String.format("%03d", num);
+        System.out.println(formatted);*/
     }//GEN-LAST:event_clearFormActionPerformed
 
     private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
         // TODO add your handling code here:
+        AdminPage ap = new AdminPage();
+        ap.setVisible(true);
+        clearFields();
+        this.setVisible(false);
     }//GEN-LAST:event_backBtnActionPerformed
 
     private void firstNameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_firstNameFieldActionPerformed
@@ -535,6 +639,23 @@ public class AddStaff extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_userNameActionPerformed
 
+    private void contactNoFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_contactNoFieldKeyTyped
+        // Character Restrictions only NUMBERS
+        char c = evt.getKeyChar();
+        if(!Character.isDigit(c))
+        {
+            evt.consume();
+        }
+    }//GEN-LAST:event_contactNoFieldKeyTyped
+
+    private void viewAllBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewAllBtnActionPerformed
+        // TODO add your handling code here:
+        ViewStaff vs = new ViewStaff();
+        vs.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_viewAllBtnActionPerformed
+    
+    // END REGION
     /**
      * @param args the command line arguments
      */
@@ -546,7 +667,6 @@ public class AddStaff extends javax.swing.JFrame {
             
         }
         // endregion
-
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -576,10 +696,13 @@ public class AddStaff extends javax.swing.JFrame {
     private javax.swing.JLabel ovrvwTxt2;
     private javax.swing.JLabel ovrvwTxt4;
     private javax.swing.JPasswordField passField;
+    private javax.swing.JLabel passWarningTxt;
     private javax.swing.JPanel passengerDetailsPanel;
     private javax.swing.JComboBox<String> positionField;
     private javax.swing.JPanel rootPanel;
     private javax.swing.JTextField staffIdField;
     private javax.swing.JTextField userName;
+    private javax.swing.JButton viewAllBtn;
+    private javax.swing.JLabel warningTxt;
     // End of variables declaration//GEN-END:variables
 }

@@ -7,8 +7,16 @@ package Forms;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+
+import UtilityClasses.StaticVar;
 
 /**
  *
@@ -21,6 +29,7 @@ public class HomePage extends javax.swing.JFrame {
      */
     public HomePage() {
         initComponents();
+        userTxt.setText(StaticVar.userId);     
     }
     
     String userName;
@@ -28,13 +37,38 @@ public class HomePage extends javax.swing.JFrame {
     HomePage(String u) {
         initComponents();
         this.userName = u;
-        //userNameAppear.setText("Hello, " + userName + "!");
     }
     
     public void close()
     {
         WindowEvent closeWindow = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
         Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(closeWindow);
+    }
+    
+    // DATABASE 
+    // Connect database code
+    Connection con;
+    PreparedStatement ps;
+    ResultSet rs;
+    
+    public void sqlConnect()
+    {
+        
+        try {
+           String url1 = "jdbc:mysql://localhost:3306/lakbay_ticket_management_system";
+           String user = "root";
+           String password = "Cj06032002";
+           
+           con = DriverManager.getConnection(url1, user, password);
+           if(con != null)
+           {
+               System.out.println("Connected to the database.");
+           }
+           
+        } catch (SQLException ex) {
+            System.out.println("An error occurred. Maybe user/password is invalid");
+            ex.printStackTrace();
+        }
     }
     
 
@@ -82,7 +116,7 @@ public class HomePage extends javax.swing.JFrame {
         ttlTxt4 = new javax.swing.JLabel();
         routeDesc = new javax.swing.JLabel();
         addRoutesBtn = new javax.swing.JButton();
-        ttlTickets1 = new javax.swing.JLabel();
+        userTxt = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -456,9 +490,9 @@ public class HomePage extends javax.swing.JFrame {
                 .addGap(22, 22, 22))
         );
 
-        ttlTickets1.setFont(new java.awt.Font("Open Sans", 0, 15)); // NOI18N
-        ttlTickets1.setForeground(new java.awt.Color(85, 85, 85));
-        ttlTickets1.setText("USER001");
+        userTxt.setFont(new java.awt.Font("Open Sans", 0, 15)); // NOI18N
+        userTxt.setForeground(new java.awt.Color(85, 85, 85));
+        userTxt.setText("USER001");
 
         javax.swing.GroupLayout rootPanelLayout = new javax.swing.GroupLayout(rootPanel);
         rootPanel.setLayout(rootPanelLayout);
@@ -479,7 +513,7 @@ public class HomePage extends javax.swing.JFrame {
                         .addGroup(rootPanelLayout.createSequentialGroup()
                             .addComponent(ovrvwTxt)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(ttlTickets1))
+                            .addComponent(userTxt))
                         .addComponent(overviewPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 26, Short.MAX_VALUE))
         );
@@ -492,7 +526,7 @@ public class HomePage extends javax.swing.JFrame {
                 .addGap(32, 32, 32)
                 .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ovrvwTxt)
-                    .addComponent(ttlTickets1))
+                    .addComponent(userTxt))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(overviewPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -524,6 +558,38 @@ public class HomePage extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    public boolean isAdmin(String staffid)
+    {
+        sqlConnect();
+        
+        String query = "SELECT privilege FROM staff WHERE staff_id = ?";
+        
+        try {
+            ps = con.prepareStatement(query);
+            ps.setString(1, staffid);
+            rs = ps.executeQuery();
+            
+            while(rs.next())
+            {
+                String priv = rs.getString("privilege");
+                System.out.println(priv);
+                if(priv.equals("Admin"))
+                {
+                    return true;
+                }
+            }
+        
+        } catch (Exception e) {
+            
+            
+            
+        }
+        return false;
+    }
+    
+    
+    //REGION - button events
+    
     private void addTicketsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addTicketsBtnActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
@@ -561,10 +627,19 @@ public class HomePage extends javax.swing.JFrame {
     }//GEN-LAST:event_homeBtnActionPerformed
 
     private void admBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_admBtnActionPerformed
-        // TODO add your handling code here:
-        this.setVisible(false);
-        AdminPage ap = new AdminPage();
-        ap.setVisible(true);
+
+        
+        if(isAdmin(StaticVar.userId))
+        {
+            this.setVisible(false);
+            AdminPage ap = new AdminPage();
+            ap.setVisible(true);
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(rootPane, "Only admins have access to this feature.", "Access Error", JOptionPane.ERROR_MESSAGE);
+        }
+
     }//GEN-LAST:event_admBtnActionPerformed
 
     /**
@@ -587,6 +662,7 @@ public class HomePage extends javax.swing.JFrame {
         });
         
         
+            
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -620,11 +696,11 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JLabel ttlBuses1;
     private javax.swing.JLabel ttlRoutes;
     private javax.swing.JLabel ttlTickets;
-    private javax.swing.JLabel ttlTickets1;
     private javax.swing.JLabel ttlTxt1;
     private javax.swing.JLabel ttlTxt2;
     private javax.swing.JLabel ttlTxt3;
     private javax.swing.JLabel ttlTxt4;
+    private javax.swing.JLabel userTxt;
     private javax.swing.JButton viewTicketsBtn;
     // End of variables declaration//GEN-END:variables
 }
