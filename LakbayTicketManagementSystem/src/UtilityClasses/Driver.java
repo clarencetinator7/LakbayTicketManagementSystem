@@ -8,8 +8,18 @@ package UtilityClasses;
  *
  * @author clare
  */
-public class StaticVar {
+public class Driver extends Person{
     
-    public static String userName, userId, privilege;
+    String driverID;
+
+    public void setDriverID(String driverID) {
+        this.driverID = driverID;
+    }
+
+    public String getDriverID() {
+        return driverID;
+    }
+    
+    
     
 }

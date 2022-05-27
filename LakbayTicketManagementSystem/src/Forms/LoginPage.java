@@ -246,6 +246,18 @@ public class LoginPage extends javax.swing.JFrame {
             StaticVar.userId = getString(username);
             StaticVar.userName = username;
             
+            if(StaticVar.userId.contains("AD"))
+            {
+                StaticVar.privilege = "Admin";
+            }
+            else if (StaticVar.userId.contains("MG")) {
+                StaticVar.privilege = "Manager";
+            }
+            else if (StaticVar.userId.contains("CS")) {
+                StaticVar.privilege = "Cashier";
+            }
+            
+            
             HomePage hp = new HomePage();
             hp.setVisible(true);
         }

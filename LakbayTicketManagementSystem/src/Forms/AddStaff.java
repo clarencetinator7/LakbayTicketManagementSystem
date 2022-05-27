@@ -43,7 +43,7 @@ public class AddStaff extends javax.swing.JFrame {
         String currentSelected = positionField.getSelectedItem().toString();
         String countFormated = String.format("%03d", countRec(currentSelected) + 1);
         
-        setStaffID("CS", countFormated); 
+        setStaffID("CS");
         
     }
     // Connect database code
@@ -90,6 +90,8 @@ public class AddStaff extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         warningTxt = new javax.swing.JLabel();
         viewAllBtn = new javax.swing.JButton();
+        editSelectedBtn = new javax.swing.JButton();
+        conEditBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -415,6 +417,31 @@ public class AddStaff extends javax.swing.JFrame {
             }
         });
 
+        editSelectedBtn.setBackground(new java.awt.Color(255, 159, 28));
+        editSelectedBtn.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
+        editSelectedBtn.setForeground(new java.awt.Color(255, 255, 255));
+        editSelectedBtn.setText("Edit Selected");
+        editSelectedBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 159, 28), 1, true));
+        editSelectedBtn.setPreferredSize(new java.awt.Dimension(104, 39));
+        editSelectedBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editSelectedBtnActionPerformed(evt);
+            }
+        });
+
+        conEditBtn.setBackground(new java.awt.Color(255, 159, 28));
+        conEditBtn.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
+        conEditBtn.setForeground(new java.awt.Color(255, 255, 255));
+        conEditBtn.setText("Confirm Edit");
+        conEditBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 159, 28), 1, true));
+        conEditBtn.setEnabled(false);
+        conEditBtn.setPreferredSize(new java.awt.Dimension(104, 39));
+        conEditBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                conEditBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout rootPanelLayout = new javax.swing.GroupLayout(rootPanel);
         rootPanel.setLayout(rootPanelLayout);
         rootPanelLayout.setHorizontalGroup(
@@ -435,11 +462,16 @@ public class AddStaff extends javax.swing.JFrame {
                             .addComponent(addStaffBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(clearForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(accDetailsPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(accDetailsPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(conEditBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(viewAllBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(rootPanelLayout.createSequentialGroup()
+                        .addComponent(editSelectedBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(viewAllBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(154, 154, 154)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         rootPanelLayout.setVerticalGroup(
@@ -452,7 +484,9 @@ public class AddStaff extends javax.swing.JFrame {
                         .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(rootPanelLayout.createSequentialGroup()
                                 .addGap(7, 7, 7)
-                                .addComponent(viewAllBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(viewAllBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(editSelectedBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 562, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(rootPanelLayout.createSequentialGroup()
@@ -461,7 +495,9 @@ public class AddStaff extends javax.swing.JFrame {
                                 .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(addStaffBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(clearForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(170, 170, 170)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(conEditBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(119, 119, 119)
                                 .addComponent(warningTxt))))
                     .addGroup(rootPanelLayout.createSequentialGroup()
                         .addGap(5, 5, 5)
@@ -491,6 +527,7 @@ public class AddStaff extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     
     
+    static boolean editingMode;
     
     public void sqlConnect()
     {
@@ -597,6 +634,35 @@ public class AddStaff extends javax.swing.JFrame {
         }
     }
     
+    public boolean isSameId(String id)
+    {
+        try {
+            String query = "SELECT * FROM staff WHERE staff_id = ?";
+            
+            ps = con.prepareStatement(query);
+            ps.setString(1, id);
+            
+            rs = ps.executeQuery();
+            
+            while(rs.next())
+            {
+                String idc = rs.getString("staff_id");
+                
+                if(idc.equals(id))
+                {
+                  return true;
+                }
+                
+            }
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(AddDriver.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return false;
+    }
+    
     public int countRec(String priv)
     {
         String query = "SELECT count(*) FROM staff WHERE privilege = ?";
@@ -619,9 +685,18 @@ public class AddStaff extends javax.swing.JFrame {
         return 0;
     }
     
-    public void setStaffID(String p, String c)
+    public void setStaffID(String posCode)
     {
-        staffIdField.setText(p + "-" + c);
+        int id = 1;
+        String idFormat = String.format("%03d", id);
+        String staffId = posCode + "-" + idFormat;
+        
+        while (isSameId(staffId)) {            
+            id++;
+            staffId = posCode + "-" + String.format("%03d", id);
+        }
+        
+        staffIdField.setText(staffId);
     }
     
     public boolean isFieldsEmpty()
@@ -648,6 +723,81 @@ public class AddStaff extends javax.swing.JFrame {
         passField.setText("");
         conPassField.setText("");
         positionField.setSelectedIndex(0);
+    }
+    
+    public void searchInDb(String pk)
+    {
+        
+        sqlConnect();
+        String query = "SELECT * FROM staff WHERE staff_id = ?";
+        
+        try {
+            ps = con.prepareStatement(query);
+            ps.setString(1, pk);
+            
+            rs = ps.executeQuery();
+            
+            while(rs.next())
+            {
+                staffIdField.setText(rs.getString("staff_id"));
+                firstNameField.setText(rs.getString("first_name"));
+                middleNameField.setText(rs.getString("middle_name"));
+                lastNameField.setText(rs.getString("last_name"));
+                contactNoField.setText(rs.getString("contact_number"));
+                emailField.setText(rs.getString("email_address"));
+                userName.setText(rs.getString("user_name"));
+                passField.setText(rs.getString("pass_word"));
+                conPassField.setText(rs.getString("pass_word"));
+                
+                
+                if(rs.getString("privilege").contains("CS")){
+                    positionField.setSelectedIndex(0);
+                } else if(rs.getString("privilege").contains("MG"))
+                {
+                    positionField.setSelectedIndex(1);
+                }else if(rs.getString("privilege").contains("AD"))
+                {
+                    positionField.setSelectedIndex(2);
+                } 
+            }
+            
+            
+        } catch (Exception e) {
+        }
+        
+    }
+    
+    public void updateRecord(String pk)
+    {
+        sqlConnect();
+        
+        String query = "UPDATE staff SET "
+                + "staff_id = ?, first_name = ?, middle_name = ?, last_name = ?, contact_number = ?, email_address = ?, "
+                + "user_name = ?, pass_word = ?, privilege = ? "
+                + "WHERE staff_id = ?";
+        try {
+            ps = con.prepareStatement(query);
+            ps.setString(1, staffIdField.getText());
+            ps.setString(2, firstNameField.getText());
+            ps.setString(3, middleNameField.getText());
+            ps.setString(4, lastNameField.getText());
+            ps.setString(5, contactNoField.getText());
+            ps.setString(6, emailField.getText());
+            ps.setString(7, userName.getText());
+            ps.setString(8, String.valueOf(passField.getPassword()));
+            ps.setString(9, positionField.getSelectedItem().toString());
+            ps.setString(10, pk);
+            
+            int k = ps.executeUpdate();
+            
+            if(k==1)
+            {
+                JOptionPane.showMessageDialog(this, "Record Updated Successfuly");
+            }
+            
+        } catch (Exception e) {
+        }
+        
     }
     
     
@@ -680,10 +830,24 @@ public class AddStaff extends javax.swing.JFrame {
 
     private void clearFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearFormActionPerformed
         //System.out.println("Numbers of data: " + countRec(positionField.getSelectedItem().toString()));
+
         
-        clearFields(); 
-        warningTxt.setText("");
-        passWarningTxt.setText("");
+        if (editingMode) {
+            editingMode = false;
+            conEditBtn.setEnabled(false);
+            editSelectedBtn.setEnabled(true);
+            addStaffBtn.setEnabled(true);
+            positionField.setEnabled(true);
+            clearFields();
+            warningTxt.setText("");
+            passWarningTxt.setText("");
+        }
+        else
+        {
+            clearFields(); 
+            warningTxt.setText("");
+            passWarningTxt.setText("");
+        }
         /*int num = 5+2;
         String formatted = String.format("%03d", num);
         System.out.println(formatted);*/
@@ -746,10 +910,57 @@ public class AddStaff extends javax.swing.JFrame {
             posCode = "AD";
         }
         
-        String countFormated = String.format("%03d", countRec(currentSelected) + 1);
-        
-        setStaffID(posCode, countFormated); 
+        if(!editingMode){
+            setStaffID(posCode); 
+        }
     }//GEN-LAST:event_positionFieldActionPerformed
+
+    private void editSelectedBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editSelectedBtnActionPerformed
+        // TODO add your handling code here:
+        
+        editingMode = true;
+        conEditBtn.setEnabled(true);
+        editSelectedBtn.setEnabled(false);
+        addStaffBtn.setEnabled(false);
+        positionField.setEnabled(false);
+        
+        // Get the selected column from the table.
+        int column = 0;
+        int row = jTable1.getSelectedRow();
+        String val = jTable1.getModel().getValueAt(row, column).toString();
+        
+        searchInDb(val);
+        
+    }//GEN-LAST:event_editSelectedBtnActionPerformed
+
+    private void conEditBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_conEditBtnActionPerformed
+        // TODO add your handling code here:   
+        if(!isFieldsEmpty()){
+                
+            if (String.valueOf(passField.getPassword()).equals(String.valueOf(conPassField.getPassword()))) {
+                
+                updateRecord(staffIdField.getText());
+                Fetch();
+                editingMode = false;
+                conEditBtn.setEnabled(false);
+                editSelectedBtn.setEnabled(true);
+                addStaffBtn.setEnabled(true);
+                positionField.setEnabled(true);
+                clearFields();
+                warningTxt.setText("");
+                passWarningTxt.setText("");
+            }
+            else
+            {
+                passWarningTxt.setText("Password doesn't match.");
+            }
+            
+        }else if(isFieldsEmpty())
+        {
+            warningTxt.setText("Make sure to fill all reuqired spaces.");
+        }
+        
+    }//GEN-LAST:event_conEditBtnActionPerformed
     
     // END REGION
     /**
@@ -777,8 +988,10 @@ public class AddStaff extends javax.swing.JFrame {
     private javax.swing.JButton addStaffBtn;
     private javax.swing.JButton backBtn;
     private javax.swing.JButton clearForm;
+    private javax.swing.JButton conEditBtn;
     private javax.swing.JPasswordField conPassField;
     private javax.swing.JTextField contactNoField;
+    private javax.swing.JButton editSelectedBtn;
     private javax.swing.JTextField emailField;
     private javax.swing.JTextField firstNameField;
     private javax.swing.JPanel headerPanel;

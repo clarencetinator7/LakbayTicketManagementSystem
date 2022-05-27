@@ -558,34 +558,7 @@ public class HomePage extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    public boolean isAdmin(String staffid)
-    {
-        sqlConnect();
-        
-        String query = "SELECT privilege FROM staff WHERE staff_id = ?";
-        
-        try {
-            ps = con.prepareStatement(query);
-            ps.setString(1, staffid);
-            rs = ps.executeQuery();
-            
-            while(rs.next())
-            {
-                String priv = rs.getString("privilege");
-                System.out.println(priv);
-                if(priv.equals("Admin"))
-                {
-                    return true;
-                }
-            }
-        
-        } catch (Exception e) {
-            
-            
-            
-        }
-        return false;
-    }
+    
     
     
     //REGION - button events
@@ -627,10 +600,8 @@ public class HomePage extends javax.swing.JFrame {
     }//GEN-LAST:event_homeBtnActionPerformed
 
     private void admBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_admBtnActionPerformed
-
-        
-        if(isAdmin(StaticVar.userId))
-        {
+ 
+        if (StaticVar.privilege.equals("Admin")) {
             this.setVisible(false);
             AdminPage ap = new AdminPage();
             ap.setVisible(true);
