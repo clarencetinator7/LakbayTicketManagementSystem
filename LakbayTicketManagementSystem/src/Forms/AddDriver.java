@@ -477,8 +477,8 @@ public class AddDriver extends javax.swing.JFrame {
         return false;
     }
     
-        public void setID()
-        {  
+    public void setID()
+    {  
             int id = 1;
             String initFormat = String.format("%03d", id);
             String initDrvId = "DR-" + initFormat;
@@ -490,7 +490,7 @@ public class AddDriver extends javax.swing.JFrame {
             }   
 
             driverIdField.setText(initDrvId);
-        }
+    }
     
     public void inserRecord()
     {

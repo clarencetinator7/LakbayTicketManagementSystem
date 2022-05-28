@@ -62,7 +62,8 @@ public class AddTicket extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         addTicketsBtn = new javax.swing.JButton();
-        addTicketsBtn1 = new javax.swing.JButton();
+        clearFieldsBtn = new javax.swing.JButton();
+        warningTxt = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -180,6 +181,11 @@ public class AddTicket extends javax.swing.JFrame {
         seatsField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         seatsField.setToolTipText("HELLO");
         seatsField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "No. of Seats", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
+        seatsField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                seatsFieldActionPerformed(evt);
+            }
+        });
 
         routeField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         routeField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true));
@@ -343,17 +349,21 @@ public class AddTicket extends javax.swing.JFrame {
             }
         });
 
-        addTicketsBtn1.setBackground(new java.awt.Color(242, 242, 242));
-        addTicketsBtn1.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
-        addTicketsBtn1.setForeground(new java.awt.Color(28, 162, 150));
-        addTicketsBtn1.setText("Clear");
-        addTicketsBtn1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(28, 162, 150), 2, true));
-        addTicketsBtn1.setPreferredSize(new java.awt.Dimension(104, 39));
-        addTicketsBtn1.addActionListener(new java.awt.event.ActionListener() {
+        clearFieldsBtn.setBackground(new java.awt.Color(242, 242, 242));
+        clearFieldsBtn.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
+        clearFieldsBtn.setForeground(new java.awt.Color(28, 162, 150));
+        clearFieldsBtn.setText("Clear");
+        clearFieldsBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(28, 162, 150), 2, true));
+        clearFieldsBtn.setPreferredSize(new java.awt.Dimension(104, 39));
+        clearFieldsBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addTicketsBtn1ActionPerformed(evt);
+                clearFieldsBtnActionPerformed(evt);
             }
         });
+
+        warningTxt.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        warningTxt.setForeground(new java.awt.Color(204, 0, 0));
+        warningTxt.setToolTipText("");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -363,8 +373,11 @@ public class AddTicket extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(addTicketsBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(65, 65, 65)
-                .addComponent(addTicketsBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(clearFieldsBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(warningTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 467, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -372,7 +385,9 @@ public class AddTicket extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addTicketsBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addTicketsBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(clearFieldsBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(warningTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -437,14 +452,60 @@ public class AddTicket extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    //STATIC VAR
+    static float fareAmt = 100;
+    
+    // REGION - local methods
+    
+    
+    public boolean isFieldempty()
+    {
+        if(firstNameField.getText().isEmpty() || middleNameField.getText().isEmpty() || lastNameField.getText().isEmpty() || contactNoField.getText().isEmpty() || emailField.getText().isEmpty() || seatsField.getText().isEmpty())
+        {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    public void clearFields()
+    {
+        firstNameField.setText("");
+        middleNameField.setText("");
+        lastNameField.setText("");
+        contactNoField.setText("");
+        emailField.setText("");
+        seatsField.setText("");
+        discountField.setSelectedIndex(0);
+    }
+    
+    
+    // END REGION
+    
     private void addTicketsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addTicketsBtnActionPerformed
         // TODO add your handling code here:
+        
+        if (!isFieldempty()) {
+            // proceed
+        }
+        else
+        {
+            //complete the forms
+        }
       
     }//GEN-LAST:event_addTicketsBtnActionPerformed
 
-    private void addTicketsBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addTicketsBtn1ActionPerformed
+    private void clearFieldsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearFieldsBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_addTicketsBtn1ActionPerformed
+        clearFields();
+    }//GEN-LAST:event_clearFieldsBtnActionPerformed
+
+    private void seatsFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seatsFieldActionPerformed
+        // TODO add your handling code here:
+        
+        
+        
+    }//GEN-LAST:event_seatsFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -468,8 +529,8 @@ public class AddTicket extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addTicketsBtn;
-    private javax.swing.JButton addTicketsBtn1;
     private javax.swing.JPanel bookingDetailsPanel;
+    private javax.swing.JButton clearFieldsBtn;
     private javax.swing.JTextField contactNoField;
     private javax.swing.JComboBox<String> discountField;
     private javax.swing.JTextField emailField;
@@ -500,5 +561,6 @@ public class AddTicket extends javax.swing.JFrame {
     private javax.swing.JPanel rootPanel;
     private javax.swing.JComboBox<String> routeField;
     private javax.swing.JTextField seatsField;
+    private javax.swing.JLabel warningTxt;
     // End of variables declaration//GEN-END:variables
 }
