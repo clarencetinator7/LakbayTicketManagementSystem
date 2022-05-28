@@ -69,7 +69,7 @@ public class AddBus extends javax.swing.JFrame {
             .addGroup(headerPanelLayout.createSequentialGroup()
                 .addGap(592, 592, 592)
                 .addComponent(ovrvwTxt2)
-                .addContainerGap(597, Short.MAX_VALUE))
+                .addContainerGap(600, Short.MAX_VALUE))
         );
         headerPanelLayout.setVerticalGroup(
             headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -139,9 +139,7 @@ public class AddBus extends javax.swing.JFrame {
                         .addContainerGap()
                         .addGroup(passengerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(busTypeField, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(passengerDetailsPanelLayout.createSequentialGroup()
-                                .addComponent(jLabel9)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 229, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jLabel9)))
                     .addGroup(passengerDetailsPanelLayout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(passengerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -280,8 +278,43 @@ public class AddBus extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    //REGION - Local method
+    public boolean isFieldEmpty()
+    {
+        if(busIdField.getText().isEmpty() || busPtNoField.getText().isEmpty() || busNameField.getText().isEmpty() || busCapacityField.getText().isEmpty())
+        {
+            return true;
+        }
+        
+         return false;
+    }
+    
+    public void clearFields()
+    {
+        busIdField.setText("");
+        busPtNoField.setText("");
+        busNameField.setText("");
+        busCapacityField.setText("");
+        //WarningTxtField.setText("");
+    }
+    
+    
+    
+    // END - Region
+    
     private void addBusBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBusBtnActionPerformed
         // TODO add your handling code here:
+        if (!isFieldEmpty()) {
+            //ADD TO DB
+            clearFields();
+        }
+        else if(isFieldEmpty())
+        {
+            //warningTxt.setText("Make sure to fill all reuqired spaces.");
+        }
+        
+        
+        
     }//GEN-LAST:event_addBusBtnActionPerformed
 
     private void clearFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearFormActionPerformed
