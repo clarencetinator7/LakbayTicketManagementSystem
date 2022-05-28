@@ -631,7 +631,7 @@ public class AddDriver extends javax.swing.JFrame {
         }
         else if(isFieldEmpty())
         {
-            warningTxt.setText("Make sure to fill all reuqired spaces.");
+            warningTxt.setText("Make sure to fill all required spaces.");
         }
         
 

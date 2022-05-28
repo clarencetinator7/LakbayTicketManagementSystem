@@ -823,7 +823,7 @@ public class AddStaff extends javax.swing.JFrame {
 
         } else if(isFieldsEmpty())
         {
-            warningTxt.setText("Make sure to fill all reuqired spaces.");
+            warningTxt.setText("Make sure to fill all required spaces.");
         }
 
     }//GEN-LAST:event_addStaffBtnActionPerformed
