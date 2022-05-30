@@ -612,7 +612,7 @@ public class AddBus extends javax.swing.JFrame {
                 initID = "BS-" + String.format("%03d", id);
             }   
 
-            busIdField.setText(initID);
+        busIdField.setText(initID);
     }
     
     

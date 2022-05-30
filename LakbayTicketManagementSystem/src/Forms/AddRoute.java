@@ -4,9 +4,29 @@
  */
 package Forms;
 
+import UtilityClasses.Route;
+
 import com.formdev.flatlaf.FlatIntelliJLaf;
+import com.mysql.cj.xdevapi.Statement;
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -19,6 +39,11 @@ public class AddRoute extends javax.swing.JFrame {
      */
     public AddRoute() {
         initComponents();
+        
+        sqlConnect();
+        fetch();
+        populateComboBox();
+        setId();
     }
    
     /**
@@ -35,6 +60,7 @@ public class AddRoute extends javax.swing.JFrame {
         rootPanel = new javax.swing.JPanel();
         headerPanel = new javax.swing.JPanel();
         ovrvwTxt2 = new javax.swing.JLabel();
+        backBtn = new javax.swing.JButton();
         passengerDetailsPanel = new javax.swing.JPanel();
         ovrvwTxt = new javax.swing.JLabel();
         startingPtField = new javax.swing.JTextField();
@@ -47,14 +73,20 @@ public class AddRoute extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         minField = new javax.swing.JComboBox<>();
         jLabel11 = new javax.swing.JLabel();
-        etaField = new javax.swing.JTextField();
-        etaField2 = new javax.swing.JComboBox<>();
+        hourField1 = new javax.swing.JComboBox<>();
+        minField1 = new javax.swing.JComboBox<>();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        warningTxt = new javax.swing.JLabel();
         addBusBtn = new javax.swing.JButton();
         clearForm = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         driverTable = new javax.swing.JTable();
         jScrollPane3 = new javax.swing.JScrollPane();
         routeTable = new javax.swing.JTable();
+        deletesSelectedBtn = new javax.swing.JButton();
+        editSelectedBtn = new javax.swing.JButton();
+        conEditBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -68,12 +100,23 @@ public class AddRoute extends javax.swing.JFrame {
         ovrvwTxt2.setForeground(new java.awt.Color(255, 159, 28));
         ovrvwTxt2.setText("ADD ROUTE");
 
+        backBtn.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
+        backBtn.setForeground(new java.awt.Color(255, 159, 28));
+        backBtn.setText("Back");
+        backBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout headerPanelLayout = new javax.swing.GroupLayout(headerPanel);
         headerPanel.setLayout(headerPanelLayout);
         headerPanelLayout.setHorizontalGroup(
             headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(headerPanelLayout.createSequentialGroup()
-                .addGap(579, 579, 579)
+                .addGap(41, 41, 41)
+                .addComponent(backBtn)
+                .addGap(466, 466, 466)
                 .addComponent(ovrvwTxt2)
                 .addContainerGap(583, Short.MAX_VALUE))
         );
@@ -81,7 +124,9 @@ public class AddRoute extends javax.swing.JFrame {
             headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerPanelLayout.createSequentialGroup()
                 .addContainerGap(23, Short.MAX_VALUE)
-                .addComponent(ovrvwTxt2)
+                .addGroup(headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ovrvwTxt2)
+                    .addComponent(backBtn))
                 .addGap(19, 19, 19))
         );
 
@@ -112,6 +157,7 @@ public class AddRoute extends javax.swing.JFrame {
         routeIdField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         routeIdField.setToolTipText("HELLO");
         routeIdField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Route ID", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
+        routeIdField.setEnabled(false);
         routeIdField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 routeIdFieldActionPerformed(evt);
@@ -130,6 +176,11 @@ public class AddRoute extends javax.swing.JFrame {
         assignedBusField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         assignedBusField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true));
         assignedBusField.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        assignedBusField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                assignedBusFieldActionPerformed(evt);
+            }
+        });
 
         jLabel10.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(102, 102, 102));
@@ -144,26 +195,43 @@ public class AddRoute extends javax.swing.JFrame {
         jLabel11.setForeground(new java.awt.Color(102, 102, 102));
         jLabel11.setText(":");
 
-        etaField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        etaField.setToolTipText("HELLO");
-        etaField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "ETA", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
+        hourField1.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        hourField1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22" }));
+        hourField1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true));
+        hourField1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        etaField2.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        etaField2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hours", "Minutes" }));
-        etaField2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true));
-        etaField2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        minField1.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        minField1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "15", "30", "45", " " }));
+        minField1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true));
+        minField1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+        jLabel12.setFont(new java.awt.Font("Open Sans", 1, 18)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel12.setText(":");
+
+        jLabel13.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel13.setText("ETA:");
+
+        warningTxt.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        warningTxt.setForeground(new java.awt.Color(204, 0, 0));
+        warningTxt.setToolTipText("");
 
         javax.swing.GroupLayout passengerDetailsPanelLayout = new javax.swing.GroupLayout(passengerDetailsPanel);
         passengerDetailsPanel.setLayout(passengerDetailsPanelLayout);
         passengerDetailsPanelLayout.setHorizontalGroup(
             passengerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(passengerDetailsPanelLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(passengerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, passengerDetailsPanelLayout.createSequentialGroup()
+                        .addGroup(passengerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(fareField, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(destinationField, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(startingPtField, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(routeIdField))
+                        .addGap(15, 15, 15))
                     .addGroup(passengerDetailsPanelLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(ovrvwTxt))
-                    .addGroup(passengerDetailsPanelLayout.createSequentialGroup()
-                        .addContainerGap()
                         .addGroup(passengerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel9)
                             .addGroup(passengerDetailsPanelLayout.createSequentialGroup()
@@ -171,25 +239,26 @@ public class AddRoute extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel11)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(minField, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(minField, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(assignedBusField, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel13)
+                            .addGroup(passengerDetailsPanelLayout.createSequentialGroup()
+                                .addComponent(hourField1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel12)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(minField1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(16, Short.MAX_VALUE))))
+            .addGroup(passengerDetailsPanelLayout.createSequentialGroup()
+                .addGroup(passengerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(passengerDetailsPanelLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(ovrvwTxt))
                     .addGroup(passengerDetailsPanelLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(passengerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(assignedBusField, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel10))))
-                .addContainerGap(16, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, passengerDetailsPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(passengerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(fareField, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(destinationField, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(startingPtField, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(routeIdField)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, passengerDetailsPanelLayout.createSequentialGroup()
-                        .addComponent(etaField, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(etaField2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(15, 15, 15))
+                        .addComponent(warningTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         passengerDetailsPanelLayout.setVerticalGroup(
             passengerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -204,24 +273,25 @@ public class AddRoute extends javax.swing.JFrame {
                 .addComponent(destinationField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel9)
-                .addGroup(passengerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(passengerDetailsPanelLayout.createSequentialGroup()
-                        .addGroup(passengerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(hourField, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(minField, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel11))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
-                        .addComponent(fareField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30)
-                        .addComponent(etaField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(passengerDetailsPanelLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(etaField2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(passengerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(hourField, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(minField, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11))
+                .addGap(18, 18, 18)
+                .addComponent(fareField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(jLabel13)
+                .addGroup(passengerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(hourField1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(minField1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(assignedBusField, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(warningTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         addBusBtn.setBackground(new java.awt.Color(255, 159, 28));
@@ -263,16 +333,71 @@ public class AddRoute extends javax.swing.JFrame {
 
         routeTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Route ID", "Starting Point", "Destination", "Departure Time", "ETA", "Fare Amount", "Bookings", "Assigned Bus"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane3.setViewportView(routeTable);
+        if (routeTable.getColumnModel().getColumnCount() > 0) {
+            routeTable.getColumnModel().getColumn(0).setResizable(false);
+            routeTable.getColumnModel().getColumn(1).setResizable(false);
+            routeTable.getColumnModel().getColumn(2).setResizable(false);
+            routeTable.getColumnModel().getColumn(3).setResizable(false);
+            routeTable.getColumnModel().getColumn(4).setResizable(false);
+            routeTable.getColumnModel().getColumn(5).setResizable(false);
+            routeTable.getColumnModel().getColumn(6).setResizable(false);
+            routeTable.getColumnModel().getColumn(7).setResizable(false);
+        }
+
+        deletesSelectedBtn.setBackground(new java.awt.Color(255, 159, 28));
+        deletesSelectedBtn.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
+        deletesSelectedBtn.setForeground(new java.awt.Color(255, 255, 255));
+        deletesSelectedBtn.setText("Delete Selected");
+        deletesSelectedBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 159, 28), 1, true));
+        deletesSelectedBtn.setPreferredSize(new java.awt.Dimension(104, 39));
+        deletesSelectedBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deletesSelectedBtnActionPerformed(evt);
+            }
+        });
+
+        editSelectedBtn.setBackground(new java.awt.Color(255, 159, 28));
+        editSelectedBtn.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
+        editSelectedBtn.setForeground(new java.awt.Color(255, 255, 255));
+        editSelectedBtn.setText("Edit Selected");
+        editSelectedBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 159, 28), 1, true));
+        editSelectedBtn.setPreferredSize(new java.awt.Dimension(104, 39));
+        editSelectedBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editSelectedBtnActionPerformed(evt);
+            }
+        });
+
+        conEditBtn.setBackground(new java.awt.Color(255, 159, 28));
+        conEditBtn.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
+        conEditBtn.setForeground(new java.awt.Color(255, 255, 255));
+        conEditBtn.setText("Confirm");
+        conEditBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 159, 28), 1, true));
+        conEditBtn.setEnabled(false);
+        conEditBtn.setPreferredSize(new java.awt.Dimension(104, 39));
+        conEditBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                conEditBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout rootPanelLayout = new javax.swing.GroupLayout(rootPanel);
         rootPanel.setLayout(rootPanelLayout);
@@ -286,30 +411,41 @@ public class AddRoute extends javax.swing.JFrame {
                 .addComponent(passengerDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3)
                     .addGroup(rootPanelLayout.createSequentialGroup()
                         .addComponent(addBusBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(171, 171, 171)
-                        .addComponent(clearForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 702, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 702, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(editSelectedBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(conEditBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(clearForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(deletesSelectedBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2))
+                .addContainerGap())
         );
         rootPanelLayout.setVerticalGroup(
             rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rootPanelLayout.createSequentialGroup()
                 .addComponent(headerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, rootPanelLayout.createSequentialGroup()
+                .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(rootPanelLayout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(addBusBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(clearForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(passengerDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 18, Short.MAX_VALUE))
+                            .addComponent(clearForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(deletesSelectedBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(editSelectedBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(conEditBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 18, Short.MAX_VALUE))
+                    .addGroup(rootPanelLayout.createSequentialGroup()
+                        .addComponent(passengerDetailsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 632, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -332,47 +468,423 @@ public class AddRoute extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     
-      //RouteMethod
+    private static boolean editingMode;
+    
+    // REGION - sql connection
+    
+    Connection con;
+    PreparedStatement ps;
+    ResultSet rs;
+    Statement st;
+    
+    public void sqlConnect()
+    {
+        
+        try {
+           String url1 = "jdbc:mysql://localhost:3306/lakbay_ticket_management_system";
+           String user = "root";
+           String password = "Cj06032002";
+           
+           con = DriverManager.getConnection(url1, user, password);
+           if(con != null)
+           {
+               //System.out.println("Connected to the database.");
+           }
+           
+        } catch (SQLException ex) {
+            System.out.println("An error occurred. Maybe user/password is invalid");
+            ex.printStackTrace();
+        }
+    }
+    
+    // END REGION 
+     
+    
+    //REGION - Local Methods
     public boolean isFieldEmpty (){
         if(routeIdField.getText().isEmpty() || startingPtField.getText().isEmpty() 
                 || destinationField.getText().isEmpty() || fareField.getText().isEmpty() 
-                || routeIdField.getText().isEmpty() || etaField.getText().isEmpty())
+                || routeIdField.getText().isEmpty())
         {
         return true;
         }
         
         return false;       
     }
-    
    
-    public void ClearFields(){
+    public void clearFields(){
         
         routeIdField.setText("");
         startingPtField.setText("");
         destinationField.setText("");
         fareField.setText("");
         routeIdField.setText("");
-        etaField.setText("");
         //warningTxt.setText("");
     }
+    
+    public String sqlTimeToString(java.sql.Time sqlTime)
+    {
+        java.sql.Time sqlDepartTime = sqlTime;
+        String formattedTime = new SimpleDateFormat("HH:mm").format(sqlDepartTime.getTime());
+        
+        return formattedTime;
+    }
+    
+    public String sqlTimeHour(java.sql.Time sqlTime)
+    {
+        java.sql.Time sqlDepartTime = sqlTime;
+        String formattedTime = new SimpleDateFormat("HH").format(sqlDepartTime.getTime());
+        
+        return formattedTime;
+    }
+    
+    public String sqlTimeMin(java.sql.Time sqlTime)
+    {
+        java.sql.Time sqlDepartTime = sqlTime;
+        String formattedTime = new SimpleDateFormat("mm").format(sqlDepartTime.getTime());
+        
+        return formattedTime;
+    }
+
+    public Time stringTimeToSqlTime(String sTime)
+    {
+        LocalTime stringTime = LocalTime.parse(sTime);
+        Time sqlTime = Time.valueOf(stringTime);
+        
+        return sqlTime;
+    }
+    
+    public void fetch()
+    {
+        int q;
+        String query = "SELECT * FROM travel_route";
+        
+        try {
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
+            java.sql.ResultSetMetaData rss = rs.getMetaData();
+            q = rss.getColumnCount();
+            
+            DefaultTableModel df = (DefaultTableModel)routeTable.getModel();
+            df.setRowCount(0);
+            
+            while (rs.next()) {                
+                Vector v2 = new Vector();
+                for(int a=1; a<=q; a++)
+                {        
+                    v2.add(rs.getString("route_id"));
+                    v2.add(rs.getString("starting_point"));
+                    v2.add(rs.getString("destination"));
+                    v2.add(sqlTimeToString(rs.getTime("departure_time")));
+                    v2.add(sqlTimeToString(rs.getTime("estimated_time_arrival")));
+                    v2.add(rs.getFloat("fare_amount"));
+                    v2.add(rs.getInt("bookings_count"));
+                    v2.add(rs.getString("bus_id"));
+                }
+                df.addRow(v2);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AddStaff.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+    }
+    
+    public ArrayList getAllExistingBus()
+    {
+        ArrayList<String> existingId = new ArrayList();
+        
+        //TODO: GET ALL THE EXISTING bus_id in TRAVEL_ROUTE
+        
+        String query = "SELECT bus_id FROM travel_route";
+        
+        try {
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
+            int i=0;
+            while(rs.next())
+            {
+                String id = rs.getString("bus_id") ;
+                existingId.add(id);
+                
+                
+                
+            }
+            
+            return existingId;
+            
+        } catch (Exception e) {
+            System.out.println("May error: "+ e);
+        }
+        
+        return  existingId;
+    }
+    
+    
+    public void populateComboBox()
+    {
+       assignedBusField.removeAllItems();
+        
+       ArrayList<String> existingId = getAllExistingBus();
+       System.out.println(existingId);
+        
+        String query = 
+               "SELECT bus_id FROM bus";
+
+        try {
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
+            
+            while(rs.next())
+            {
+                // TODO:
+                // see if the current id existed;
+                String id = rs.getString("bus_id");
+                outerloop:
+                for(int i = 0; i < existingId.size(); i++)
+                {
+                    
+                    if (!existingId.contains(id)) {
+                        assignedBusField.addItem(id);
+                        break outerloop;
+                    }
+                }
+                
+            }
+            
+        } catch (Exception e) {
+            //System.out.println("May error populate: "+ e);
+            e.printStackTrace();    
+            
+        }
+    }
+    
+    public boolean isSameId(String id)
+    {
+        try {
+            String query = "SELECT * FROM travel_route WHERE route_id = ?";
+            
+            ps = con.prepareStatement(query);
+            ps.setString(1, id);
+            
+            rs = ps.executeQuery();
+            
+            while(rs.next())
+            {
+                String idc = rs.getString("route_id");
+                
+                if(idc.equals(id))
+                {
+                  return true;
+                }
+                
+            }
+  
+        } catch (SQLException ex) {
+            Logger.getLogger(AddDriver.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return false;
+    }
+    
+    
+    public void setId()
+    {
+        int id = 1;
+            String initFormat = String.format("%03d", id);
+            String initID = "RT-" + initFormat;
+
+            while(isSameId(initID))
+            {
+                id++;
+                initID = "RT-" + String.format("%03d", id);
+            }   
+
+        routeIdField.setText(initID);
+    }
+    
+
+    public void insertRecord()    
+    {
+        try {
+            sqlConnect();
+            
+            Route r = new Route();
+            
+            r.setRouteid(routeIdField.getText());
+            r.setStartingPoint(startingPtField.getText());
+            r.setDestination(destinationField.getText());
+            r.setDeparturetime(hourField.getSelectedItem().toString() + ":" + minField.getSelectedItem().toString());
+            float fare = Float.parseFloat(fareField.getText());
+            r.setFare_amount(fare);
+            r.setETA(hourField1.getSelectedItem().toString() + ":" + minField1.getSelectedItem().toString());
+            r.setBusid(assignedBusField.getSelectedItem().toString());
+            
+            String query = "INSERT INTO travel_route"
+                    + "(route_id, starting_point, destination, departure_time, estimated_time_arrival, fare_amount, bookings_count, bus_id) VALUES "
+                    + "(?,?,?,?,?,?,?,?)";
+            
+            
+            ps = con.prepareStatement(query);
+            
+            ps.setString(1, r.getRouteid());
+            ps.setString(2, r.getStartingPoint());
+            ps.setString(3, r.getDestination());
+            ps.setTime(4, stringTimeToSqlTime(r.getDepartureTime()));
+            ps.setTime(5, stringTimeToSqlTime(r.getETA()));
+            ps.setFloat(6, r.getFare_amount());
+            ps.setInt(7, r.getBookings_count());
+            ps.setString(8, r.getBusid());
+            
+            int k = ps.executeUpdate();
+            
+            if (k == 1) {
+                JOptionPane.showMessageDialog(this, "Record Added Successfuly");
+                fetch();
+                
+            }else
+            {
+                JOptionPane.showMessageDialog(this, "Record is not added");
+            } 
+            
+            
+        } catch (Exception e) {
+           e.printStackTrace();
+        }
+    }
+    
+    
+    
+    public void deleteRecord(String d)
+    {
+        String query = "DELETE FROM travel_route WHERE route_id = ?";
+        
+        try {
+            ps = con.prepareStatement(query);
+            ps.setString(1, d);
+            
+            int k = ps.executeUpdate();
+            
+            if(k==1)
+            {
+                JOptionPane.showMessageDialog(rootPane, d + " has been deleted from the record.", "Delete Success", JOptionPane.OK_OPTION);
+            }
+                    
+        } catch (SQLException ex) {
+            Logger.getLogger(ViewStaff.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void searchInDb(String pk)
+    {
+        try {
+            String query = "SELECT * FROM travel_route WHERE route_id = ?";
+            ps = con.prepareStatement(query);
+            ps.setString(1, pk);
+            
+            rs = ps.executeQuery();
+            
+            while(rs.next())
+            {
+                routeIdField.setText(rs.getString("route_id"));
+                startingPtField.setText(rs.getString("starting_point"));
+                destinationField.setText(rs.getString("destination"));
+                hourField.setSelectedItem(sqlTimeHour(rs.getTime("departure_time")));
+                minField.setSelectedItem(sqlTimeMin(rs.getTime("departure_time")));
+                fareField.setText(String.valueOf(rs.getFloat("fare_amount")));
+                hourField1.setSelectedItem(sqlTimeHour(rs.getTime("estimated_time_arrival")));
+                minField1.setSelectedItem(sqlTimeMin(rs.getTime("estimated_time_arrival")));
+                assignedBusField.addItem(rs.getString("bus_id"));
+            }
+            
+        } catch (Exception e) {
+             System.out.println("may error: " + e);
+        }
+    }
+    
+    public void updateRecord(String pk)
+    {
+        try {
+            sqlConnect();
+            String query = "UPDATE travel_route SET "
+                    + "route_id = ?, starting_point = ?, destination = ?, departure_time = ?, estimated_time_arrival = ?, fare_amount = ?, bus_id = ? "
+                    + "WHERE route_id = ?";
+
+            ps = con.prepareStatement(query);
+            
+            Route r = new Route();
+            
+            r.setRouteid(routeIdField.getText());
+            r.setStartingPoint(startingPtField.getText());
+            r.setDestination(destinationField.getText());
+            r.setDeparturetime(hourField.getSelectedItem().toString() + ":" + minField.getSelectedItem().toString());
+            float fare = Float.parseFloat(fareField.getText());
+            r.setFare_amount(fare);
+            r.setETA(hourField1.getSelectedItem().toString() + ":" + minField1.getSelectedItem().toString());
+            r.setBusid(assignedBusField.getSelectedItem().toString());
+
+            ps.setString(1, r.getRouteid());
+            ps.setString(2, r.getStartingPoint());
+            ps.setString(3, r.getDestination());
+            ps.setTime(4, stringTimeToSqlTime(r.getDepartureTime()));
+            ps.setTime(5, stringTimeToSqlTime(r.getETA()));
+            ps.setFloat(6, r.getFare_amount());
+            ps.setString(7, r.getBusid());
+            ps.setString(8, r.getRouteid());
+            
+            int k = ps.executeUpdate();
+            
+            if(k==1)
+            {
+                JOptionPane.showMessageDialog(this, "Record Updated Successfuly");
+            }
+            else{
+                System.out.println("di ko ma edit punyeta");
+            }
+               
+            
+        } catch (Exception e) {
+            System.out.println("may error update: " + e);
+        }     
+    }
+    
+    //END REGION
     
     
     private void addBusBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBusBtnActionPerformed
          // TODO add your handling code here:
         if (!isFieldEmpty()) {
             //ADD TO DB
-            ClearFields();
+            
+            insertRecord();
+            clearFields();
+            
         }
         else if(isFieldEmpty())
         {
-           // warningTxt.setText("Make sure to fill all required spaces.");
+           warningTxt.setText("Make sure to fill all required spaces.");
         }
            
     }//GEN-LAST:event_addBusBtnActionPerformed
 
     private void clearFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearFormActionPerformed
         // TODO add your handling code here:
-        ClearFields();
+        if (editingMode) {
+            editingMode = false;
+            
+            editSelectedBtn.setEnabled(true);
+            conEditBtn.setEnabled(false);
+            addBusBtn.setEnabled(true);
+            
+            populateComboBox();
+            clearFields();
+            setId();
+            
+            
+        }else if(!editingMode)
+        {
+            populateComboBox();
+            clearFields();
+            setId();
+        }
     }//GEN-LAST:event_clearFormActionPerformed
 
     private void fareFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fareFieldActionPerformed
@@ -382,6 +894,100 @@ public class AddRoute extends javax.swing.JFrame {
     private void routeIdFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_routeIdFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_routeIdFieldActionPerformed
+
+    private void assignedBusFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_assignedBusFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_assignedBusFieldActionPerformed
+
+    private void deletesSelectedBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deletesSelectedBtnActionPerformed
+        // TODO add your handling code here:
+        int column = 0;
+        int row = routeTable.getSelectedRow();
+        
+        if(row >= 0)
+        {
+            String val = routeTable.getModel().getValueAt(row, column).toString();
+        
+            //System.out.println(val);
+        
+            Object[] options = { "CONFIRM", "CANCEL" };
+            int choice = JOptionPane.showOptionDialog(null, "You are deleting: " + val, "Warning",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
+                    null, options, options[0]);
+            
+            if(choice == 0)
+            {
+                deleteRecord(val);
+                fetch();
+                populateComboBox();
+                setId();
+            }
+        
+        }
+    }//GEN-LAST:event_deletesSelectedBtnActionPerformed
+
+    private void editSelectedBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editSelectedBtnActionPerformed
+        // TODO add your handling code here:
+        
+        int column = 0;
+        int row = routeTable.getSelectedRow();
+        
+        if(row >= 0)
+        {
+            
+           editingMode = true;
+
+           editSelectedBtn.setEnabled(false);
+           conEditBtn.setEnabled(true);
+           addBusBtn.setEnabled(false);
+            
+            String val = routeTable.getModel().getValueAt(row, column).toString();
+            
+
+            searchInDb(val);
+        
+        }
+        else
+        {
+            warningTxt.setText("Make sure to fill all reuqired spaces.");
+        }
+        
+    }//GEN-LAST:event_editSelectedBtnActionPerformed
+
+    private void conEditBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_conEditBtnActionPerformed
+        // TODO add your handling code here:
+        
+        
+        if (!isFieldEmpty()) {
+            
+            updateRecord(routeIdField.getText());
+            fetch();
+            setId();
+            clearFields();
+
+            
+            editingMode = false;
+        
+            editSelectedBtn.setEnabled(true);
+            conEditBtn.setEnabled(false);
+            addBusBtn.setEnabled(true);
+        
+            populateComboBox();
+            
+        }
+        else
+        {
+            warningTxt.setText("Make sure to fill all reuqired spaces.");
+        }
+        
+    }//GEN-LAST:event_conEditBtnActionPerformed
+
+    private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
+        // TODO add your handling code here:
+        HomePage hp = new HomePage();
+        hp.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_backBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -405,20 +1011,26 @@ public class AddRoute extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addBusBtn;
     private javax.swing.JComboBox<String> assignedBusField;
+    private javax.swing.JButton backBtn;
     private javax.swing.JButton clearForm;
+    private javax.swing.JButton conEditBtn;
+    private javax.swing.JButton deletesSelectedBtn;
     private javax.swing.JTextField destinationField;
     private javax.swing.JTable driverTable;
-    private javax.swing.JTextField etaField;
-    private javax.swing.JComboBox<String> etaField2;
+    private javax.swing.JButton editSelectedBtn;
     private javax.swing.JTextField fareField;
     private javax.swing.JPanel headerPanel;
     private javax.swing.JComboBox<String> hourField;
+    private javax.swing.JComboBox<String> hourField1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JComboBox<String> minField;
+    private javax.swing.JComboBox<String> minField1;
     private javax.swing.JLabel ovrvwTxt;
     private javax.swing.JLabel ovrvwTxt2;
     private javax.swing.JPanel passengerDetailsPanel;
@@ -426,5 +1038,6 @@ public class AddRoute extends javax.swing.JFrame {
     private javax.swing.JTextField routeIdField;
     private javax.swing.JTable routeTable;
     private javax.swing.JTextField startingPtField;
+    private javax.swing.JLabel warningTxt;
     // End of variables declaration//GEN-END:variables
 }
