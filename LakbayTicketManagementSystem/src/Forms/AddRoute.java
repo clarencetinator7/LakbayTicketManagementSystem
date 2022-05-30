@@ -28,35 +28,6 @@ public class AddRoute extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     
-    //RouteMethod
-    public boolean isFieldEmpty (){
-        if(routeIdField.getText().isEmpty() || startingPtField.getText().isEmpty() 
-                || destinationField.getText().isEmpty() || fareField.getText().isEmpty() 
-                || routeIdField.getText().isEmpty() || etaField.getText().isEmpty())
-        {
-        return true;
-        }
-        
-        return false;       
-    }
-    
-   
-    public void ClearFields(){
-        
-        routeIdField.setText("");
-        startingPtField.setText("");
-        destinationField.setText("");
-        fareField.setText("");
-        routeIdField.setText("");
-        etaField.setText("");
-        //warningTxt.setText("");
-    }
-    
-    
-    
-    
-    
-    
     
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -104,12 +75,12 @@ public class AddRoute extends javax.swing.JFrame {
             .addGroup(headerPanelLayout.createSequentialGroup()
                 .addGap(579, 579, 579)
                 .addComponent(ovrvwTxt2)
-                .addContainerGap(584, Short.MAX_VALUE))
+                .addContainerGap(583, Short.MAX_VALUE))
         );
         headerPanelLayout.setVerticalGroup(
             headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerPanelLayout.createSequentialGroup()
-                .addContainerGap(25, Short.MAX_VALUE)
+                .addContainerGap(23, Short.MAX_VALUE)
                 .addComponent(ovrvwTxt2)
                 .addGap(19, 19, 19))
         );
@@ -239,7 +210,7 @@ public class AddRoute extends javax.swing.JFrame {
                             .addComponent(hourField, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(minField, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel11))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
                         .addComponent(fareField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(30, 30, 30)
                         .addComponent(etaField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -357,8 +328,35 @@ public class AddRoute extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    
+      //RouteMethod
+    public boolean isFieldEmpty (){
+        if(routeIdField.getText().isEmpty() || startingPtField.getText().isEmpty() 
+                || destinationField.getText().isEmpty() || fareField.getText().isEmpty() 
+                || routeIdField.getText().isEmpty() || etaField.getText().isEmpty())
+        {
+        return true;
+        }
+        
+        return false;       
+    }
+    
+   
+    public void ClearFields(){
+        
+        routeIdField.setText("");
+        startingPtField.setText("");
+        destinationField.setText("");
+        fareField.setText("");
+        routeIdField.setText("");
+        etaField.setText("");
+        //warningTxt.setText("");
+    }
+    
+    
     private void addBusBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBusBtnActionPerformed
          // TODO add your handling code here:
         if (!isFieldEmpty()) {
@@ -374,6 +372,7 @@ public class AddRoute extends javax.swing.JFrame {
 
     private void clearFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearFormActionPerformed
         // TODO add your handling code here:
+        ClearFields();
     }//GEN-LAST:event_clearFormActionPerformed
 
     private void fareFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fareFieldActionPerformed

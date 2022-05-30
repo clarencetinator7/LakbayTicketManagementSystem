@@ -4,9 +4,25 @@
  */
 package Forms;
 
+import UtilityClasses.Bus;
+import UtilityClasses.Driver;
+
+
 import com.formdev.flatlaf.FlatIntelliJLaf;
+import com.mysql.cj.xdevapi.Statement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -19,6 +35,11 @@ public class AddBus extends javax.swing.JFrame {
      */
     public AddBus() {
         initComponents();
+        sqlConnect();
+        fetch();
+        setId();
+        populateComboBox();
+        
     }
 
     /**
@@ -33,22 +54,25 @@ public class AddBus extends javax.swing.JFrame {
         rootPanel = new javax.swing.JPanel();
         headerPanel = new javax.swing.JPanel();
         ovrvwTxt2 = new javax.swing.JLabel();
+        backBtn = new javax.swing.JButton();
         passengerDetailsPanel = new javax.swing.JPanel();
         ovrvwTxt = new javax.swing.JLabel();
         busPtNoField = new javax.swing.JTextField();
-        busNameField = new javax.swing.JTextField();
         busCapacityField = new javax.swing.JTextField();
         busIdField = new javax.swing.JTextField();
         busTypeField = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
         assignedDriverField = new javax.swing.JComboBox<>();
         jLabel10 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        busTable = new javax.swing.JTable();
+        deleteRecBtn = new javax.swing.JButton();
+        editSelectedBtn = new javax.swing.JButton();
+        conEditBtn = new javax.swing.JButton();
+        buttonPanels = new javax.swing.JPanel();
         addBusBtn = new javax.swing.JButton();
         clearForm = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        driverTable = new javax.swing.JTable();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        busTable = new javax.swing.JTable();
         warningTxt = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -63,12 +87,23 @@ public class AddBus extends javax.swing.JFrame {
         ovrvwTxt2.setForeground(new java.awt.Color(255, 159, 28));
         ovrvwTxt2.setText("ADD BUS");
 
+        backBtn.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
+        backBtn.setForeground(new java.awt.Color(255, 159, 28));
+        backBtn.setText("Back");
+        backBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout headerPanelLayout = new javax.swing.GroupLayout(headerPanel);
         headerPanel.setLayout(headerPanelLayout);
         headerPanelLayout.setHorizontalGroup(
             headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(headerPanelLayout.createSequentialGroup()
-                .addGap(592, 592, 592)
+                .addGap(33, 33, 33)
+                .addComponent(backBtn)
+                .addGap(487, 487, 487)
                 .addComponent(ovrvwTxt2)
                 .addContainerGap(597, Short.MAX_VALUE))
         );
@@ -76,8 +111,10 @@ public class AddBus extends javax.swing.JFrame {
             headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(headerPanelLayout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addComponent(ovrvwTxt2)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addGroup(headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ovrvwTxt2)
+                    .addComponent(backBtn))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         passengerDetailsPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -91,10 +128,6 @@ public class AddBus extends javax.swing.JFrame {
         busPtNoField.setToolTipText("HELLO");
         busPtNoField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Bus Plate No,", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
 
-        busNameField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        busNameField.setToolTipText("HELLO");
-        busNameField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Bus Name", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
-
         busCapacityField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         busCapacityField.setToolTipText("HELLO");
         busCapacityField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Capacity", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
@@ -102,8 +135,10 @@ public class AddBus extends javax.swing.JFrame {
         busIdField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         busIdField.setToolTipText("HELLO");
         busIdField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Bus ID", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
+        busIdField.setEnabled(false);
 
         busTypeField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        busTypeField.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Provincial Bus", "City Bus" }));
         busTypeField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true));
         busTypeField.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
@@ -127,20 +162,18 @@ public class AddBus extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(passengerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(passengerDetailsPanelLayout.createSequentialGroup()
-                        .addGroup(passengerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(passengerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(busCapacityField, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(passengerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(passengerDetailsPanelLayout.createSequentialGroup()
-                                    .addGap(6, 6, 6)
-                                    .addComponent(ovrvwTxt))
-                                .addComponent(busTypeField, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel9)
-                                .addComponent(assignedDriverField, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel10)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, passengerDetailsPanelLayout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(ovrvwTxt))
+                            .addComponent(busTypeField, javax.swing.GroupLayout.Alignment.LEADING, 0, 363, Short.MAX_VALUE)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(assignedDriverField, javax.swing.GroupLayout.Alignment.LEADING, 0, 363, Short.MAX_VALUE)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING))
                         .addGap(16, 16, 16))
-                    .addGroup(passengerDetailsPanelLayout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, passengerDetailsPanelLayout.createSequentialGroup()
                         .addGroup(passengerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(busNameField, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(busPtNoField, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(busIdField))
                         .addGap(15, 15, 15))))
@@ -152,21 +185,114 @@ public class AddBus extends javax.swing.JFrame {
                 .addComponent(ovrvwTxt)
                 .addGap(18, 18, 18)
                 .addComponent(busIdField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(36, 36, 36)
                 .addComponent(busPtNoField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(busNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(28, 28, 28)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(busTypeField, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(35, 35, 35)
                 .addComponent(busCapacityField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(27, 27, 27)
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(assignedDriverField, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(141, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
+        );
+
+        busTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Bus ID", "Assigned Driver", "Plate Number", "Type", "Capacity"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(busTable);
+        if (busTable.getColumnModel().getColumnCount() > 0) {
+            busTable.getColumnModel().getColumn(0).setResizable(false);
+            busTable.getColumnModel().getColumn(1).setResizable(false);
+            busTable.getColumnModel().getColumn(2).setResizable(false);
+            busTable.getColumnModel().getColumn(3).setResizable(false);
+            busTable.getColumnModel().getColumn(4).setResizable(false);
+        }
+
+        deleteRecBtn.setBackground(new java.awt.Color(255, 159, 28));
+        deleteRecBtn.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
+        deleteRecBtn.setForeground(new java.awt.Color(255, 255, 255));
+        deleteRecBtn.setText("Delete Selected");
+        deleteRecBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 159, 28), 1, true));
+        deleteRecBtn.setPreferredSize(new java.awt.Dimension(104, 39));
+        deleteRecBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteRecBtnActionPerformed(evt);
+            }
+        });
+
+        editSelectedBtn.setBackground(new java.awt.Color(255, 159, 28));
+        editSelectedBtn.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
+        editSelectedBtn.setForeground(new java.awt.Color(255, 255, 255));
+        editSelectedBtn.setText("Edit Selected");
+        editSelectedBtn.setActionCommand("Edit Selected");
+        editSelectedBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 159, 28), 1, true));
+        editSelectedBtn.setPreferredSize(new java.awt.Dimension(104, 39));
+        editSelectedBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editSelectedBtnActionPerformed(evt);
+            }
+        });
+
+        conEditBtn.setBackground(new java.awt.Color(255, 159, 28));
+        conEditBtn.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
+        conEditBtn.setForeground(new java.awt.Color(255, 255, 255));
+        conEditBtn.setText("Confirm Edit");
+        conEditBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 159, 28), 1, true));
+        conEditBtn.setEnabled(false);
+        conEditBtn.setPreferredSize(new java.awt.Dimension(104, 39));
+        conEditBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                conEditBtnActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(editSelectedBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(conEditBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(deleteRecBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(deleteRecBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(editSelectedBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(conEditBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12))
         );
 
         addBusBtn.setBackground(new java.awt.Color(255, 159, 28));
@@ -193,79 +319,68 @@ public class AddBus extends javax.swing.JFrame {
             }
         });
 
-        driverTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane2.setViewportView(driverTable);
-
-        busTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane3.setViewportView(busTable);
-
         warningTxt.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         warningTxt.setForeground(new java.awt.Color(204, 0, 0));
         warningTxt.setToolTipText("");
+
+        javax.swing.GroupLayout buttonPanelsLayout = new javax.swing.GroupLayout(buttonPanels);
+        buttonPanels.setLayout(buttonPanelsLayout);
+        buttonPanelsLayout.setHorizontalGroup(
+            buttonPanelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(buttonPanelsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(buttonPanelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(buttonPanelsLayout.createSequentialGroup()
+                        .addComponent(warningTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(buttonPanelsLayout.createSequentialGroup()
+                        .addComponent(addBusBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 125, Short.MAX_VALUE)
+                        .addComponent(clearForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        buttonPanelsLayout.setVerticalGroup(
+            buttonPanelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(buttonPanelsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(buttonPanelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addBusBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(clearForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(warningTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(39, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout rootPanelLayout = new javax.swing.GroupLayout(rootPanel);
         rootPanel.setLayout(rootPanelLayout);
         rootPanelLayout.setHorizontalGroup(
             rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rootPanelLayout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(passengerDetailsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 385, Short.MAX_VALUE)
+                    .addComponent(buttonPanels, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(rootPanelLayout.createSequentialGroup()
                 .addComponent(headerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(rootPanelLayout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addComponent(passengerDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(rootPanelLayout.createSequentialGroup()
-                        .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 702, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 702, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(rootPanelLayout.createSequentialGroup()
-                        .addComponent(addBusBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(warningTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(clearForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(60, 60, 60))))
         );
         rootPanelLayout.setVerticalGroup(
             rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rootPanelLayout.createSequentialGroup()
                 .addComponent(headerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, rootPanelLayout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(rootPanelLayout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(passengerDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 496, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(buttonPanels, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(rootPanelLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(addBusBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(clearForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(warningTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(passengerDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(18, Short.MAX_VALUE))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -287,10 +402,42 @@ public class AddBus extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    static boolean editingMode;
+    
+    // REGION - sql connection
+    
+    Connection con;
+    PreparedStatement ps;
+    ResultSet rs;
+    Statement st;
+    
+    public void sqlConnect()
+    {
+        
+        try {
+           String url1 = "jdbc:mysql://localhost:3306/lakbay_ticket_management_system";
+           String user = "root";
+           String password = "Cj06032002";
+           
+           con = DriverManager.getConnection(url1, user, password);
+           if(con != null)
+           {
+               //System.out.println("Connected to the database.");
+           }
+           
+        } catch (SQLException ex) {
+            System.out.println("An error occurred. Maybe user/password is invalid");
+            ex.printStackTrace();
+        }
+    }
+    
+    // END REGION 
+        
     //REGION - Local method
+    
     public boolean isFieldEmpty()
     {
-        if(busIdField.getText().isEmpty() || busPtNoField.getText().isEmpty() || busNameField.getText().isEmpty() || busCapacityField.getText().isEmpty())
+        if(busIdField.getText().isEmpty() || busPtNoField.getText().isEmpty() || busCapacityField.getText().isEmpty())
         {
             return true;
         }
@@ -302,20 +449,312 @@ public class AddBus extends javax.swing.JFrame {
     {
         busIdField.setText("");
         busPtNoField.setText("");
-        busNameField.setText("");
         busCapacityField.setText("");
         warningTxt.setText("");
+        
     }
     
     
     
-    // END - Region
+    public ArrayList existingDrivers()
+    {
+        ArrayList driversWBus = new ArrayList();
+        
+        String query = "SELECT driver_id FROM bus";
+        
+        try {
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
+            int i=0;
+            while(rs.next())
+            {
+                String id = rs.getString("driver_id") ;
+                driversWBus.add(id);
+            }
+            
+            return driversWBus;
+            
+        } catch (Exception e) {
+            System.out.println("May error: "+ e);
+        }
+        return driversWBus;
+    }  
+    
+    public void populateComboBox()
+    {
+       assignedDriverField.removeAllItems();
+       ArrayList<String> existingId = existingDrivers();
+       System.out.println(existingId);
+       String query = 
+               "SELECT driver_id FROM driver";
+
+        try {
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
+            
+            while(rs.next())
+            {
+                // TODO:
+                // see if the current id existed;
+                String id = rs.getString("driver_id");
+                outerloop:
+                for(int i = 0; i < existingId.size(); i++)
+                {
+                    
+                    if (!existingId.contains(id)) {
+                        assignedDriverField.addItem(id);
+                        break outerloop;
+                    }
+                }
+                
+ 
+            }
+            
+        } catch (Exception e) {
+            //System.out.println("May error populate: "+ e);
+            e.printStackTrace();    
+            
+        }
+    }
+    
+    public void fetch()
+    {
+        int q;
+        String query = "SELECT * FROM bus";
+        
+        try {
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
+            java.sql.ResultSetMetaData rss = rs.getMetaData();
+            q = rss.getColumnCount();
+            
+            DefaultTableModel df = (DefaultTableModel)busTable.getModel();
+            df.setRowCount(0);
+            
+            while (rs.next()) {                
+                Vector v2 = new Vector();
+                for(int a=1; a<=q; a++)
+                {
+                    v2.add(rs.getString("bus_id"));
+                    v2.add(rs.getString("driver_id"));
+                    v2.add(rs.getString("bus_plate_number")); 
+                    v2.add(rs.getString("bus_type")); 
+                    v2.add(rs.getString("capacity")); 
+                }
+                df.addRow(v2);
+            }
+        
+        } catch (SQLException ex) {
+            Logger.getLogger(AddStaff.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+    }
+    
+    public int countRec()
+    {
+        String query = "SELECT count(*) FROM bus";
+        
+        try {
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
+            
+            rs.next();
+            return rs.getInt(1);
+            
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(AddStaff.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return 0;
+    }
+    
+    public boolean isSameId(String id)
+    {
+        try {
+            String query = "SELECT * FROM bus WHERE bus_id = ?";
+            
+            ps = con.prepareStatement(query);
+            ps.setString(1, id);
+            
+            rs = ps.executeQuery();
+            
+            while(rs.next())
+            {
+                String idc = rs.getString("bus_id");
+                
+                if(idc.equals(id))
+                {
+                  return true;
+                }
+                
+            }
+  
+        } catch (SQLException ex) {
+            Logger.getLogger(AddDriver.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return false;
+    }
+    
+    
+    
+    public void setId()
+    {
+        
+        int id = 1;
+            String initFormat = String.format("%03d", id);
+            String initID = "BS-" + initFormat;
+
+            while(isSameId(initID))
+            {
+                id++;
+                initID = "BS-" + String.format("%03d", id);
+            }   
+
+            busIdField.setText(initID);
+    }
+    
+    
+    
+    
+    public void insertRecord()
+    {
+        try {
+            sqlConnect();
+            
+            Bus bs = new Bus();
+            
+            bs.setBusId(busIdField.getText());
+            bs.setBusPlateNo(busPtNoField.getText());
+            bs.setBusType(busTypeField.getSelectedItem().toString());
+            bs.setCapacity(Integer.parseInt(busCapacityField.getText()));
+            bs.setAssignedDriver(assignedDriverField.getSelectedItem().toString());
+            
+            String query = "INSERT INTO bus "
+                    + "(bus_id, bus_plate_number, bus_type, capacity, driver_id) VALUES "
+                    + "(?,?,?,?,?)";
+            
+            ps = con.prepareStatement(query);
+            
+            ps.setString(1, bs.getBusId());
+            ps.setString(2, bs.getBusPlateNo());
+            ps.setString(3, bs.getBusType());
+            ps.setInt(4, bs.getCapacity());
+            ps.setString(5, bs.getAssignedDriver());
+            
+            int k = ps.executeUpdate();
+            
+            if (k == 1) {
+                JOptionPane.showMessageDialog(this, "Record Added Successfuly");
+                fetch();
+                
+            }else
+            {
+                JOptionPane.showMessageDialog(this, "Record is not added");
+            } 
+        } catch (Exception e) {
+            System.out.println("may error: " + e);
+        }
+    }
+    
+    public void deleteRecord(String d)
+    {
+        String query = "DELETE FROM bus WHERE bus_id = ?";
+        
+        try {
+            ps = con.prepareStatement(query);
+            ps.setString(1, d);
+            
+            int k = ps.executeUpdate();
+            
+            if(k==1)
+            {
+                JOptionPane.showMessageDialog(rootPane, d + " has been deleted from the record.", "Delete Success", JOptionPane.OK_OPTION);
+            }
+                    
+        } catch (SQLException ex) {
+            Logger.getLogger(ViewStaff.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
+    public void searchInDb(String pk)
+    {
+         try {
+            String query = "SELECT * FROM bus WHERE bus_id = ?";
+            ps = con.prepareStatement(query);
+            ps.setString(1, pk);
+            
+            rs = ps.executeQuery();
+            
+            while(rs.next())
+            {
+                
+                busIdField.setText(rs.getString("bus_id"));
+                busPtNoField.setText(rs.getString("bus_plate_number"));
+                
+                if (rs.getString("bus_type").equals("Provincial Bus")) {
+                    busTypeField.setSelectedIndex(0);
+                }
+                else {
+                    busTypeField.setSelectedIndex(1);
+                }
+                
+                busCapacityField.setText(Integer.toString(rs.getInt("capacity")));
+                assignedDriverField.addItem(rs.getString("driver_id"));
+                assignedDriverField.setSelectedItem(rs.getString("driver_id"));      
+            }
+            
+        } catch (Exception e) {
+             System.out.println("may error: " + e);
+        }
+    }
+    
+    public void updateRecord(String pk)
+    {
+        
+        try {
+            sqlConnect();
+            String query = "UPDATE bus SET "
+                    + "bus_id = ?, bus_plate_number = ?, bus_type = ?, capacity = ?, driver_id = ? "
+                    + "WHERE bus_id = ?";
+
+            ps = con.prepareStatement(query);
+
+            ps.setString(1, busIdField.getText());
+            ps.setString(2, busPtNoField.getText());
+            ps.setString(3, busTypeField.getSelectedItem().toString());
+            ps.setInt(4, Integer.parseInt(busCapacityField.getText()));
+            ps.setString(5, assignedDriverField.getSelectedItem().toString());
+            ps.setString(6, pk);
+            
+            int k = ps.executeUpdate();
+            
+            if(k==1)
+            {
+                JOptionPane.showMessageDialog(this, "Record Updated Successfuly");
+            }
+            else{
+                System.out.println("di ko ma edit punyeta");
+            }
+               
+            
+        } catch (Exception e) {
+            System.out.println("may error update: " + e);
+        }     
+    }
+    
+    
+    
+    // END REGION
     
     private void addBusBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBusBtnActionPerformed
         // TODO add your handling code here:
         if (!isFieldEmpty()) {
-            //ADD TO DB
+            insertRecord();
             clearFields();
+            populateComboBox();
         }
         else if(isFieldEmpty())
         {
@@ -329,7 +768,117 @@ public class AddBus extends javax.swing.JFrame {
     private void clearFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearFormActionPerformed
         // TODO add your handling code here:
         clearFields();
+        setId();
+        
+        if (editingMode) {
+            editingMode = false;
+            
+            editSelectedBtn.setEnabled(true);
+            conEditBtn.setEnabled(false);
+            addBusBtn.setEnabled(true);
+            
+            populateComboBox();
+            clearFields();
+            setId();
+            
+            
+        }else if(!editingMode)
+        {
+            populateComboBox();
+            clearFields();
+            setId();
+        }
+        
     }//GEN-LAST:event_clearFormActionPerformed
+
+    private void deleteRecBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteRecBtnActionPerformed
+        // TODO add your handling code here:
+        int column = 0;
+        int row = busTable.getSelectedRow();
+        
+        if(row >= 0)
+        {
+            String val = busTable.getModel().getValueAt(row, column).toString();
+        
+            //System.out.println(val);
+        
+            Object[] options = { "CONFIRM", "CANCEL" };
+            int choice = JOptionPane.showOptionDialog(null, "You are deleting: " + val, "Warning",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
+                    null, options, options[0]);
+            
+            if(choice == 0)
+            {
+                deleteRecord(val);
+                fetch();
+                populateComboBox();
+                setId();
+            }
+        
+        }
+        
+    }//GEN-LAST:event_deleteRecBtnActionPerformed
+
+    private void editSelectedBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editSelectedBtnActionPerformed
+        // TODO add your handling code here:
+        
+        int column = 0;
+        int row = busTable.getSelectedRow();
+        
+        if(row >= 0)
+        {
+           editingMode = true;
+
+           editSelectedBtn.setEnabled(false);
+           conEditBtn.setEnabled(true);
+           addBusBtn.setEnabled(false);
+            
+           String val = busTable.getModel().getValueAt(row, column).toString();
+           
+           searchInDb(val);
+           
+        }
+        else
+        {
+           JOptionPane.showMessageDialog(rootPane, "Please select data to edit.", "Something Went Wrong", JOptionPane.ERROR_MESSAGE);
+        }
+        
+    }//GEN-LAST:event_editSelectedBtnActionPerformed
+
+    private void conEditBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_conEditBtnActionPerformed
+        // TODO add your handling code here:
+        
+        
+        if (!isFieldEmpty()) {
+            updateRecord(busIdField.getText());
+            fetch();
+            setId();
+
+            
+            editingMode = false;
+        
+            editSelectedBtn.setEnabled(true);
+            conEditBtn.setEnabled(false);
+            addBusBtn.setEnabled(true);
+        
+            populateComboBox();
+            
+        }
+        else
+        {
+            warningTxt.setText("Make sure to fill all reuqired spaces.");
+        }
+        
+        
+        
+    }//GEN-LAST:event_conEditBtnActionPerformed
+
+    private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
+        // TODO add your handling code here:
+        HomePage hp = new HomePage();
+        hp.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_backBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -352,19 +901,22 @@ public class AddBus extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addBusBtn;
     private javax.swing.JComboBox<String> assignedDriverField;
+    private javax.swing.JButton backBtn;
     private javax.swing.JTextField busCapacityField;
     private javax.swing.JTextField busIdField;
-    private javax.swing.JTextField busNameField;
     private javax.swing.JTextField busPtNoField;
     private javax.swing.JTable busTable;
     private javax.swing.JComboBox<String> busTypeField;
+    private javax.swing.JPanel buttonPanels;
     private javax.swing.JButton clearForm;
-    private javax.swing.JTable driverTable;
+    private javax.swing.JButton conEditBtn;
+    private javax.swing.JButton deleteRecBtn;
+    private javax.swing.JButton editSelectedBtn;
     private javax.swing.JPanel headerPanel;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel ovrvwTxt;
     private javax.swing.JLabel ovrvwTxt2;
     private javax.swing.JPanel passengerDetailsPanel;
