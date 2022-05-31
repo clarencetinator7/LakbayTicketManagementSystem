@@ -170,11 +170,6 @@ public class AddStaff extends javax.swing.JFrame {
         contactNoField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         contactNoField.setToolTipText("HELLO");
         contactNoField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Contact No.:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
-        contactNoField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                contactNoFieldActionPerformed(evt);
-            }
-        });
         contactNoField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 contactNoFieldKeyTyped(evt);
@@ -966,10 +961,6 @@ public class AddStaff extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_conEditBtnActionPerformed
-
-    private void contactNoFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contactNoFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_contactNoFieldActionPerformed
     
     // END REGION
     /**

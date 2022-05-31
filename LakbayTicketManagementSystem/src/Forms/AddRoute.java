@@ -522,8 +522,6 @@ public class AddRoute extends javax.swing.JFrame {
         //warningTxt.setText("");
     }
     
-    // Convert sql.Time to String
-    
     public String sqlTimeToString(java.sql.Time sqlTime)
     {
         java.sql.Time sqlDepartTime = sqlTime;
@@ -531,8 +529,6 @@ public class AddRoute extends javax.swing.JFrame {
         
         return formattedTime;
     }
-    
-    // Convert sql.Time to String but only get the Hour
     
     public String sqlTimeHour(java.sql.Time sqlTime)
     {
@@ -542,8 +538,6 @@ public class AddRoute extends javax.swing.JFrame {
         return formattedTime;
     }
     
-    // Convert sql.Time to String but only get the Minutes
-    
     public String sqlTimeMin(java.sql.Time sqlTime)
     {
         java.sql.Time sqlDepartTime = sqlTime;
@@ -551,8 +545,6 @@ public class AddRoute extends javax.swing.JFrame {
         
         return formattedTime;
     }
-    
-    // Convert string time to sql.Time
 
     public Time stringTimeToSqlTime(String sTime)
     {
