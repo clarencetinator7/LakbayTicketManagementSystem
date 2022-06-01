@@ -44,6 +44,8 @@ public class AddRoute extends javax.swing.JFrame {
         fetch();
         populateComboBox();
         setId();
+        
+        
     }
    
     /**
@@ -151,6 +153,11 @@ public class AddRoute extends javax.swing.JFrame {
         fareField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fareFieldActionPerformed(evt);
+            }
+        });
+        fareField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                fareFieldKeyTyped(evt);
             }
         });
 
@@ -333,17 +340,17 @@ public class AddRoute extends javax.swing.JFrame {
 
         routeTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Route ID", "Starting Point", "Destination", "Departure Time", "ETA", "Fare Amount", "Bookings", "Assigned Bus"
+                "Route ID", "Starting Point", "Destination", "Departure Time", "ETA", "Fare Amount", "Assigned Bus"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -359,7 +366,6 @@ public class AddRoute extends javax.swing.JFrame {
             routeTable.getColumnModel().getColumn(4).setResizable(false);
             routeTable.getColumnModel().getColumn(5).setResizable(false);
             routeTable.getColumnModel().getColumn(6).setResizable(false);
-            routeTable.getColumnModel().getColumn(7).setResizable(false);
         }
 
         deletesSelectedBtn.setBackground(new java.awt.Color(255, 159, 28));
@@ -646,14 +652,19 @@ public class AddRoute extends javax.swing.JFrame {
                 // TODO:
                 // see if the current id existed;
                 String id = rs.getString("bus_id");
-                outerloop:
-                for(int i = 0; i < existingId.size(); i++)
-                {
-                    
-                    if (!existingId.contains(id)) {
-                        assignedBusField.addItem(id);
-                        break outerloop;
+                if (existingId.size() != 0) {
+                    outerloop:
+                    for (int i = 0; i < existingId.size(); i++) {
+
+                        if (!existingId.contains(id)) {
+                            assignedBusField.addItem(id);
+                            break outerloop;
+                        }
                     }
+                }
+                else
+                {
+                    assignedBusField.addItem(id);
                 }
                 
             }
@@ -863,6 +874,7 @@ public class AddRoute extends javax.swing.JFrame {
             
             insertRecord();
             clearFields();
+            populateComboBox();
             
         }
         else if(isFieldEmpty())
@@ -995,6 +1007,15 @@ public class AddRoute extends javax.swing.JFrame {
         hp.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_backBtnActionPerformed
+
+    private void fareFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fareFieldKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if(!Character.isDigit(c))
+        {
+            evt.consume();
+        }
+    }//GEN-LAST:event_fareFieldKeyTyped
 
     /**
      * @param args the command line arguments

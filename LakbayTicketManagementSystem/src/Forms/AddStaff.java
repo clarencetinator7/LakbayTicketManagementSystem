@@ -4,6 +4,7 @@
  */
 package Forms;
 
+import UtilityClasses.JTextFieldCharLimit;
 import UtilityClasses.SQLBasic;
 import UtilityClasses.Staff;
 
@@ -44,6 +45,10 @@ public class AddStaff extends javax.swing.JFrame {
         String countFormated = String.format("%03d", countRec(currentSelected) + 1);
         
         setStaffID("CS");
+        
+        userName.setDocument(new JTextFieldCharLimit(6));
+        passField.setDocument(new JTextFieldCharLimit(6));
+        contactNoField.setDocument(new JTextFieldCharLimit(11));
         
     }
     // Connect database code
@@ -706,7 +711,7 @@ public class AddStaff extends javax.swing.JFrame {
     
     public boolean isFieldsEmpty()
     {
-        if(staffIdField.getText().isEmpty() || firstNameField.getText().isEmpty() || middleNameField.getText().isEmpty() || lastNameField.getText().isEmpty() || contactNoField.getText().isEmpty() || emailField.getText().isEmpty() || 
+        if(staffIdField.getText().isEmpty() || firstNameField.getText().isEmpty() || lastNameField.getText().isEmpty() || contactNoField.getText().isEmpty() || emailField.getText().isEmpty() || 
                 userName.getText().isEmpty() || String.valueOf(passField.getPassword()).isEmpty() || String.valueOf(conPassField.getPassword()).isEmpty())
         {
             System.out.println("Incomplete INPUT");

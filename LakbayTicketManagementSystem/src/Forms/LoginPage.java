@@ -4,6 +4,8 @@
  */
 package Forms;
 
+import UtilityClasses.JTextFieldCharLimit;
+
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
@@ -33,6 +35,8 @@ public class LoginPage extends javax.swing.JFrame {
      */
     public LoginPage() {
         initComponents();
+        userField.setDocument(new JTextFieldCharLimit(6));
+        passField.setDocument(new JTextFieldCharLimit(6));
     }
 
     /**
@@ -167,7 +171,7 @@ public class LoginPage extends javax.swing.JFrame {
            con = DriverManager.getConnection(url1, user, password);
            if(con != null)
            {
-               System.out.println("Connected to the database.");
+               //System.out.println("Connected to the database.");
            }
            
         } catch (SQLException ex) {
@@ -187,11 +191,19 @@ public class LoginPage extends javax.swing.JFrame {
                 String uname = rs.getString("user_name");
                 String pword = rs.getString("pass_word");
                 String fname = rs.getString("staff_id");
+                int attempts = rs.getInt("login_attempt_count");
                 
                 if(u.equals(uname) && p.equals(pword))
                 {
-                    close();
-                    return true;
+                    
+                    
+                    if (attempts <= 3) {
+                        
+                        close();
+                        return true;
+                        
+                    }
+                    
                 }
                             
             }
@@ -201,6 +213,63 @@ public class LoginPage extends javax.swing.JFrame {
             Logger.getLogger(LoginPage.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
+    }
+    
+    public void updateAttempt(int newNum, String u)
+    {
+        
+        try {
+            sqlConnect();
+            String query = "UPDATE staff SET "
+                    + "login_attempt_count = ? "
+                    + "WHERE user_name = ?";
+
+            ps = con.prepareStatement(query);
+            
+            ps.setInt(1, newNum);
+            ps.setString(2, u);
+            
+            int k = ps.executeUpdate();
+            
+            if(k==1)
+            {
+                System.out.println("Login Attempt Updated " + newNum);
+            }
+            else{
+                System.out.println("Failed to attempt.");
+            }
+               
+            
+        } catch (Exception e) {
+            System.out.println("may error update: " + e);
+        }    
+        
+    }
+    
+    public int getAttempt(String u)
+    {
+        
+        
+        String query = 
+                "SELECT login_attempt_count FROM staff WHERE user_name = ?";
+        
+        try {
+            sqlConnect();
+            ps = con.prepareStatement(query);
+            ps.setString(1, u);
+            rs = ps.executeQuery();
+            
+            while(rs.next())
+            {    
+                int attemptCount = rs.getInt("login_attempt_count");
+                return attemptCount;
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginPage.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return 0;
     }
 
     // Retrieve Dataa
@@ -229,6 +298,11 @@ public class LoginPage extends javax.swing.JFrame {
         return fName;
     }
     
+    public void clearFields()
+    {
+        userField.setText("");
+        passField.setText("");
+    }
     
     
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -260,13 +334,32 @@ public class LoginPage extends javax.swing.JFrame {
             
             HomePage hp = new HomePage();
             hp.setVisible(true);
+            
+            clearFields();
         }
         else if(!Login(username, password))
         {
-          JOptionPane.showMessageDialog(rootPane, "Please double check your details or\n"
-                  + "contact the administrator.",
-                  "Account not found.", 
-                  JOptionPane.ERROR_MESSAGE);
+            int newLoginAttemptCount = getAttempt(username) + 1;
+            
+            if (newLoginAttemptCount < 4) {
+                
+                JOptionPane.showMessageDialog(rootPane, "Please double check your details or\n"
+                    + "contact the administrator.",
+                    "Login error.",
+                    JOptionPane.ERROR_MESSAGE);
+                updateAttempt(newLoginAttemptCount, username);
+                
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(rootPane, "Your account is blocked. Contact your admin to reset your account",
+                    "Login error.",
+                    JOptionPane.ERROR_MESSAGE);
+            }
+            
+
+            clearFields();
+
         }
  
     }//GEN-LAST:event_jButton1ActionPerformed

@@ -660,8 +660,8 @@ public class HomePage extends javax.swing.JFrame {
         else
         {
             this.setVisible(false);
-            AdminPage ap = new AdminPage();
-            ap.setVisible(true); 
+            AddRoute ar = new AddRoute();
+            ar.setVisible(true); 
         }
         
     }//GEN-LAST:event_addRoutesBtnActionPerformed

@@ -6,6 +6,7 @@ package Forms;
 
 import UtilityClasses.Bus;
 import UtilityClasses.Driver;
+import UtilityClasses.JTextFieldCharLimit;
 
 
 import com.formdev.flatlaf.FlatIntelliJLaf;
@@ -39,6 +40,8 @@ public class AddBus extends javax.swing.JFrame {
         fetch();
         setId();
         populateComboBox();
+        
+        busPtNoField.setDocument(new JTextFieldCharLimit(7));
         
     }
 
@@ -131,6 +134,16 @@ public class AddBus extends javax.swing.JFrame {
         busCapacityField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         busCapacityField.setToolTipText("HELLO");
         busCapacityField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Capacity", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
+        busCapacityField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                busCapacityFieldActionPerformed(evt);
+            }
+        });
+        busCapacityField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                busCapacityFieldKeyTyped(evt);
+            }
+        });
 
         busIdField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         busIdField.setToolTipText("HELLO");
@@ -244,7 +257,6 @@ public class AddBus extends javax.swing.JFrame {
         editSelectedBtn.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
         editSelectedBtn.setForeground(new java.awt.Color(255, 255, 255));
         editSelectedBtn.setText("Edit Selected");
-        editSelectedBtn.setActionCommand("Edit Selected");
         editSelectedBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 159, 28), 1, true));
         editSelectedBtn.setPreferredSize(new java.awt.Dimension(104, 39));
         editSelectedBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -447,6 +459,7 @@ public class AddBus extends javax.swing.JFrame {
     
     public void clearFields()
     {
+        setId();
         busIdField.setText("");
         busPtNoField.setText("");
         busCapacityField.setText("");
@@ -497,14 +510,20 @@ public class AddBus extends javax.swing.JFrame {
                 // TODO:
                 // see if the current id existed;
                 String id = rs.getString("driver_id");
-                outerloop:
-                for(int i = 0; i < existingId.size(); i++)
+                if(existingId.size() != 0)
                 {
-                    
-                    if (!existingId.contains(id)) {
-                        assignedDriverField.addItem(id);
-                        break outerloop;
+                    outerloop:
+                    for (int i = 0; i < existingId.size(); i++) {
+
+                        if (!existingId.contains(id)) {
+                            assignedDriverField.addItem(id);
+                            break outerloop;
+                        }
                     }
+                }
+                else
+                {
+                    assignedDriverField.addItem(id);
                 }
                 
  
@@ -754,6 +773,7 @@ public class AddBus extends javax.swing.JFrame {
         if (!isFieldEmpty()) {
             insertRecord();
             clearFields();
+            setId();
             populateComboBox();
         }
         else if(isFieldEmpty())
@@ -879,6 +899,19 @@ public class AddBus extends javax.swing.JFrame {
         hp.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_backBtnActionPerformed
+
+    private void busCapacityFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_busCapacityFieldActionPerformed
+        // TODO add your handling code here:
+        
+        
+    }//GEN-LAST:event_busCapacityFieldActionPerformed
+
+    private void busCapacityFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_busCapacityFieldKeyTyped
+        char c = evt.getKeyChar();
+        if (!Character.isDigit(c)) {
+            evt.consume();
+        }   
+    }//GEN-LAST:event_busCapacityFieldKeyTyped
 
     /**
      * @param args the command line arguments

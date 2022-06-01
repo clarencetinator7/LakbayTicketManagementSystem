@@ -5,6 +5,7 @@
 package Forms;
 
 import UtilityClasses.BookingDetails;
+import UtilityClasses.JTextFieldCharLimit;
 import UtilityClasses.Passenger;
 import UtilityClasses.Person;
 import UtilityClasses.StaticVar;
@@ -37,6 +38,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
@@ -59,6 +61,8 @@ public class AddTicket extends javax.swing.JFrame {
         fetch();
         setNo();
         setId();
+        
+        contactNoField.setDocument(new JTextFieldCharLimit(11));
     }
 
     /**
@@ -176,6 +180,16 @@ public class AddTicket extends javax.swing.JFrame {
         contactNoField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         contactNoField.setToolTipText("HELLO");
         contactNoField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Contact No.", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
+        contactNoField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                contactNoFieldActionPerformed(evt);
+            }
+        });
+        contactNoField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                contactNoFieldKeyTyped(evt);
+            }
+        });
 
         passengerNoField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         passengerNoField.setToolTipText("HELLO");
@@ -614,10 +628,12 @@ public class AddTicket extends javax.swing.JFrame {
         emailField.setText("");
         seatsField.setText("");
         discountField.setSelectedIndex(0);
-        
+        fareAmtTxt.setText("P000.00");
+        totalSeatsTxt.setText("0");
+        discountTxt.setText("none");
+        totalAmtTxt.setText("P000.00");
         setId();
         setNo();
-        
     }
     
     public float discountPercent(int i)
@@ -945,7 +961,7 @@ public class AddTicket extends javax.swing.JFrame {
                 
             }else
             {
-                //JOptionPane.showMessageDialog(this, "Record is not added");
+                JOptionPane.showMessageDialog(this, "Record is not added");
                 return false;
             } 
     
@@ -968,7 +984,10 @@ public class AddTicket extends javax.swing.JFrame {
                 JasperReport ireport = JasperCompileManager.compileReport(jdesign);
                 JasperPrint jprint = JasperFillManager.fillReport(ireport, m, con);
                 
-                JasperViewer.viewReport(jprint);
+                //JasperViewer.viewReport(jprint);
+                
+                //TO PRINT IMMEDIATELY
+                JasperPrintManager.printReport(jprint, false);
                 
             } catch (JRException ex) {
                 Logger.getLogger(AddTicket.class.getName()).log(Level.SEVERE, null, ex);
@@ -996,6 +1015,15 @@ public class AddTicket extends javax.swing.JFrame {
                     String lastInsertRoute = routeField.getSelectedItem().toString();
                     printInvoice(lastInsertTicket, lastInsertRoute); 
                     
+                    computeBtn.setEnabled(true);
+                    addTicketsBtn.setEnabled(false);
+                    seatsField.setEnabled(true);
+                    routeField.setEnabled(true);
+                    discountField.setEnabled(true);
+                    isComputing = false;
+
+                    clearFields();
+
                 }
             }
             
@@ -1005,17 +1033,11 @@ public class AddTicket extends javax.swing.JFrame {
             
             //System.out.println(selectPassengerID(firstNameField.getText()));
             
-            addTicketsBtn.setEnabled(false);
-            seatsField.setEnabled(true);
-            routeField.setEnabled(true);
-            discountField.setEnabled(true);
-            isComputing = false;
             
-            clearFields();
         }
         else
         {
-            //complete the forms
+            warningTxt.setText("Make sure to fill all required spaces.");
         }
       
     }//GEN-LAST:event_addTicketsBtnActionPerformed
@@ -1051,25 +1073,32 @@ public class AddTicket extends javax.swing.JFrame {
     private void computeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_computeBtnActionPerformed
         // TODO add your handling code here:
         
-        isComputing = true;
+        if (!isFieldempty()) {
+            isComputing = true;
+
+            computeBtn.setEnabled(false);
+
+            fareAmtTxt.setText(String.valueOf(getFareAmt(routeField.getSelectedItem().toString())));
+            int noOfSeats = Integer.parseInt(seatsField.getText());
+            float routeFare = Float.valueOf(fareAmtTxt.getText());
+
+            BookingDetails bd = new BookingDetails(noOfSeats, routeFare, discountPercent(discountField.getSelectedIndex()));
+
+            fareAmtTxt.setText(String.valueOf(df.format(routeFare)));
+            totalSeatsTxt.setText(String.valueOf(noOfSeats));
+            totalAmtTxt.setText(String.valueOf(df.format(bd.computeAll())));
+            discountTxt.setText(String.valueOf(df.format(bd.computeDiscount())));
+
+            addTicketsBtn.setEnabled(true);
+            seatsField.setEnabled(false);
+            routeField.setEnabled(false);
+            discountField.setEnabled(false);
+        }
         
-        computeBtn.setEnabled(false);
-        
-        fareAmtTxt.setText(String.valueOf(getFareAmt(routeField.getSelectedItem().toString())));
-        int noOfSeats = Integer.parseInt(seatsField.getText());
-        float routeFare = Float.valueOf(fareAmtTxt.getText());
-        
-        BookingDetails bd = new BookingDetails(noOfSeats, routeFare, discountPercent(discountField.getSelectedIndex()));
-        
-        fareAmtTxt.setText(String.valueOf(df.format(routeFare)));
-        totalSeatsTxt.setText(String.valueOf(noOfSeats));
-        totalAmtTxt.setText(String.valueOf(df.format(bd.computeAll())));
-        discountTxt.setText(String.valueOf(df.format(bd.computeDiscount())));   
-        
-        addTicketsBtn.setEnabled(true);
-        seatsField.setEnabled(false);
-        routeField.setEnabled(false);
-        discountField.setEnabled(false);
+        else
+        {
+            warningTxt.setText("Make sure to fill all required spaces.");
+        }
     }//GEN-LAST:event_computeBtnActionPerformed
 
     private void routeFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_routeFieldActionPerformed
@@ -1090,6 +1119,19 @@ public class AddTicket extends javax.swing.JFrame {
         hp.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_backBtnActionPerformed
+
+    private void contactNoFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contactNoFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_contactNoFieldActionPerformed
+
+    private void contactNoFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_contactNoFieldKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if(!Character.isDigit(c))
+        {
+            evt.consume();
+        }
+    }//GEN-LAST:event_contactNoFieldKeyTyped
 
     /**
      * @param args the command line arguments
