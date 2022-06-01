@@ -17,6 +17,8 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import UtilityClasses.StaticVar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -29,7 +31,15 @@ public class HomePage extends javax.swing.JFrame {
      */
     public HomePage() {
         initComponents();
-        userTxt.setText(StaticVar.userId);     
+        userTxt.setText(StaticVar.userId);   
+        
+        sqlConnect();
+        
+        noTickets.setText(String.valueOf(countRec("ticket")));
+        noRoutes.setText(String.valueOf(countRec("travel_route")));
+        noDrivers.setText(String.valueOf(countRec("driver")));
+        noBuses.setText(String.valueOf(countRec("bus")));
+        
     }
     
     String userName;
@@ -85,6 +95,7 @@ public class HomePage extends javax.swing.JFrame {
         menuPanel = new javax.swing.JPanel();
         homeBtn = new javax.swing.JButton();
         admBtn = new javax.swing.JButton();
+        admBtn1 = new javax.swing.JButton();
         overviewPanel = new javax.swing.JPanel();
         noTickets = new javax.swing.JLabel();
         ttlTickets = new javax.swing.JLabel();
@@ -94,7 +105,7 @@ public class HomePage extends javax.swing.JFrame {
         ttlBuses = new javax.swing.JLabel();
         tIxIcon = new javax.swing.JLabel();
         tIxIcon1 = new javax.swing.JLabel();
-        noBuses1 = new javax.swing.JLabel();
+        noDrivers = new javax.swing.JLabel();
         ttlBuses1 = new javax.swing.JLabel();
         tIxIcon2 = new javax.swing.JLabel();
         tIxIcon3 = new javax.swing.JLabel();
@@ -153,12 +164,26 @@ public class HomePage extends javax.swing.JFrame {
             }
         });
 
+        admBtn1.setFont(new java.awt.Font("Open Sans", 1, 16)); // NOI18N
+        admBtn1.setForeground(new java.awt.Color(102, 102, 102));
+        admBtn1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Icons/logout-24x24.png"))); // NOI18N
+        admBtn1.setText("LOGOUT");
+        admBtn1.setToolTipText("");
+        admBtn1.setBorder(null);
+        admBtn1.setPreferredSize(new java.awt.Dimension(104, 39));
+        admBtn1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                admBtn1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout menuPanelLayout = new javax.swing.GroupLayout(menuPanel);
         menuPanel.setLayout(menuPanelLayout);
         menuPanelLayout.setHorizontalGroup(
             menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(homeBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(admBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
+            .addComponent(admBtn1, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
         );
         menuPanelLayout.setVerticalGroup(
             menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -167,7 +192,9 @@ public class HomePage extends javax.swing.JFrame {
                 .addComponent(homeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(admBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(433, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 388, Short.MAX_VALUE)
+                .addComponent(admBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         overviewPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -205,9 +232,9 @@ public class HomePage extends javax.swing.JFrame {
         tIxIcon1.setForeground(new java.awt.Color(85, 85, 85));
         tIxIcon1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Icons/driver-64x64.png"))); // NOI18N
 
-        noBuses1.setFont(new java.awt.Font("Open Sans", 1, 23)); // NOI18N
-        noBuses1.setForeground(new java.awt.Color(255, 159, 28));
-        noBuses1.setText("000");
+        noDrivers.setFont(new java.awt.Font("Open Sans", 1, 23)); // NOI18N
+        noDrivers.setForeground(new java.awt.Color(255, 159, 28));
+        noDrivers.setText("000");
 
         ttlBuses1.setFont(new java.awt.Font("Open Sans", 0, 15)); // NOI18N
         ttlBuses1.setForeground(new java.awt.Color(85, 85, 85));
@@ -243,7 +270,7 @@ public class HomePage extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(overviewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(ttlBuses1)
-                    .addComponent(noBuses1))
+                    .addComponent(noDrivers))
                 .addGap(77, 77, 77)
                 .addComponent(tIxIcon3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -276,7 +303,7 @@ public class HomePage extends javax.swing.JFrame {
                         .addGroup(overviewPanelLayout.createSequentialGroup()
                             .addComponent(ttlBuses1)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(noBuses1)))
+                            .addComponent(noDrivers)))
                     .addComponent(tIxIcon2))
                 .addContainerGap(24, Short.MAX_VALUE))
         );
@@ -559,15 +586,34 @@ public class HomePage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     
+    public int countRec(String tbname)
+    {
+        String query = "SELECT count(*) FROM " + tbname;
+        
+        try {
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
+            
+            rs.next();
+            return rs.getInt(1);
+            
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(AddStaff.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return 0;
+    }
     
     
     //REGION - button events
     
     private void addTicketsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addTicketsBtnActionPerformed
         // TODO add your handling code here:
-        this.setVisible(false);
-        AddTicket tx = new AddTicket();
-        tx.setVisible(true);
+            this.setVisible(false);
+            AddTicket tx = new AddTicket();
+            tx.setVisible(true);     
     }//GEN-LAST:event_addTicketsBtnActionPerformed
 
     private void viewTicketsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewTicketsBtnActionPerformed
@@ -576,23 +622,48 @@ public class HomePage extends javax.swing.JFrame {
 
     private void addBusBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBusBtnActionPerformed
         // TODO add your handling code here:
-        this.setVisible(false);
-        AddBus ab = new AddBus();
-        ab.setVisible(true);
+        
+        
+        if (StaticVar.privilege.equals("Cashier")) {
+            JOptionPane.showMessageDialog(rootPane, "Only admins and managers have access to this feature.", "Access Error", JOptionPane.ERROR_MESSAGE);
+        }
+        else
+        {
+            this.setVisible(false);
+            AddBus ab = new AddBus();
+            ab.setVisible(true);
+        }
     }//GEN-LAST:event_addBusBtnActionPerformed
 
     private void addDriversBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDriversBtnActionPerformed
         // TODO add your handling code here:
-        this.setVisible(false);
-        AddDriver ad = new AddDriver();
-        ad.setVisible(true);
+        
+        
+        if (StaticVar.privilege.equals("Cashier")) {
+            JOptionPane.showMessageDialog(rootPane, "Only admins and managers have access to this feature.", "Access Error", JOptionPane.ERROR_MESSAGE);
+        }
+        else
+        {
+            this.setVisible(false);
+            AddDriver ad = new AddDriver();
+            ad.setVisible(true); 
+        }
+        
     }//GEN-LAST:event_addDriversBtnActionPerformed
 
     private void addRoutesBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addRoutesBtnActionPerformed
         // TODO add your handling code here:
-        this.setVisible(false);
-        AddRoute ar = new AddRoute();
-        ar.setVisible(true);
+        
+        if (StaticVar.privilege.equals("Cashier")) {
+            JOptionPane.showMessageDialog(rootPane, "Only admins and managers have access to this feature.", "Access Error", JOptionPane.ERROR_MESSAGE);
+        }
+        else
+        {
+            this.setVisible(false);
+            AdminPage ap = new AdminPage();
+            ap.setVisible(true); 
+        }
+        
     }//GEN-LAST:event_addRoutesBtnActionPerformed
 
     private void homeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeBtnActionPerformed
@@ -613,6 +684,16 @@ public class HomePage extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_admBtnActionPerformed
+
+    private void admBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_admBtn1ActionPerformed
+        // TODO add your handling code here:
+        StaticVar.privilege = "";
+        StaticVar.userName = "";
+        StaticVar.userId = "";
+        this.setVisible(false);
+        LoginPage lp = new LoginPage();
+        lp.setVisible(true);
+    }//GEN-LAST:event_admBtn1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -643,6 +724,7 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JButton addRoutesBtn;
     private javax.swing.JButton addTicketsBtn;
     private javax.swing.JButton admBtn;
+    private javax.swing.JButton admBtn1;
     private javax.swing.JLabel busDesc;
     private javax.swing.JPanel busPanel;
     private javax.swing.JPanel busPanel1;
@@ -651,7 +733,7 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JButton homeBtn;
     private javax.swing.JPanel menuPanel;
     private javax.swing.JLabel noBuses;
-    private javax.swing.JLabel noBuses1;
+    private javax.swing.JLabel noDrivers;
     private javax.swing.JLabel noRoutes;
     private javax.swing.JLabel noTickets;
     private javax.swing.JPanel overviewPanel;

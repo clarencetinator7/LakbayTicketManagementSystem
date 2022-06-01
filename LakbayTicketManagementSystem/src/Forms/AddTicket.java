@@ -29,6 +29,7 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
@@ -56,6 +57,8 @@ public class AddTicket extends javax.swing.JFrame {
         sqlConnect();
         populateComboBox();
         fetch();
+        setNo();
+        setId();
     }
 
     /**
@@ -177,6 +180,7 @@ public class AddTicket extends javax.swing.JFrame {
         passengerNoField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         passengerNoField.setToolTipText("HELLO");
         passengerNoField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Passenger No.", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
+        passengerNoField.setEnabled(false);
 
         javax.swing.GroupLayout passengerDetailsPanelLayout = new javax.swing.GroupLayout(passengerDetailsPanel);
         passengerDetailsPanel.setLayout(passengerDetailsPanelLayout);
@@ -186,13 +190,12 @@ public class AddTicket extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(passengerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(passengerNoField, javax.swing.GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE)
-                    .addGroup(passengerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(emailField, javax.swing.GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE)
-                        .addComponent(contactNoField, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(lastNameField, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(firstNameField, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(ovrvwTxt, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(middleNameField, javax.swing.GroupLayout.Alignment.LEADING)))
+                    .addComponent(emailField, javax.swing.GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE)
+                    .addComponent(contactNoField, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lastNameField, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(firstNameField, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ovrvwTxt, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(middleNameField, javax.swing.GroupLayout.Alignment.LEADING))
                 .addContainerGap(17, Short.MAX_VALUE))
         );
         passengerDetailsPanelLayout.setVerticalGroup(
@@ -556,6 +559,7 @@ public class AddTicket extends javax.swing.JFrame {
     //STATIC VAR
     private static final DecimalFormat df = new DecimalFormat("0.00");
     private static boolean isComputing;
+    public static String ticketNo;
     
     
     // REGION - sql connection
@@ -611,6 +615,9 @@ public class AddTicket extends javax.swing.JFrame {
         seatsField.setText("");
         discountField.setSelectedIndex(0);
         
+        setId();
+        setNo();
+        
     }
     
     public float discountPercent(int i)
@@ -652,15 +659,90 @@ public class AddTicket extends javax.swing.JFrame {
             
         }
     }
-    
-    /*public String getDateNow()
+
+    public boolean isSameNo(String id)
     {
-         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");  
-         LocalDateTime now = LocalDateTime.now();  
+        try {
+            String query = "SELECT * FROM passenger WHERE passenger_no = ?";
+            
+            ps = con.prepareStatement(query);
+            ps.setString(1, id);
+            
+            rs = ps.executeQuery();
+            
+            while(rs.next())
+            {
+                String idc = rs.getString("passenger_no");
+                
+                if(idc.equals(id))
+                {
+                  return true;
+                }
+                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AddDriver.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
-         
-         return dtf.format(now);   
-    } */
+        return false;
+    }
+    
+    public void setNo()
+    {
+        int id = 1;
+        String initFormat = String.format("1%05d", id);
+        String initDrvId = initFormat;
+
+        while (isSameNo(initDrvId)) {
+            id++;
+            initDrvId = String.format("1%05d", id);
+        }
+
+        passengerNoField.setText(initDrvId);
+    }
+    
+    public boolean isSameId(String id)
+    {
+        try {
+            String query = "SELECT * FROM ticket WHERE ticket_no = ?";
+            
+            ps = con.prepareStatement(query);
+            ps.setString(1, id);
+            
+            rs = ps.executeQuery();
+            
+            while(rs.next())
+            {
+                String idc = rs.getString("ticket_no");
+                
+                if(idc.equals(id))
+                {
+                  return true;
+                }
+                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AddDriver.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return false;
+    }
+    
+    public void setId()
+    {
+        int id = 1;
+        String initFormat = String.format("1%05d", id);
+        String initDrvId = initFormat;
+
+        while (isSameNo(initDrvId)) {
+            id++;
+            initDrvId = String.format("1%05d", id);
+        }
+
+        ticketNo = initDrvId;
+        System.out.println(ticketNo);
+    }
+    
     
     public Date dateNow()
     {
@@ -772,7 +854,7 @@ public class AddTicket extends javax.swing.JFrame {
         
     }
     
-    public void insertRecord()
+    public boolean insertRecord()
     {
         sqlConnect();
         
@@ -806,11 +888,12 @@ public class AddTicket extends javax.swing.JFrame {
            
            if (k == 1) {
                 System.out.println("pasok si passenger");
-                //fetch();
+                return true;
                 
             }else
             {
                 System.out.println("di pasok si passenger");
+                return false;
             } 
            
            //ps.close();
@@ -820,10 +903,10 @@ public class AddTicket extends javax.swing.JFrame {
             System.out.println("Error in inserting passenger: " + e);
         }
         
-        
+        return false;
     }
     
-    public void insertTicket()
+    public boolean insertTicket()
     {
         try {
             String query = "INSERT INTO ticket "
@@ -832,7 +915,7 @@ public class AddTicket extends javax.swing.JFrame {
             
             Ticket tx = new Ticket();
             
-            tx.setTicketNo(passengerNoField.getText());
+            tx.setTicketNo(ticketNo);
             tx.setNoOfSeats(Integer.parseInt(seatsField.getText()));
             tx.setFareAmount(Float.valueOf(fareAmtTxt.getText()));
             tx.setTotalAmount(Float.valueOf(totalAmtTxt.getText()));
@@ -857,46 +940,20 @@ public class AddTicket extends javax.swing.JFrame {
             int k = ps.executeUpdate();
            
            if (k == 1) {
-                JOptionPane.showMessageDialog(this, "Record Added Successfuly");
-                //fetch();
+                //JOptionPane.showMessageDialog(this, "Record Added Successfuly");
+                return true;
                 
             }else
             {
-                JOptionPane.showMessageDialog(this, "Record is not added");
+                //JOptionPane.showMessageDialog(this, "Record is not added");
+                return false;
             } 
     
         } catch (Exception e) {
             System.out.println("Error in inserting ticket: " + e);
         }
-    }
-    
-    /*
-    public boolean selectPassengerID(String pk)
-    {
-        try {
-            
-            String query = "SELECT passenger_no FROM passenger WHERE first_name = ?";
-            
-            ps = con.prepareStatement(query);
-            ps.setString(1, pk);
-            
-            rs = ps.executeQuery();
-            
-            while(rs.next())
-            {    
-                System.out.println(rs.getString("passenger_no"));
-                return true;
-            }
-            
-            
-            
-        } catch (Exception e) {
-            System.out.println("Error in: " + e);
-        }
-        
         return false;
     }
-    */
     
     public void printInvoice(String ticket, String route)
     {
@@ -927,13 +984,23 @@ public class AddTicket extends javax.swing.JFrame {
         
         if (!isFieldempty()) {
             // proceed
-            insertRecord();
-            insertTicket();
+            //insertRecord();
+            //insertTicket();
             
-            String lastInsertTicket = passengerNoField.getText();
-            String lastInsertRoute = routeField.getSelectedItem().toString();
+            if (insertRecord()) {
+                
+                if (insertTicket()) {
+                   
+                    JOptionPane.showMessageDialog(this, "Record Added Successfuly \n Printing Ticket...");
+                    String lastInsertTicket = passengerNoField.getText();
+                    String lastInsertRoute = routeField.getSelectedItem().toString();
+                    printInvoice(lastInsertTicket, lastInsertRoute); 
+                    
+                }
+            }
             
-            printInvoice(lastInsertTicket, lastInsertRoute);
+            
+            
             
             
             //System.out.println(selectPassengerID(firstNameField.getText()));
@@ -944,11 +1011,7 @@ public class AddTicket extends javax.swing.JFrame {
             discountField.setEnabled(true);
             isComputing = false;
             
-            /*
-            TODO:
-                PRINT TICKET USING REPORTS.
-            */
-            
+            clearFields();
         }
         else
         {
@@ -989,6 +1052,8 @@ public class AddTicket extends javax.swing.JFrame {
         // TODO add your handling code here:
         
         isComputing = true;
+        
+        computeBtn.setEnabled(false);
         
         fareAmtTxt.setText(String.valueOf(getFareAmt(routeField.getSelectedItem().toString())));
         int noOfSeats = Integer.parseInt(seatsField.getText());

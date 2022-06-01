@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="360" pageHeight="136" columnWidth="346" leftMargin="7" rightMargin="7" topMargin="7" bottomMargin="0" uuid="91f33a23-b222-4501-943f-ccb68fa8a6f9">
 	<property name="ireport.zoom" value="4.177248169415659"/>
-	<property name="ireport.x" value="54"/>
+	<property name="ireport.x" value="27"/>
 	<property name="ireport.y" value="54"/>
 	<parameter name="routeid" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -74,7 +74,7 @@ travel_route.route_id = $P{routeid};]]>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement x="88" y="6" width="73" height="17" forecolor="#FFFFFF" uuid="e3a6f2de-d5ba-478d-87b7-0b7e9040c028"/>
+				<reportElement x="88" y="4" width="73" height="17" forecolor="#FFFFFF" uuid="e3a6f2de-d5ba-478d-87b7-0b7e9040c028"/>
 				<textElement>
 					<font fontName="Akira Expanded" size="12"/>
 				</textElement>
@@ -261,12 +261,6 @@ travel_route.route_id = $P{routeid};]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{no_of_seats}]]></textFieldExpression>
 			</textField>
-			<componentElement>
-				<reportElement x="252" y="101" width="68" height="23" uuid="349954b7-e3a2-42d4-a65d-d59a6c8afb6d"/>
-				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="Code39" drawText="false" checksumRequired="false">
-					<jr:codeExpression><![CDATA["1234"]]></jr:codeExpression>
-				</jr:barbecue>
-			</componentElement>
 			<staticText>
 				<reportElement x="8" y="98" width="66" height="10" forecolor="#666666" uuid="fd0fa3f9-d993-4816-a9b9-7b3c5c5b2c2d"/>
 				<textElement>
@@ -280,6 +274,20 @@ travel_route.route_id = $P{routeid};]]>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{bus_id}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="254" y="98" width="51" height="9" forecolor="#666666" uuid="a9b10691-2484-4525-87d3-904bfad51fc8"/>
+				<textElement>
+					<font fontName="Consolas" size="7"/>
+				</textElement>
+				<text><![CDATA[Date Booked]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="254" y="108" width="69" height="12" uuid="19ee634b-61e5-4cab-af70-9454ac7447de"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{date_of_booking}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

@@ -520,6 +520,7 @@ public class AddRoute extends javax.swing.JFrame {
         fareField.setText("");
         routeIdField.setText("");
         //warningTxt.setText("");
+        setId();
     }
     
     // Convert sql.Time to String
@@ -586,7 +587,6 @@ public class AddRoute extends javax.swing.JFrame {
                     v2.add(sqlTimeToString(rs.getTime("departure_time")));
                     v2.add(sqlTimeToString(rs.getTime("estimated_time_arrival")));
                     v2.add(rs.getFloat("fare_amount"));
-                    v2.add(rs.getInt("bookings_count"));
                     v2.add(rs.getString("bus_id"));
                 }
                 df.addRow(v2);
@@ -727,8 +727,8 @@ public class AddRoute extends javax.swing.JFrame {
             r.setBusid(assignedBusField.getSelectedItem().toString());
             
             String query = "INSERT INTO travel_route"
-                    + "(route_id, starting_point, destination, departure_time, estimated_time_arrival, fare_amount, bookings_count, bus_id) VALUES "
-                    + "(?,?,?,?,?,?,?,?)";
+                    + "(route_id, starting_point, destination, departure_time, estimated_time_arrival, fare_amount, bus_id) VALUES "
+                    + "(?,?,?,?,?,?,?)";
             
             
             ps = con.prepareStatement(query);
@@ -739,8 +739,7 @@ public class AddRoute extends javax.swing.JFrame {
             ps.setTime(4, stringTimeToSqlTime(r.getDepartureTime()));
             ps.setTime(5, stringTimeToSqlTime(r.getETA()));
             ps.setFloat(6, r.getFare_amount());
-            ps.setInt(7, r.getBookings_count());
-            ps.setString(8, r.getBusid());
+            ps.setString(7, r.getBusid());
             
             int k = ps.executeUpdate();
             
