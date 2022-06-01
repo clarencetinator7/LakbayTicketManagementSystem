@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="360" pageHeight="136" columnWidth="346" leftMargin="7" rightMargin="7" topMargin="7" bottomMargin="0" uuid="91f33a23-b222-4501-943f-ccb68fa8a6f9">
+	<property name="ireport.zoom" value="4.177248169415659"/>
+	<property name="ireport.x" value="54"/>
+	<property name="ireport.y" value="54"/>
+	<parameter name="routeid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ticketno" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+ticket.ticket_no,
+ticket.no_of_seats,
+ticket.fare_amount,
+ticket.total_amount,
+DATE_FORMAT(ticket.date_of_booking, "%M %d, %Y") as date_of_booking,
+TIME_FORMAT(ticket.departure_time, "%H:%i") as departure_time,
+ticket.passenger_no,
+ticket.route_id,
+ticket.staff_id,
+travel_route.route_id,
+travel_route.starting_point,
+travel_route.destination,
+travel_route.bus_id
+FROM
+ticket INNER JOIN travel_route ON ticket.route_id = travel_route.route_id
+WHERE
+ticket.ticket_no = $P{ticketno} and
+travel_route.route_id = $P{routeid};]]>
+	</queryString>
+	<field name="ticket_no" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="no_of_seats" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fare_amount" class="java.lang.Float">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="total_amount" class="java.lang.Float">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="date_of_booking" class="java.lang.String"/>
+	<field name="departure_time" class="java.lang.String"/>
+	<field name="passenger_no" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="route_id" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="staff_id" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="starting_point" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="destination" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="bus_id" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="129" splitType="Stretch">
+			<rectangle>
+				<reportElement x="-7" y="-7" width="360" height="33" forecolor="#FFFFFF" backcolor="#1CA296" uuid="c505bfa0-a679-4ef1-8af5-4f18acf4623f"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="88" y="6" width="73" height="17" forecolor="#FFFFFF" uuid="e3a6f2de-d5ba-478d-87b7-0b7e9040c028"/>
+				<textElement>
+					<font fontName="Akira Expanded" size="12"/>
+				</textElement>
+				<text><![CDATA[LAKBAY]]></text>
+			</staticText>
+			<line>
+				<reportElement x="239" y="0" width="1" height="115" forecolor="#999999" uuid="71548b8a-3b18-43ca-8e12-e665e8598cea"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="271" y="6" width="53" height="15" forecolor="#FFFFFF" uuid="98f2da1a-3f23-41cb-ae67-aba18f0972c7"/>
+				<textElement textAlignment="Center">
+					<font fontName="Akira Expanded" size="8"/>
+				</textElement>
+				<text><![CDATA[LAKBAY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="8" y="30" width="66" height="9" forecolor="#666666" uuid="09bb0885-5084-45ca-9492-c4345a3b1732"/>
+				<textElement>
+					<font fontName="Consolas" size="7"/>
+				</textElement>
+				<text><![CDATA[Ticket No.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="8" y="38" width="66" height="13" uuid="1869825b-423a-4ba2-8c82-254b3422563d"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ticket_no}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="8" y="53" width="66" height="9" forecolor="#666666" uuid="dc788834-d433-49d3-8790-ec2241513ec8"/>
+				<textElement>
+					<font fontName="Consolas" size="7"/>
+				</textElement>
+				<text><![CDATA[Seats Reserved]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="8" y="61" width="66" height="12" uuid="f58f7f3f-9128-40ad-857c-2d355de57198"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no_of_seats}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="80" y="30" width="51" height="9" forecolor="#666666" uuid="642b79bd-3262-42c9-b01b-82a1dad6a392"/>
+				<textElement>
+					<font fontName="Consolas" size="7"/>
+				</textElement>
+				<text><![CDATA[Date Booked]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="80" y="38" width="69" height="12" uuid="a4f4e2aa-36bf-4a64-8eb4-fe40e51b1a09"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{date_of_booking}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="80" y="52" width="69" height="10" forecolor="#666666" uuid="5b9dd1c2-8019-4d29-b2e6-4217ccf7e2ae"/>
+				<textElement>
+					<font fontName="Consolas" size="7"/>
+				</textElement>
+				<text><![CDATA[Departure Time:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="80" y="61" width="69" height="12" uuid="3b37c581-2ed7-4f89-8ef1-5c973037a7ea"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{departure_time}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="156" y="30" width="64" height="9" forecolor="#666666" uuid="a62509af-9b6b-46ad-9137-678c042c1fbc"/>
+				<textElement>
+					<font fontName="Consolas" size="7"/>
+				</textElement>
+				<text><![CDATA[Route ID]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="156" y="38" width="63" height="12" uuid="cdbbeb9f-8542-45e2-a826-7e4b57c59ab5"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{route_id}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="8" y="75" width="66" height="10" forecolor="#666666" uuid="879d71ec-8c6c-4ad2-8bba-59db684ab43c"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Fare Amount:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="8" y="84" width="66" height="12" uuid="025344f3-a371-4abe-827b-4378a333492d"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fare_amount}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="80" y="75" width="54" height="10" forecolor="#666666" uuid="5ca07b5b-f42f-41be-8a05-e76c709373c2"/>
+				<textElement>
+					<font fontName="Consolas" size="7"/>
+				</textElement>
+				<text><![CDATA[Total Amount]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="80" y="84" width="69" height="11" uuid="e140ed57-8c0d-4142-9431-7d2d29929b82"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_amount}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="254" y="31" width="82" height="9" forecolor="#666666" uuid="b2b6bc36-dfd0-43b0-b758-466cd08f14a5"/>
+				<textElement>
+					<font fontName="Consolas" size="7"/>
+				</textElement>
+				<text><![CDATA[Route ID]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="254" y="40" width="82" height="11" uuid="d55c7942-b1e0-491b-ab21-f3b40395d880"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{route_id}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="156" y="53" width="64" height="9" forecolor="#666666" uuid="e68ef481-2360-440a-8d13-bcccfed17a1b"/>
+				<textElement>
+					<font fontName="Consolas" size="7"/>
+				</textElement>
+				<text><![CDATA[Starting Point]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="156" y="62" width="64" height="11" uuid="8218dc7e-db14-4819-bdaa-71a8e8ab7fd6"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{starting_point}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="156" y="75" width="64" height="10" forecolor="#666666" uuid="ea1a87c5-3ee0-433c-bb48-8b271c47d127"/>
+				<textElement>
+					<font fontName="Consolas" size="7"/>
+				</textElement>
+				<text><![CDATA[Destination]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="156" y="84" width="64" height="11" uuid="81187121-a6e7-4692-9d0e-036c2ef93564"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{destination}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="254" y="54" width="66" height="9" forecolor="#666666" uuid="b9366c74-2514-4eb2-ae3b-5db66ae877ed"/>
+				<textElement>
+					<font fontName="Consolas" size="7"/>
+				</textElement>
+				<text><![CDATA[Ticket No.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="254" y="63" width="66" height="13" uuid="282c2ba9-b14c-49b7-9f4a-10110594a76f"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ticket_no}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="254" y="78" width="66" height="9" forecolor="#666666" uuid="fe09acc4-9cf8-4aa2-82ec-b5dfc020751f"/>
+				<textElement>
+					<font fontName="Consolas" size="7"/>
+				</textElement>
+				<text><![CDATA[Seats Reserved]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="254" y="86" width="66" height="12" uuid="0a7cefd5-9224-48e9-b16a-bdf9a9b7a09f"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no_of_seats}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement x="252" y="101" width="68" height="23" uuid="349954b7-e3a2-42d4-a65d-d59a6c8afb6d"/>
+				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="Code39" drawText="false" checksumRequired="false">
+					<jr:codeExpression><![CDATA["1234"]]></jr:codeExpression>
+				</jr:barbecue>
+			</componentElement>
+			<staticText>
+				<reportElement x="8" y="98" width="66" height="10" forecolor="#666666" uuid="fd0fa3f9-d993-4816-a9b9-7b3c5c5b2c2d"/>
+				<textElement>
+					<font fontName="Consolas" size="7"/>
+				</textElement>
+				<text><![CDATA[Bus ID:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="8" y="107" width="57" height="12" uuid="f4bc9d1f-e160-4ed5-9c69-6bd43d285ea0"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bus_id}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

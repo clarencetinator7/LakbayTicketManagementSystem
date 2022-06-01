@@ -24,6 +24,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,6 +32,14 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -888,6 +897,29 @@ public class AddTicket extends javax.swing.JFrame {
         return false;
     }
     */
+    
+    public void printInvoice(String ticket, String route)
+    {
+        sqlConnect();
+        HashMap m = new HashMap();
+        m.put("ticketno", ticket);
+        m.put("routeid", route);
+        
+        try {
+                JasperDesign jdesign = JRXmlLoader.load("C:\\Users\\clare\\Documents\\Programming\\JavaNetbeans\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\src\\Forms\\TicketReport.jrxml");
+                
+                JasperReport ireport = JasperCompileManager.compileReport(jdesign);
+                JasperPrint jprint = JasperFillManager.fillReport(ireport, m, con);
+                
+                JasperViewer.viewReport(jprint);
+                
+            } catch (JRException ex) {
+                Logger.getLogger(AddTicket.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        
+    }
+    
     // END REGION
     
     private void addTicketsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addTicketsBtnActionPerformed
@@ -897,6 +929,13 @@ public class AddTicket extends javax.swing.JFrame {
             // proceed
             insertRecord();
             insertTicket();
+            
+            String lastInsertTicket = passengerNoField.getText();
+            String lastInsertRoute = routeField.getSelectedItem().toString();
+            
+            printInvoice(lastInsertTicket, lastInsertRoute);
+            
+            
             //System.out.println(selectPassengerID(firstNameField.getText()));
             
             addTicketsBtn.setEnabled(false);
