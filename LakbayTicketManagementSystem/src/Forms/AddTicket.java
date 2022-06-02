@@ -984,10 +984,10 @@ public class AddTicket extends javax.swing.JFrame {
                 JasperReport ireport = JasperCompileManager.compileReport(jdesign);
                 JasperPrint jprint = JasperFillManager.fillReport(ireport, m, con);
                 
-                //JasperViewer.viewReport(jprint);
+                JasperViewer.viewReport(jprint);
                 
                 //TO PRINT IMMEDIATELY
-                JasperPrintManager.printReport(jprint, false);
+                //JasperPrintManager.printReport(jprint, false);
                 
             } catch (JRException ex) {
                 Logger.getLogger(AddTicket.class.getName()).log(Level.SEVERE, null, ex);
@@ -1013,7 +1013,7 @@ public class AddTicket extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "Record Added Successfuly \n Printing Ticket...");
                     String lastInsertTicket = passengerNoField.getText();
                     String lastInsertRoute = routeField.getSelectedItem().toString();
-                    printInvoice(lastInsertTicket, lastInsertRoute); 
+                    //printInvoice(lastInsertTicket, lastInsertRoute); 
                     
                     computeBtn.setEnabled(true);
                     addTicketsBtn.setEnabled(false);

@@ -12,11 +12,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
@@ -25,25 +23,23 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author clare
  */
-public class ViewTickets extends javax.swing.JFrame {
+public class ViewPassenger extends javax.swing.JFrame {
 
     /**
-     * Creates new form ViewTickets
-     */ 
-    public ViewTickets() {
+     * Creates new form ViewPassenger
+     */
+    public ViewPassenger() {
         initComponents();
+        
         sqlConnect();
         fetch();
-        populateComboBox();
         
         if (StaticVar.privilege.equals("Admin") || StaticVar.privilege.equals("Manager")) {
             deleteRecordBtn.setEnabled(true);
-            groupDeleteBtn.setEnabled(true);
         }
         
-        
     }
-
+    
     // Connect database code
     Connection con;
     PreparedStatement ps;
@@ -69,8 +65,8 @@ public class ViewTickets extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }
-
     
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -84,13 +80,12 @@ public class ViewTickets extends javax.swing.JFrame {
         headerPanel = new javax.swing.JPanel();
         ovrvwTxt2 = new javax.swing.JLabel();
         backBtn = new javax.swing.JButton();
-        passengerBtn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        ticketTable = new javax.swing.JTable();
+        passengerTable = new javax.swing.JTable();
         warningTxt = new javax.swing.JLabel();
         deleteRecordBtn = new javax.swing.JButton();
-        routeComboBox = new javax.swing.JComboBox<>();
-        groupDeleteBtn = new javax.swing.JButton();
+        searchField = new javax.swing.JTextField();
+        searchBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -101,7 +96,7 @@ public class ViewTickets extends javax.swing.JFrame {
 
         ovrvwTxt2.setFont(new java.awt.Font("Open Sans", 1, 20)); // NOI18N
         ovrvwTxt2.setForeground(new java.awt.Color(255, 159, 28));
-        ovrvwTxt2.setText("View Tickets");
+        ovrvwTxt2.setText("View Passenger");
 
         backBtn.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
         backBtn.setForeground(new java.awt.Color(255, 159, 28));
@@ -112,15 +107,6 @@ public class ViewTickets extends javax.swing.JFrame {
             }
         });
 
-        passengerBtn.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
-        passengerBtn.setForeground(new java.awt.Color(255, 159, 28));
-        passengerBtn.setText("Passenger");
-        passengerBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                passengerBtnActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout headerPanelLayout = new javax.swing.GroupLayout(headerPanel);
         headerPanel.setLayout(headerPanelLayout);
         headerPanelLayout.setHorizontalGroup(
@@ -128,11 +114,9 @@ public class ViewTickets extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerPanelLayout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addComponent(backBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(508, 508, 508)
+                .addGap(490, 490, 490)
                 .addComponent(ovrvwTxt2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 410, Short.MAX_VALUE)
-                .addComponent(passengerBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22))
+                .addContainerGap(537, Short.MAX_VALUE))
         );
         headerPanelLayout.setVerticalGroup(
             headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -140,46 +124,38 @@ public class ViewTickets extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ovrvwTxt2)
-                    .addComponent(backBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(passengerBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(backBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
-        ticketTable.setModel(new javax.swing.table.DefaultTableModel(
+        passengerTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Ticket No.", "Passenger No.", "Route ID", "No. Of Seats", "Fare Amount", "Total Amount", "Date of Booking", "Departure Time", "Booked by"
+                "Passenger No.", "First Name", "Middle Name", "Last Name", "Email Address", "Contact Number"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        ticketTable.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(ticketTable);
-        if (ticketTable.getColumnModel().getColumnCount() > 0) {
-            ticketTable.getColumnModel().getColumn(0).setResizable(false);
-            ticketTable.getColumnModel().getColumn(0).setPreferredWidth(10);
-            ticketTable.getColumnModel().getColumn(1).setResizable(false);
-            ticketTable.getColumnModel().getColumn(1).setPreferredWidth(10);
-            ticketTable.getColumnModel().getColumn(2).setResizable(false);
-            ticketTable.getColumnModel().getColumn(2).setPreferredWidth(10);
-            ticketTable.getColumnModel().getColumn(3).setResizable(false);
-            ticketTable.getColumnModel().getColumn(3).setPreferredWidth(10);
-            ticketTable.getColumnModel().getColumn(4).setResizable(false);
-            ticketTable.getColumnModel().getColumn(5).setResizable(false);
-            ticketTable.getColumnModel().getColumn(6).setResizable(false);
-            ticketTable.getColumnModel().getColumn(7).setResizable(false);
-            ticketTable.getColumnModel().getColumn(8).setResizable(false);
+        passengerTable.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(passengerTable);
+        if (passengerTable.getColumnModel().getColumnCount() > 0) {
+            passengerTable.getColumnModel().getColumn(0).setResizable(false);
+            passengerTable.getColumnModel().getColumn(1).setResizable(false);
+            passengerTable.getColumnModel().getColumn(2).setResizable(false);
+            passengerTable.getColumnModel().getColumn(3).setResizable(false);
+            passengerTable.getColumnModel().getColumn(4).setResizable(false);
+            passengerTable.getColumnModel().getColumn(5).setResizable(false);
         }
 
         warningTxt.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
@@ -199,25 +175,19 @@ public class ViewTickets extends javax.swing.JFrame {
             }
         });
 
-        routeComboBox.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        routeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None" }));
-        routeComboBox.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true));
-        routeComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                routeComboBoxActionPerformed(evt);
-            }
-        });
+        searchField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        searchField.setToolTipText("HELLO");
+        searchField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Search:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
 
-        groupDeleteBtn.setBackground(new java.awt.Color(255, 159, 28));
-        groupDeleteBtn.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
-        groupDeleteBtn.setForeground(new java.awt.Color(255, 255, 255));
-        groupDeleteBtn.setText("Group Delete");
-        groupDeleteBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 159, 28), 1, true));
-        groupDeleteBtn.setEnabled(false);
-        groupDeleteBtn.setPreferredSize(new java.awt.Dimension(104, 39));
-        groupDeleteBtn.addActionListener(new java.awt.event.ActionListener() {
+        searchBtn.setBackground(new java.awt.Color(255, 159, 28));
+        searchBtn.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
+        searchBtn.setForeground(new java.awt.Color(255, 255, 255));
+        searchBtn.setText("Search");
+        searchBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 159, 28), 1, true));
+        searchBtn.setPreferredSize(new java.awt.Dimension(104, 39));
+        searchBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                groupDeleteBtnActionPerformed(evt);
+                searchBtnActionPerformed(evt);
             }
         });
 
@@ -236,29 +206,30 @@ public class ViewTickets extends javax.swing.JFrame {
                     .addGroup(rootPanelLayout.createSequentialGroup()
                         .addGap(14, 14, 14)
                         .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(rootPanelLayout.createSequentialGroup()
-                                .addComponent(routeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, rootPanelLayout.createSequentialGroup()
+                                .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(searchBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(deleteRecordBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(groupDeleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(deleteRecordBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1245, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         rootPanelLayout.setVerticalGroup(
             rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rootPanelLayout.createSequentialGroup()
                 .addComponent(headerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(deleteRecordBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(routeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(groupDeleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(searchBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 567, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(warningTxt)
-                .addGap(0, 7, Short.MAX_VALUE))
+                .addGap(0, 5, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -280,34 +251,28 @@ public class ViewTickets extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    //REGION - Local Methods
     
-    //REGION - Local Variables
-    
-   public void fetch()
-   {
-       
-       int columnCount;
-        String query = "SELECT ticket_no, passenger_no, route_id, no_of_seats, fare_amount, total_amount, DATE_FORMAT(ticket.date_of_booking, \"%m-%d-%Y\") as date_of_booking, TIME_FORMAT(ticket.departure_time, \"%H:%i\") as departure_time, staff_id "
-                + "FROM ticket "
-                + "ORDER BY route_id";
-        
-        
+    public void fetch() {
+
+        int columnCount;
+        String query = "SELECT passenger_no, first_name, middle_name, last_name, email_address, contact_number FROM passenger";
+
         try {
-            
+
             ps = con.prepareStatement(query);
             rs = ps.executeQuery();
             java.sql.ResultSetMetaData rss = rs.getMetaData();
             columnCount = rss.getColumnCount();
-            
+
             String[] cols = new String[columnCount];
             for (int i = 1; i <= columnCount; i++) {
                 cols[i - 1] = rss.getColumnName(i);
             }
-            
+
             //DefaultTableModel df = (DefaultTableModel)ticketTable.getModel();
             DefaultTableModel df = new DefaultTableModel(cols, 0);
-            
-            
+
             while (rs.next()) {
                 Object[] row = new Object[columnCount];
                 for (int i = 1; i <= columnCount; i++) {
@@ -315,209 +280,126 @@ public class ViewTickets extends javax.swing.JFrame {
                 }
                 df.addRow(row);
             }
-            
-            ticketTable.setModel(df);
-            
-           
-       } catch (Exception e) {
-           
-       }
-   }
-   
-   public void fetch(String filter)
-   {
-       
-       int columnCount;
-       String query = "SELECT ticket_no, passenger_no, route_id, no_of_seats, fare_amount, total_amount, DATE_FORMAT(ticket.date_of_booking, \"%m-%d-%Y\") as date_of_booking, TIME_FORMAT(ticket.departure_time, \"%H:%i\") as departure_time, staff_id "
-                + "FROM ticket "
-                + "WHERE route_id = ?";
-        
-        
-        try {
-            
-            ps = con.prepareStatement(query);
-            ps.setString(1, filter);
-            rs = ps.executeQuery();
-            java.sql.ResultSetMetaData rss = rs.getMetaData();
-            columnCount = rss.getColumnCount();
-            
-            String[] cols = new String[columnCount];
-            for (int i = 1; i <= columnCount; i++) {
-                cols[i - 1] = rss.getColumnName(i);
-            }
-            
-            //DefaultTableModel df = (DefaultTableModel)ticketTable.getModel();
-            DefaultTableModel df = new DefaultTableModel(cols, 0);
-            
-            
-            while (rs.next()) {
-                Object[] row = new Object[columnCount];
-                for (int i = 1; i <= columnCount; i++) {
-                    row[i - 1] = rs.getObject(i);
-                }
-                df.addRow(row);
-            }
-            
-            ticketTable.setModel(df);
-            
-           
-       } catch (Exception e) {
-       }
-   }
-   
-   public void populateComboBox()
-    {
-       routeComboBox.removeAllItems();
-       routeComboBox.addItem("None");
-       String query = 
-               "SELECT route_id FROM travel_route";
 
-        try {
-            ps = con.prepareStatement(query);
-            rs = ps.executeQuery();
-            
-            while(rs.next())
-            {
-                // TODO:
-                // see if the current id existed;
-                String id = rs.getString("route_id");
-                
-                routeComboBox.addItem(id);
+            passengerTable.setModel(df);
 
-            }
-            
         } catch (Exception e) {
-            //System.out.println("May error populate: "+ e);
-            e.printStackTrace();    
+
+        }
+    }
+    
+    
+    public void fetch(String s) {
+
+        int columnCount;
+        String query = "SELECT passenger_no, first_name, middle_name, last_name, email_address, contact_number FROM passenger "
+                + "WHERE passenger_no = ?";
+
+        try {
+
+            ps = con.prepareStatement(query);
+            ps.setString(1, s);
+            rs = ps.executeQuery();
+            java.sql.ResultSetMetaData rss = rs.getMetaData();
+            columnCount = rss.getColumnCount();
+
+            String[] cols = new String[columnCount];
+            for (int i = 1; i <= columnCount; i++) {
+                cols[i - 1] = rss.getColumnName(i);
+            }
+
+            //DefaultTableModel df = (DefaultTableModel)ticketTable.getModel();
+            DefaultTableModel df = new DefaultTableModel(cols, 0);
+
+            while (rs.next()) {
+                Object[] row = new Object[columnCount];
+                for (int i = 1; i <= columnCount; i++) {
+                    row[i - 1] = rs.getObject(i);
+                }
+                df.addRow(row);
+            }
+
+            passengerTable.setModel(df);
+
+        } catch (Exception e) {
+
+        }
+    }
+    
+    
+    public void deleteRecord(String d) {
+
+        String query = "DELETE FROM passenger WHERE passenger_no = ?";
+
+        try {
+            ps = con.prepareStatement(query);
+            ps.setString(1, d);
+
+            int k = ps.executeUpdate();
+
+            if (k == 1) {
+                JOptionPane.showMessageDialog(rootPane, d + " has been deleted from the record.", "Delete Success", JOptionPane.OK_OPTION);
+            }
+
+        } catch (SQLException ex) {
+            //Logger.getLogger(ViewStaff.class.getName()).log(Level.SEVERE, null, ex);
+            
+            JOptionPane.showMessageDialog(this, "Record can't be deleted due to Integrity Constraint.");
             
         }
     }
-   
-   public void deleteRecord(String d)
-   {
-       
-       String query = "DELETE FROM ticket WHERE ticket_no = ?";
-        
-        try {
-            ps = con.prepareStatement(query);
-            ps.setString(1, d);
-            
-            int k = ps.executeUpdate();
-            
-            if(k==1)
-            {
-                JOptionPane.showMessageDialog(rootPane, d + " has been deleted from the record.", "Delete Success", JOptionPane.OK_OPTION);
-            }
-                    
-        } catch (SQLException ex) {
-            Logger.getLogger(ViewStaff.class.getName()).log(Level.SEVERE, null, ex);
-        }
-   }
-   
-   public void groupDelete(String d)
-   {
-       
-       String query = "DELETE FROM ticket WHERE route_id = ?";
-        
-        try {
-            ps = con.prepareStatement(query);
-            ps.setString(1, d);
-            
-            int k = ps.executeUpdate();
-            
-            if(k==1)
-            {
-                JOptionPane.showMessageDialog(rootPane, d + " has been deleted from the record.", "Delete Success", JOptionPane.OK_OPTION);
-            }
-                    
-        } catch (SQLException ex) {
-            Logger.getLogger(ViewStaff.class.getName()).log(Level.SEVERE, null, ex);
-        }
-       
-   }
-   
+    
     
     //ENDREGION
     
     
-    //REGION - Button Events
     
     private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
 
         HomePage hp = new HomePage();
         hp.setVisible(true);
         this.setVisible(false);
-        
+
     }//GEN-LAST:event_backBtnActionPerformed
 
     private void deleteRecordBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteRecordBtnActionPerformed
         
         int column = 0;
-        int row = ticketTable.getSelectedRow();
+        int row = passengerTable.getSelectedRow();
+        String val = passengerTable.getModel().getValueAt(row, column).toString();
         
-        if(row >= 0)
+        System.out.println(val);
+        
+        Object[] options = { "CONFIRM", "CANCEL" };
+        int choice = JOptionPane.showOptionDialog(null, "You are deleting: " + val, "Warning",
+            JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
+            null, options, options[0]);
+        
+        if(choice == 0)
         {
-            String val = ticketTable.getModel().getValueAt(row, column).toString();
-        
-            //System.out.println(val);
-        
-            Object[] options = { "CONFIRM", "CANCEL" };
-            int choice = JOptionPane.showOptionDialog(null, "You are deleting: " + val, "Warning",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
-                    null, options, options[0]);
-            
-            if(choice == 0)
-            {
-                deleteRecord(val);
-                fetch();
-                populateComboBox();
-                
-            }
-        
+            deleteRecord(val);
+            fetch();
         }
-        
+
     }//GEN-LAST:event_deleteRecordBtnActionPerformed
 
-    private void routeComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_routeComboBoxActionPerformed
+    private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
         // TODO add your handling code here:
         
-        try {
-            if (!routeComboBox.getSelectedItem().toString().equals("None")) {
-
-                fetch(routeComboBox.getSelectedItem().toString());
-
-            } else {
-                fetch();
-            }
-        } catch (Exception e) {
-            
-        }
-        
-    }//GEN-LAST:event_routeComboBoxActionPerformed
-
-    private void groupDeleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_groupDeleteBtnActionPerformed
-        // TODO add your handling code here:
-        
-        if (!routeComboBox.getSelectedItem().toString().equals("None")) {
-
-            groupDelete(routeComboBox.getSelectedItem().toString());
-            routeComboBox.setSelectedItem("None");
+        if (searchField.getText().equals("")) {
             fetch();
-
+        }
+        else
+        {
+            fetch(searchField.getText());
         }
         
-    }//GEN-LAST:event_groupDeleteBtnActionPerformed
+    }//GEN-LAST:event_searchBtnActionPerformed
 
-    private void passengerBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passengerBtnActionPerformed
-
-        ViewPassenger vp = new ViewPassenger();
-        vp.setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_passengerBtnActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
+    
+    
+    
+    
     public static void main(String args[]) {
         // region Set the Look and Feel of the Project
         try {
@@ -528,10 +410,11 @@ public class ViewTickets extends javax.swing.JFrame {
         // endregion
         
         
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ViewTickets().setVisible(true);
+                new ViewPassenger().setVisible(true);
             }
         });
     }
@@ -539,14 +422,13 @@ public class ViewTickets extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backBtn;
     private javax.swing.JButton deleteRecordBtn;
-    private javax.swing.JButton groupDeleteBtn;
     private javax.swing.JPanel headerPanel;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel ovrvwTxt2;
-    private javax.swing.JButton passengerBtn;
+    private javax.swing.JTable passengerTable;
     private javax.swing.JPanel rootPanel;
-    private javax.swing.JComboBox<String> routeComboBox;
-    private javax.swing.JTable ticketTable;
+    private javax.swing.JButton searchBtn;
+    private javax.swing.JTextField searchField;
     private javax.swing.JLabel warningTxt;
     // End of variables declaration//GEN-END:variables
 }
