@@ -245,7 +245,9 @@ public class ViewStaff extends javax.swing.JFrame {
             }
         
         } catch (SQLException ex) {
+            
             Logger.getLogger(AddStaff.class.getName()).log(Level.SEVERE, null, ex);
+            
         } 
     }
     

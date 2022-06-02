@@ -618,6 +618,9 @@ public class HomePage extends javax.swing.JFrame {
 
     private void viewTicketsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewTicketsBtnActionPerformed
         // TODO add your handling code here:
+        this.setVisible(false);
+        ViewTickets vt = new ViewTickets();
+        vt.setVisible(true);
     }//GEN-LAST:event_viewTicketsBtnActionPerformed
 
     private void addBusBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBusBtnActionPerformed
