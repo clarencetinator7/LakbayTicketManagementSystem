@@ -55,6 +55,7 @@ public class LoginPage extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        forgotPassBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -86,6 +87,17 @@ public class LoginPage extends javax.swing.JFrame {
             }
         });
 
+        forgotPassBtn.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
+        forgotPassBtn.setForeground(new java.awt.Color(0, 204, 204));
+        forgotPassBtn.setText("I forgot my password.");
+        forgotPassBtn.setToolTipText("");
+        forgotPassBtn.setBorder(null);
+        forgotPassBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                forgotPassBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout loginBasePanelLayout = new javax.swing.GroupLayout(loginBasePanel);
         loginBasePanel.setLayout(loginBasePanelLayout);
         loginBasePanelLayout.setHorizontalGroup(
@@ -100,7 +112,8 @@ public class LoginPage extends javax.swing.JFrame {
                             .addGroup(loginBasePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(userField, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(passField, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel1))))
+                                .addComponent(jLabel1))
+                            .addComponent(forgotPassBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jLabel2))
                 .addContainerGap(75, Short.MAX_VALUE))
         );
@@ -115,7 +128,9 @@ public class LoginPage extends javax.swing.JFrame {
                 .addComponent(userField, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(38, 38, 38)
                 .addComponent(passField, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(54, 54, 54)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(forgotPassBtn)
+                .addGap(28, 28, 28)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(196, Short.MAX_VALUE))
         );
@@ -335,6 +350,8 @@ public class LoginPage extends javax.swing.JFrame {
             HomePage hp = new HomePage();
             hp.setVisible(true);
             
+            updateAttempt(0, username);
+            
             clearFields();
         }
         else if(!Login(username, password))
@@ -364,6 +381,15 @@ public class LoginPage extends javax.swing.JFrame {
  
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void forgotPassBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_forgotPassBtnActionPerformed
+        // TODO add your handling code here:
+        
+        this.setVisible(false);
+        PasswordReset pr = new PasswordReset();
+        pr.setVisible(true);
+        
+    }//GEN-LAST:event_forgotPassBtnActionPerformed
+
     
     /**
      * @param args the command line arguments
@@ -392,6 +418,7 @@ public class LoginPage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton forgotPassBtn;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
