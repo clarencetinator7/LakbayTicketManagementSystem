@@ -8,6 +8,7 @@ import UtilityClasses.Route;
 
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.mysql.cj.xdevapi.Statement;
+import java.awt.Toolkit;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Connection;
@@ -44,7 +45,7 @@ public class AddRoute extends javax.swing.JFrame {
         fetch();
         populateComboBox();
         setId();
-        
+        setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\clare\\Documents\\Programming\\JavaNetbeans\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\src\\Images\\Icons\\bus_window_icon_64x64.png"));
         
     }
    
@@ -82,8 +83,6 @@ public class AddRoute extends javax.swing.JFrame {
         warningTxt = new javax.swing.JLabel();
         addBusBtn = new javax.swing.JButton();
         clearForm = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        driverTable = new javax.swing.JTable();
         jScrollPane3 = new javax.swing.JScrollPane();
         routeTable = new javax.swing.JTable();
         deletesSelectedBtn = new javax.swing.JButton();
@@ -91,6 +90,7 @@ public class AddRoute extends javax.swing.JFrame {
         conEditBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Manage Routes");
         setResizable(false);
 
         rootPanel.setPreferredSize(new java.awt.Dimension(1280, 720));
@@ -140,15 +140,15 @@ public class AddRoute extends javax.swing.JFrame {
         ovrvwTxt.setText("Route Details");
 
         startingPtField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        startingPtField.setToolTipText("HELLO");
+        startingPtField.setToolTipText("");
         startingPtField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Starting Point", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
 
         destinationField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        destinationField.setToolTipText("HELLO");
+        destinationField.setToolTipText("");
         destinationField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Destination", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
 
         fareField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        fareField.setToolTipText("HELLO");
+        fareField.setToolTipText("");
         fareField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Fare Amount", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
         fareField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -162,7 +162,7 @@ public class AddRoute extends javax.swing.JFrame {
         });
 
         routeIdField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        routeIdField.setToolTipText("HELLO");
+        routeIdField.setToolTipText("");
         routeIdField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Route ID", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
         routeIdField.setEnabled(false);
         routeIdField.addActionListener(new java.awt.event.ActionListener() {
@@ -325,19 +325,6 @@ public class AddRoute extends javax.swing.JFrame {
             }
         });
 
-        driverTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane2.setViewportView(driverTable);
-
         routeTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
@@ -427,8 +414,7 @@ public class AddRoute extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(clearForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(deletesSelectedBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane2))
+                        .addComponent(deletesSelectedBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         rootPanelLayout.setVerticalGroup(
@@ -438,9 +424,7 @@ public class AddRoute extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(rootPanelLayout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 569, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(addBusBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1044,7 +1028,6 @@ public class AddRoute extends javax.swing.JFrame {
     private javax.swing.JButton conEditBtn;
     private javax.swing.JButton deletesSelectedBtn;
     private javax.swing.JTextField destinationField;
-    private javax.swing.JTable driverTable;
     private javax.swing.JButton editSelectedBtn;
     private javax.swing.JTextField fareField;
     private javax.swing.JPanel headerPanel;
@@ -1055,7 +1038,6 @@ public class AddRoute extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JComboBox<String> minField;
     private javax.swing.JComboBox<String> minField1;

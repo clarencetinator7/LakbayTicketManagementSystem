@@ -39,7 +39,7 @@ public class HomePage extends javax.swing.JFrame {
         noRoutes.setText(String.valueOf(countRec("travel_route")));
         noDrivers.setText(String.valueOf(countRec("driver")));
         noBuses.setText(String.valueOf(countRec("bus")));
-        
+        setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\clare\\Documents\\Programming\\JavaNetbeans\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\src\\Images\\Icons\\bus_window_icon_64x64.png"));
     }
     
     String userName;
@@ -96,6 +96,8 @@ public class HomePage extends javax.swing.JFrame {
         homeBtn = new javax.swing.JButton();
         admBtn = new javax.swing.JButton();
         admBtn1 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         overviewPanel = new javax.swing.JPanel();
         noTickets = new javax.swing.JLabel();
         ttlTickets = new javax.swing.JLabel();
@@ -130,6 +132,7 @@ public class HomePage extends javax.swing.JFrame {
         userTxt = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Home Page");
         setBackground(new java.awt.Color(255, 255, 255));
         setResizable(false);
 
@@ -177,22 +180,40 @@ public class HomePage extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Icons/bus_window_icon_129x129.png"))); // NOI18N
+
+        jLabel2.setFont(new java.awt.Font("Open Sans", 1, 27)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 159, 28));
+        jLabel2.setText("LAKBAY");
+
         javax.swing.GroupLayout menuPanelLayout = new javax.swing.GroupLayout(menuPanel);
         menuPanel.setLayout(menuPanelLayout);
         menuPanelLayout.setHorizontalGroup(
             menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(homeBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(admBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
-            .addComponent(admBtn1, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
+            .addComponent(admBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(admBtn1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(menuPanelLayout.createSequentialGroup()
+                .addGap(47, 47, 47)
+                .addComponent(jLabel1)
+                .addContainerGap(51, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, menuPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addGap(62, 62, 62))
         );
         menuPanelLayout.setVerticalGroup(
             menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(menuPanelLayout.createSequentialGroup()
-                .addGap(197, 197, 197)
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addGap(32, 32, 32)
                 .addComponent(homeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(admBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 388, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 364, Short.MAX_VALUE)
                 .addComponent(admBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -706,7 +727,7 @@ public class HomePage extends javax.swing.JFrame {
         try {
             UIManager.setLookAndFeel(new FlatIntelliJLaf());
         } catch (UnsupportedLookAndFeelException e) {
-            
+                
         }
         // endregion
 
@@ -734,6 +755,8 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JPanel busPanel2;
     private javax.swing.JLabel drvrDesc;
     private javax.swing.JButton homeBtn;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel menuPanel;
     private javax.swing.JLabel noBuses;
     private javax.swing.JLabel noDrivers;

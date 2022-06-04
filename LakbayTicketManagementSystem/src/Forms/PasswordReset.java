@@ -32,6 +32,8 @@ public class PasswordReset extends javax.swing.JFrame {
         initComponents();
         newPasswordField.setDocument(new JTextFieldCharLimit(6));
         conPasswordField.setDocument(new JTextFieldCharLimit(6));
+        
+        setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\clare\\Documents\\Programming\\JavaNetbeans\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\src\\Images\\Icons\\bus_window_icon_64x64.png"));
     }
 
     /**
@@ -56,13 +58,17 @@ public class PasswordReset extends javax.swing.JFrame {
         passWarningTxt = new javax.swing.JLabel();
         newPasswordField = new javax.swing.JPasswordField();
         checkEmailBtn1 = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Reset Password");
 
         loginBasePanel.setBackground(new java.awt.Color(255, 255, 255));
         loginBasePanel.setPreferredSize(new java.awt.Dimension(461, 720));
 
         conPasswordField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        conPasswordField.setToolTipText("");
         conPasswordField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(46, 196, 182), 2, true), "Confirm New Password:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
         conPasswordField.setEnabled(false);
 
@@ -112,6 +118,7 @@ public class PasswordReset extends javax.swing.JFrame {
         passWarningTxt.setToolTipText("");
 
         newPasswordField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        newPasswordField.setToolTipText("");
         newPasswordField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(46, 196, 182), 2, true), "New Password:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
         newPasswordField.setEnabled(false);
 
@@ -189,19 +196,37 @@ public class PasswordReset extends javax.swing.JFrame {
                 .addContainerGap(131, Short.MAX_VALUE))
         );
 
+        jLabel4.setFont(new java.awt.Font("Open Sans", 1, 27)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 159, 28));
+        jLabel4.setText("LAKBAY BUS TICKET MANAGEMENT SYSTEM");
+
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Cashier-Illustration.jpg"))); // NOI18N
+
         javax.swing.GroupLayout rootPanelLayout = new javax.swing.GroupLayout(rootPanel);
         rootPanel.setLayout(rootPanelLayout);
         rootPanelLayout.setHorizontalGroup(
             rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rootPanelLayout.createSequentialGroup()
                 .addComponent(loginBasePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(819, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 91, Short.MAX_VALUE)
+                .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5)
+                    .addGroup(rootPanelLayout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(jLabel4)))
+                .addGap(89, 89, 89))
         );
         rootPanelLayout.setVerticalGroup(
             rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rootPanelLayout.createSequentialGroup()
                 .addComponent(loginBasePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(rootPanelLayout.createSequentialGroup()
+                .addGap(163, 163, 163)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel4)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -346,7 +371,7 @@ public class PasswordReset extends javax.swing.JFrame {
                 newPasswordField.setText("");
                 conPasswordField.setText("");
                 
-                close();
+                this.setVisible(false);
                 LoginPage lp = new LoginPage();
                 lp.setVisible(true);
                 
@@ -438,6 +463,8 @@ public class PasswordReset extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel loginBasePanel;
     private javax.swing.JPasswordField newPasswordField;
     private javax.swing.JLabel passWarningTxt;

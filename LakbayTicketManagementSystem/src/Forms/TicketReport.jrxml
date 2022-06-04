@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="360" pageHeight="136" columnWidth="346" leftMargin="7" rightMargin="7" topMargin="7" bottomMargin="0" uuid="91f33a23-b222-4501-943f-ccb68fa8a6f9">
 	<property name="ireport.zoom" value="4.177248169415659"/>
 	<property name="ireport.x" value="27"/>
-	<property name="ireport.y" value="54"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="routeid" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -122,28 +122,28 @@ travel_route.route_id = $P{routeid};]]>
 				<textFieldExpression><![CDATA[$F{no_of_seats}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="80" y="30" width="51" height="9" forecolor="#666666" uuid="642b79bd-3262-42c9-b01b-82a1dad6a392"/>
+				<reportElement x="80" y="53" width="51" height="9" forecolor="#666666" uuid="642b79bd-3262-42c9-b01b-82a1dad6a392"/>
 				<textElement>
 					<font fontName="Consolas" size="7"/>
 				</textElement>
 				<text><![CDATA[Date Booked]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="80" y="38" width="69" height="12" uuid="a4f4e2aa-36bf-4a64-8eb4-fe40e51b1a09"/>
+				<reportElement x="80" y="61" width="69" height="12" uuid="a4f4e2aa-36bf-4a64-8eb4-fe40e51b1a09"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{date_of_booking}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="80" y="52" width="69" height="10" forecolor="#666666" uuid="5b9dd1c2-8019-4d29-b2e6-4217ccf7e2ae"/>
+				<reportElement x="80" y="75" width="69" height="10" forecolor="#666666" uuid="5b9dd1c2-8019-4d29-b2e6-4217ccf7e2ae"/>
 				<textElement>
 					<font fontName="Consolas" size="7"/>
 				</textElement>
 				<text><![CDATA[Departure Time:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="80" y="61" width="69" height="12" uuid="3b37c581-2ed7-4f89-8ef1-5c973037a7ea"/>
+				<reportElement x="80" y="84" width="69" height="12" uuid="3b37c581-2ed7-4f89-8ef1-5c973037a7ea"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
@@ -178,14 +178,14 @@ travel_route.route_id = $P{routeid};]]>
 				<textFieldExpression><![CDATA[$F{fare_amount}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="80" y="75" width="54" height="10" forecolor="#666666" uuid="5ca07b5b-f42f-41be-8a05-e76c709373c2"/>
+				<reportElement x="80" y="98" width="54" height="10" forecolor="#666666" uuid="5ca07b5b-f42f-41be-8a05-e76c709373c2"/>
 				<textElement>
 					<font fontName="Consolas" size="7"/>
 				</textElement>
 				<text><![CDATA[Total Amount]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="80" y="84" width="69" height="11" uuid="e140ed57-8c0d-4142-9431-7d2d29929b82"/>
+				<reportElement x="80" y="107" width="69" height="11" uuid="e140ed57-8c0d-4142-9431-7d2d29929b82"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
@@ -288,6 +288,20 @@ travel_route.route_id = $P{routeid};]]>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{date_of_booking}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="80" y="30" width="61" height="9" forecolor="#666666" uuid="743dd8ec-e263-4127-bd3e-777913762474"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Passenger No.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="80" y="39" width="69" height="11" uuid="706d77b0-2e51-4c49-9ab0-781e4cbd56f8"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{passenger_no}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

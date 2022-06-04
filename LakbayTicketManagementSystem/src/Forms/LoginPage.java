@@ -5,6 +5,7 @@
 package Forms;
 
 import UtilityClasses.JTextFieldCharLimit;
+import UtilityClasses.SetIcon;
 
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import java.awt.Toolkit;
@@ -23,6 +24,9 @@ import javax.swing.JOptionPane;
 import jdk.dynalink.beans.StaticClass;
 
 import UtilityClasses.StaticVar;
+import java.awt.Image;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 
 /**
  *
@@ -37,6 +41,11 @@ public class LoginPage extends javax.swing.JFrame {
         initComponents();
         userField.setDocument(new JTextFieldCharLimit(6));
         passField.setDocument(new JTextFieldCharLimit(6));
+        
+        
+
+        setIcon();
+           
     }
 
     /**
@@ -56,8 +65,16 @@ public class LoginPage extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         forgotPassBtn = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("LAKBAY Login");
+        setIconImages(null);
+        setMaximumSize(new java.awt.Dimension(1280, 720));
+        setMinimumSize(new java.awt.Dimension(1280, 720));
+        setName("Lakbay Ticket Management System: Login Page"); // NOI18N
+        setResizable(false);
 
         loginBasePanel.setBackground(new java.awt.Color(255, 255, 255));
         loginBasePanel.setPreferredSize(new java.awt.Dimension(461, 720));
@@ -135,30 +152,50 @@ public class LoginPage extends javax.swing.JFrame {
                 .addContainerGap(196, Short.MAX_VALUE))
         );
 
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Cashier-Illustration.jpg"))); // NOI18N
+
+        jLabel3.setFont(new java.awt.Font("Open Sans", 1, 27)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 159, 28));
+        jLabel3.setText("LAKBAY BUS TICKET MANAGEMENT SYSTEM");
+
         javax.swing.GroupLayout rootPanelLayout = new javax.swing.GroupLayout(rootPanel);
         rootPanel.setLayout(rootPanelLayout);
         rootPanelLayout.setHorizontalGroup(
             rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rootPanelLayout.createSequentialGroup()
                 .addComponent(loginBasePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(819, Short.MAX_VALUE))
+                .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(rootPanelLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 91, Short.MAX_VALUE)
+                        .addComponent(jLabel4)
+                        .addGap(89, 89, 89))
+                    .addGroup(rootPanelLayout.createSequentialGroup()
+                        .addGap(111, 111, 111)
+                        .addComponent(jLabel3)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         rootPanelLayout.setVerticalGroup(
             rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rootPanelLayout.createSequentialGroup()
                 .addComponent(loginBasePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(rootPanelLayout.createSequentialGroup()
+                .addGap(169, 169, 169)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(rootPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(rootPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(rootPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(rootPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -411,10 +448,15 @@ public class LoginPage extends javax.swing.JFrame {
             @Override
             public void run() {
                 new LoginPage().setVisible(true);
+                
+                
+                
+                
             }
         });
         
-           
+        
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -422,9 +464,17 @@ public class LoginPage extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel loginBasePanel;
     private javax.swing.JPasswordField passField;
     private javax.swing.JPanel rootPanel;
     private javax.swing.JTextField userField;
     // End of variables declaration//GEN-END:variables
+
+    
+    public void setIcon() {
+        setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\clare\\Documents\\Programming\\JavaNetbeans\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\src\\Images\\Icons\\bus_window_icon_64x64.png"));
+    }
+    
 }

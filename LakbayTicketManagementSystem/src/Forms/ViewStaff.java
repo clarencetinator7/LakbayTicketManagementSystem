@@ -6,6 +6,7 @@ package Forms;
 
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.mysql.cj.xdevapi.Statement;
+import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -32,6 +33,8 @@ public class ViewStaff extends javax.swing.JFrame {
         initComponents();
         sqlConnect();
         Fetch();
+        
+        setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\clare\\Documents\\Programming\\JavaNetbeans\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\src\\Images\\Icons\\bus_window_icon_64x64.png"));
     }
     
     // Connect database code
@@ -79,6 +82,7 @@ public class ViewStaff extends javax.swing.JFrame {
         deleteRecordBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("View Staffs");
 
         rootPanel.setPreferredSize(new java.awt.Dimension(1280, 720));
 
@@ -121,17 +125,17 @@ public class ViewStaff extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Staff ID", "Name", "Privilege", "Email Address", "Contact No.", "Username", "Password"
+                "Staff ID", "Name", "Privilege", "Email Address", "Contact No.", "Username"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -144,6 +148,10 @@ public class ViewStaff extends javax.swing.JFrame {
             jTable1.getColumnModel().getColumn(0).setPreferredWidth(10);
             jTable1.getColumnModel().getColumn(1).setResizable(false);
             jTable1.getColumnModel().getColumn(1).setPreferredWidth(200);
+            jTable1.getColumnModel().getColumn(2).setResizable(false);
+            jTable1.getColumnModel().getColumn(3).setResizable(false);
+            jTable1.getColumnModel().getColumn(4).setResizable(false);
+            jTable1.getColumnModel().getColumn(5).setResizable(false);
         }
 
         warningTxt.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
@@ -154,7 +162,6 @@ public class ViewStaff extends javax.swing.JFrame {
         deleteRecordBtn.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
         deleteRecordBtn.setForeground(new java.awt.Color(255, 255, 255));
         deleteRecordBtn.setText("Delete Selected");
-        deleteRecordBtn.setActionCommand("Delete Selected");
         deleteRecordBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 159, 28), 1, true));
         deleteRecordBtn.setPreferredSize(new java.awt.Dimension(104, 39));
         deleteRecordBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -179,7 +186,7 @@ public class ViewStaff extends javax.swing.JFrame {
                         .addGap(14, 14, 14)
                         .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(deleteRecordBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(deleteRecordBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         rootPanelLayout.setVerticalGroup(
@@ -218,7 +225,7 @@ public class ViewStaff extends javax.swing.JFrame {
     private void Fetch()
     {
         int q;
-        String query = "select staff_id, first_name, middle_name, last_name, privilege, email_address, contact_number, user_name, pass_word"
+        String query = "select staff_id, first_name, middle_name, last_name, privilege, email_address, contact_number, user_name"
                 + " from staff";
         try {
             ps = con.prepareStatement(query);
@@ -239,15 +246,13 @@ public class ViewStaff extends javax.swing.JFrame {
                     v2.add(rs.getString("email_address"));
                     v2.add(rs.getString("contact_number"));
                     v2.add(rs.getString("user_name"));
-                    v2.add(rs.getString("pass_word"));
                 }
                 df.addRow(v2);
             }
         
         } catch (SQLException ex) {
             
-            Logger.getLogger(AddStaff.class.getName()).log(Level.SEVERE, null, ex);
-            
+            Logger.getLogger(AddStaff.class.getName()).log(Level.SEVERE, null, ex);  
         } 
     }
     

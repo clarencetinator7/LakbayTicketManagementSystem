@@ -7,6 +7,7 @@ package Forms;
 import UtilityClasses.StaticVar;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.mysql.cj.xdevapi.Statement;
+import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -37,6 +38,8 @@ public class ViewPassenger extends javax.swing.JFrame {
         if (StaticVar.privilege.equals("Admin") || StaticVar.privilege.equals("Manager")) {
             deleteRecordBtn.setEnabled(true);
         }
+        
+        setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\clare\\Documents\\Programming\\JavaNetbeans\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\src\\Images\\Icons\\bus_window_icon_64x64.png"));
         
     }
     
@@ -88,6 +91,7 @@ public class ViewPassenger extends javax.swing.JFrame {
         searchBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Manage Passengers");
 
         rootPanel.setPreferredSize(new java.awt.Dimension(1280, 720));
 
@@ -176,7 +180,7 @@ public class ViewPassenger extends javax.swing.JFrame {
         });
 
         searchField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        searchField.setToolTipText("HELLO");
+        searchField.setToolTipText("");
         searchField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Search:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
 
         searchBtn.setBackground(new java.awt.Color(255, 159, 28));

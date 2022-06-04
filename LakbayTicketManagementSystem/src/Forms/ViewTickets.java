@@ -7,6 +7,7 @@ package Forms;
 import UtilityClasses.StaticVar;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.mysql.cj.xdevapi.Statement;
+import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -40,6 +41,8 @@ public class ViewTickets extends javax.swing.JFrame {
             deleteRecordBtn.setEnabled(true);
             groupDeleteBtn.setEnabled(true);
         }
+        
+        setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\clare\\Documents\\Programming\\JavaNetbeans\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\src\\Images\\Icons\\bus_window_icon_64x64.png"));
         
         
     }
@@ -93,6 +96,7 @@ public class ViewTickets extends javax.swing.JFrame {
         groupDeleteBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("View Tickets");
 
         rootPanel.setPreferredSize(new java.awt.Dimension(1280, 720));
 

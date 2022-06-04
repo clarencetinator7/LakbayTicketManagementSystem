@@ -14,6 +14,7 @@ import UtilityClasses.Ticket;
 import java.sql.Date;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.mysql.cj.xdevapi.Statement;
+import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -63,6 +64,8 @@ public class AddTicket extends javax.swing.JFrame {
         setId();
         
         contactNoField.setDocument(new JTextFieldCharLimit(11));
+        
+        setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\clare\\Documents\\Programming\\JavaNetbeans\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\src\\Images\\Icons\\bus_window_icon_64x64.png"));
     }
 
     /**
@@ -113,6 +116,7 @@ public class AddTicket extends javax.swing.JFrame {
         warningTxt = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Add Passengers");
         setResizable(false);
 
         rootPanel.setPreferredSize(new java.awt.Dimension(1280, 720));
@@ -162,23 +166,23 @@ public class AddTicket extends javax.swing.JFrame {
         ovrvwTxt.setText("Passenger Details");
 
         lastNameField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        lastNameField.setToolTipText("HELLO");
+        lastNameField.setToolTipText("");
         lastNameField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Last Name", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
 
         firstNameField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        firstNameField.setToolTipText("HELLO");
+        firstNameField.setToolTipText("");
         firstNameField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "First Name:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
 
         middleNameField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        middleNameField.setToolTipText("HELLO");
+        middleNameField.setToolTipText("");
         middleNameField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Middle Name (Optional)", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
 
         emailField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        emailField.setToolTipText("HELLO");
+        emailField.setToolTipText("");
         emailField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Email (Optional)", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
 
         contactNoField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        contactNoField.setToolTipText("HELLO");
+        contactNoField.setToolTipText("");
         contactNoField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Contact No.", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
         contactNoField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -192,7 +196,7 @@ public class AddTicket extends javax.swing.JFrame {
         });
 
         passengerNoField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        passengerNoField.setToolTipText("HELLO");
+        passengerNoField.setToolTipText("");
         passengerNoField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Passenger No.", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
         passengerNoField.setEnabled(false);
 
@@ -240,7 +244,7 @@ public class AddTicket extends javax.swing.JFrame {
         ovrvwTxt1.setText("Booking");
 
         seatsField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        seatsField.setToolTipText("HELLO");
+        seatsField.setToolTipText("");
         seatsField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "No. of Seats", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
         seatsField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1013,7 +1017,7 @@ public class AddTicket extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "Record Added Successfuly \n Printing Ticket...");
                     String lastInsertTicket = passengerNoField.getText();
                     String lastInsertRoute = routeField.getSelectedItem().toString();
-                    //printInvoice(lastInsertTicket, lastInsertRoute); 
+                    printInvoice(lastInsertTicket, lastInsertRoute); 
                     
                     computeBtn.setEnabled(true);
                     addTicketsBtn.setEnabled(false);

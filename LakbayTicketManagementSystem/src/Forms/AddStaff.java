@@ -49,7 +49,7 @@ public class AddStaff extends javax.swing.JFrame {
         userName.setDocument(new JTextFieldCharLimit(6));
         passField.setDocument(new JTextFieldCharLimit(6));
         contactNoField.setDocument(new JTextFieldCharLimit(11));
-        
+        setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\clare\\Documents\\Programming\\JavaNetbeans\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\src\\Images\\Icons\\bus_window_icon_64x64.png"));
     }
     // Connect database code
     Connection con;
@@ -99,6 +99,7 @@ public class AddStaff extends javax.swing.JFrame {
         conEditBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Manage Staffs");
 
         rootPanel.setPreferredSize(new java.awt.Dimension(1280, 720));
 
@@ -147,11 +148,11 @@ public class AddStaff extends javax.swing.JFrame {
         ovrvwTxt.setText("Staff Details");
 
         lastNameField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        lastNameField.setToolTipText("HELLO");
+        lastNameField.setToolTipText("");
         lastNameField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Last Name:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
 
         firstNameField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        firstNameField.setToolTipText("HELLO");
+        firstNameField.setToolTipText("");
         firstNameField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "First Name:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
         firstNameField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -160,7 +161,7 @@ public class AddStaff extends javax.swing.JFrame {
         });
 
         middleNameField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        middleNameField.setToolTipText("HELLO");
+        middleNameField.setToolTipText("");
         middleNameField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Middle Name (Optional)", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
         middleNameField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -169,11 +170,11 @@ public class AddStaff extends javax.swing.JFrame {
         });
 
         emailField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        emailField.setToolTipText("HELLO");
+        emailField.setToolTipText("");
         emailField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Email:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
 
         contactNoField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        contactNoField.setToolTipText("HELLO");
+        contactNoField.setToolTipText("");
         contactNoField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Contact No.:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
         contactNoField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -187,7 +188,7 @@ public class AddStaff extends javax.swing.JFrame {
         });
 
         staffIdField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        staffIdField.setToolTipText("HELLO");
+        staffIdField.setToolTipText("");
         staffIdField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Staff ID:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
         staffIdField.setEnabled(false);
 
@@ -284,7 +285,7 @@ public class AddStaff extends javax.swing.JFrame {
         ovrvwTxt1.setText("Account Details");
 
         userName.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        userName.setToolTipText("HELLO");
+        userName.setToolTipText("");
         userName.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Username:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
         userName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -293,9 +294,11 @@ public class AddStaff extends javax.swing.JFrame {
         });
 
         passField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        passField.setToolTipText("");
         passField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Password:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
 
         conPassField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        conPassField.setToolTipText("");
         conPassField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Confirm Password:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
 
         passWarningTxt.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
@@ -783,7 +786,7 @@ public class AddStaff extends javax.swing.JFrame {
         
         String query = "UPDATE staff SET "
                 + "staff_id = ?, first_name = ?, middle_name = ?, last_name = ?, contact_number = ?, email_address = ?, "
-                + "user_name = ?, pass_word = ?, privilege = ? "
+                + "user_name = ?, pass_word = ?, privilege = ?, login_attempt_count = ? "
                 + "WHERE staff_id = ?";
         try {
             ps = con.prepareStatement(query);
@@ -796,7 +799,9 @@ public class AddStaff extends javax.swing.JFrame {
             ps.setString(7, userName.getText());
             ps.setString(8, String.valueOf(passField.getPassword()));
             ps.setString(9, positionField.getSelectedItem().toString());
-            ps.setString(10, pk);
+            ps.setInt(10, 0);
+            ps.setString(11, pk);
+            
             
             int k = ps.executeUpdate();
             
@@ -806,6 +811,7 @@ public class AddStaff extends javax.swing.JFrame {
             }
             
         } catch (Exception e) {
+            System.out.println("print error in update " + e);
         }
         
     }
@@ -898,7 +904,7 @@ public class AddStaff extends javax.swing.JFrame {
         vs.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_viewAllBtnActionPerformed
-
+    
     private void positionFieldItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_positionFieldItemStateChanged
         // TODO add your handling code here:
         //System.out.println("i changed.");
