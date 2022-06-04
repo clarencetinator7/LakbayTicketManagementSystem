@@ -167,7 +167,7 @@ public class AddTicket extends javax.swing.JFrame {
 
         lastNameField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         lastNameField.setToolTipText("");
-        lastNameField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Last Name", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
+        lastNameField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Last Name (Optional)", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
 
         firstNameField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         firstNameField.setToolTipText("");
