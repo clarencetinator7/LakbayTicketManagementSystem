@@ -6,10 +6,12 @@ package Forms;
 
 import UtilityClasses.Bus;
 import UtilityClasses.Driver;
+import UtilityClasses.JTextFieldCharLimit;
 
 
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.mysql.cj.xdevapi.Statement;
+import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -40,6 +42,8 @@ public class AddBus extends javax.swing.JFrame {
         setId();
         populateComboBox();
         
+        busPtNoField.setDocument(new JTextFieldCharLimit(7));
+        setIcon();
     }
 
     /**
@@ -76,6 +80,7 @@ public class AddBus extends javax.swing.JFrame {
         warningTxt = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Manage Buses");
         setResizable(false);
 
         rootPanel.setPreferredSize(new java.awt.Dimension(1280, 720));
@@ -125,20 +130,31 @@ public class AddBus extends javax.swing.JFrame {
         ovrvwTxt.setText("Bus Details");
 
         busPtNoField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        busPtNoField.setToolTipText("HELLO");
+        busPtNoField.setToolTipText("");
         busPtNoField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Bus Plate No,", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
 
         busCapacityField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        busCapacityField.setToolTipText("HELLO");
+        busCapacityField.setToolTipText("");
         busCapacityField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Capacity", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
+        busCapacityField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                busCapacityFieldActionPerformed(evt);
+            }
+        });
+        busCapacityField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                busCapacityFieldKeyTyped(evt);
+            }
+        });
 
         busIdField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        busIdField.setToolTipText("HELLO");
+        busIdField.setToolTipText("");
         busIdField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Bus ID", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
         busIdField.setEnabled(false);
 
         busTypeField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         busTypeField.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Provincial Bus", "City Bus" }));
+        busTypeField.setToolTipText("");
         busTypeField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true));
         busTypeField.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
@@ -147,6 +163,7 @@ public class AddBus extends javax.swing.JFrame {
         jLabel9.setText("Bus Type");
 
         assignedDriverField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        assignedDriverField.setToolTipText("");
         assignedDriverField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true));
         assignedDriverField.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
@@ -244,7 +261,6 @@ public class AddBus extends javax.swing.JFrame {
         editSelectedBtn.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
         editSelectedBtn.setForeground(new java.awt.Color(255, 255, 255));
         editSelectedBtn.setText("Edit Selected");
-        editSelectedBtn.setActionCommand("Edit Selected");
         editSelectedBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 159, 28), 1, true));
         editSelectedBtn.setPreferredSize(new java.awt.Dimension(104, 39));
         editSelectedBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -447,6 +463,7 @@ public class AddBus extends javax.swing.JFrame {
     
     public void clearFields()
     {
+        setId();
         busIdField.setText("");
         busPtNoField.setText("");
         busCapacityField.setText("");
@@ -497,14 +514,20 @@ public class AddBus extends javax.swing.JFrame {
                 // TODO:
                 // see if the current id existed;
                 String id = rs.getString("driver_id");
-                outerloop:
-                for(int i = 0; i < existingId.size(); i++)
+                if(existingId.size() != 0)
                 {
-                    
-                    if (!existingId.contains(id)) {
-                        assignedDriverField.addItem(id);
-                        break outerloop;
+                    outerloop:
+                    for (int i = 0; i < existingId.size(); i++) {
+
+                        if (!existingId.contains(id)) {
+                            assignedDriverField.addItem(id);
+                            break outerloop;
+                        }
                     }
+                }
+                else
+                {
+                    assignedDriverField.addItem(id);
                 }
                 
  
@@ -754,6 +777,7 @@ public class AddBus extends javax.swing.JFrame {
         if (!isFieldEmpty()) {
             insertRecord();
             clearFields();
+            setId();
             populateComboBox();
         }
         else if(isFieldEmpty())
@@ -861,6 +885,7 @@ public class AddBus extends javax.swing.JFrame {
             conEditBtn.setEnabled(false);
             addBusBtn.setEnabled(true);
         
+            clearFields();
             populateComboBox();
             
         }
@@ -880,6 +905,19 @@ public class AddBus extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_backBtnActionPerformed
 
+    private void busCapacityFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_busCapacityFieldActionPerformed
+        // TODO add your handling code here:
+        
+        
+    }//GEN-LAST:event_busCapacityFieldActionPerformed
+
+    private void busCapacityFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_busCapacityFieldKeyTyped
+        char c = evt.getKeyChar();
+        if (!Character.isDigit(c)) {
+            evt.consume();
+        }   
+    }//GEN-LAST:event_busCapacityFieldKeyTyped
+
     /**
      * @param args the command line arguments
      */
@@ -896,6 +934,10 @@ public class AddBus extends javax.swing.JFrame {
                 new AddBus().setVisible(true);
             }
         });
+    }
+    
+    public void setIcon() {
+        setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\clare\\Documents\\Programming\\JavaNetbeans\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\src\\Images\\Icons\\bus_window_icon_64x64.png"));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

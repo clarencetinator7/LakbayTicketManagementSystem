@@ -4,6 +4,9 @@
  */
 package Forms;
 
+import UtilityClasses.JTextFieldCharLimit;
+import UtilityClasses.SetIcon;
+
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
@@ -21,6 +24,9 @@ import javax.swing.JOptionPane;
 import jdk.dynalink.beans.StaticClass;
 
 import UtilityClasses.StaticVar;
+import java.awt.Image;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 
 /**
  *
@@ -33,6 +39,13 @@ public class LoginPage extends javax.swing.JFrame {
      */
     public LoginPage() {
         initComponents();
+        userField.setDocument(new JTextFieldCharLimit(6));
+        passField.setDocument(new JTextFieldCharLimit(6));
+        
+        
+
+        setIcon();
+           
     }
 
     /**
@@ -51,8 +64,17 @@ public class LoginPage extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        forgotPassBtn = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("LAKBAY Login");
+        setIconImages(null);
+        setMaximumSize(new java.awt.Dimension(1280, 720));
+        setMinimumSize(new java.awt.Dimension(1280, 720));
+        setName("Lakbay Ticket Management System: Login Page"); // NOI18N
+        setResizable(false);
 
         loginBasePanel.setBackground(new java.awt.Color(255, 255, 255));
         loginBasePanel.setPreferredSize(new java.awt.Dimension(461, 720));
@@ -82,6 +104,17 @@ public class LoginPage extends javax.swing.JFrame {
             }
         });
 
+        forgotPassBtn.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
+        forgotPassBtn.setForeground(new java.awt.Color(0, 204, 204));
+        forgotPassBtn.setText("I forgot my password.");
+        forgotPassBtn.setToolTipText("");
+        forgotPassBtn.setBorder(null);
+        forgotPassBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                forgotPassBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout loginBasePanelLayout = new javax.swing.GroupLayout(loginBasePanel);
         loginBasePanel.setLayout(loginBasePanelLayout);
         loginBasePanelLayout.setHorizontalGroup(
@@ -96,7 +129,8 @@ public class LoginPage extends javax.swing.JFrame {
                             .addGroup(loginBasePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(userField, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(passField, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel1))))
+                                .addComponent(jLabel1))
+                            .addComponent(forgotPassBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jLabel2))
                 .addContainerGap(75, Short.MAX_VALUE))
         );
@@ -111,10 +145,18 @@ public class LoginPage extends javax.swing.JFrame {
                 .addComponent(userField, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(38, 38, 38)
                 .addComponent(passField, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(54, 54, 54)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(forgotPassBtn)
+                .addGap(28, 28, 28)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(196, Short.MAX_VALUE))
         );
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Cashier-Illustration.jpg"))); // NOI18N
+
+        jLabel3.setFont(new java.awt.Font("Open Sans", 1, 27)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 159, 28));
+        jLabel3.setText("LAKBAY BUS TICKET MANAGEMENT SYSTEM");
 
         javax.swing.GroupLayout rootPanelLayout = new javax.swing.GroupLayout(rootPanel);
         rootPanel.setLayout(rootPanelLayout);
@@ -122,24 +164,38 @@ public class LoginPage extends javax.swing.JFrame {
             rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rootPanelLayout.createSequentialGroup()
                 .addComponent(loginBasePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(819, Short.MAX_VALUE))
+                .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(rootPanelLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 91, Short.MAX_VALUE)
+                        .addComponent(jLabel4)
+                        .addGap(89, 89, 89))
+                    .addGroup(rootPanelLayout.createSequentialGroup()
+                        .addGap(111, 111, 111)
+                        .addComponent(jLabel3)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         rootPanelLayout.setVerticalGroup(
             rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rootPanelLayout.createSequentialGroup()
                 .addComponent(loginBasePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(rootPanelLayout.createSequentialGroup()
+                .addGap(169, 169, 169)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(rootPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(rootPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(rootPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(rootPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -167,7 +223,7 @@ public class LoginPage extends javax.swing.JFrame {
            con = DriverManager.getConnection(url1, user, password);
            if(con != null)
            {
-               System.out.println("Connected to the database.");
+               //System.out.println("Connected to the database.");
            }
            
         } catch (SQLException ex) {
@@ -187,11 +243,19 @@ public class LoginPage extends javax.swing.JFrame {
                 String uname = rs.getString("user_name");
                 String pword = rs.getString("pass_word");
                 String fname = rs.getString("staff_id");
+                int attempts = rs.getInt("login_attempt_count");
                 
                 if(u.equals(uname) && p.equals(pword))
                 {
-                    close();
-                    return true;
+                    
+                    
+                    if (attempts <= 3) {
+                        
+                        close();
+                        return true;
+                        
+                    }
+                    
                 }
                             
             }
@@ -201,6 +265,63 @@ public class LoginPage extends javax.swing.JFrame {
             Logger.getLogger(LoginPage.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
+    }
+    
+    public void updateAttempt(int newNum, String u)
+    {
+        
+        try {
+            sqlConnect();
+            String query = "UPDATE staff SET "
+                    + "login_attempt_count = ? "
+                    + "WHERE user_name = ?";
+
+            ps = con.prepareStatement(query);
+            
+            ps.setInt(1, newNum);
+            ps.setString(2, u);
+            
+            int k = ps.executeUpdate();
+            
+            if(k==1)
+            {
+                System.out.println("Login Attempt Updated " + newNum);
+            }
+            else{
+                System.out.println("Failed to attempt.");
+            }
+               
+            
+        } catch (Exception e) {
+            System.out.println("may error update: " + e);
+        }    
+        
+    }
+    
+    public int getAttempt(String u)
+    {
+        
+        
+        String query = 
+                "SELECT login_attempt_count FROM staff WHERE user_name = ?";
+        
+        try {
+            sqlConnect();
+            ps = con.prepareStatement(query);
+            ps.setString(1, u);
+            rs = ps.executeQuery();
+            
+            while(rs.next())
+            {    
+                int attemptCount = rs.getInt("login_attempt_count");
+                return attemptCount;
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginPage.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return 0;
     }
 
     // Retrieve Dataa
@@ -229,6 +350,11 @@ public class LoginPage extends javax.swing.JFrame {
         return fName;
     }
     
+    public void clearFields()
+    {
+        userField.setText("");
+        passField.setText("");
+    }
     
     
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -260,16 +386,46 @@ public class LoginPage extends javax.swing.JFrame {
             
             HomePage hp = new HomePage();
             hp.setVisible(true);
+            
+            updateAttempt(0, username);
+            
+            clearFields();
         }
         else if(!Login(username, password))
         {
-          JOptionPane.showMessageDialog(rootPane, "Please double check your details or\n"
-                  + "contact the administrator.",
-                  "Account not found.", 
-                  JOptionPane.ERROR_MESSAGE);
+            int newLoginAttemptCount = getAttempt(username) + 1;
+            
+            if (newLoginAttemptCount < 4) {
+                
+                JOptionPane.showMessageDialog(rootPane, "Please double check your details or\n"
+                    + "contact the administrator.",
+                    "Login error.",
+                    JOptionPane.ERROR_MESSAGE);
+                updateAttempt(newLoginAttemptCount, username);
+                
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(rootPane, "Your account is blocked. Contact your admin to reset your account",
+                    "Login error.",
+                    JOptionPane.ERROR_MESSAGE);
+            }
+            
+
+            clearFields();
+
         }
  
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void forgotPassBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_forgotPassBtnActionPerformed
+        // TODO add your handling code here:
+        
+        this.setVisible(false);
+        PasswordReset pr = new PasswordReset();
+        pr.setVisible(true);
+        
+    }//GEN-LAST:event_forgotPassBtnActionPerformed
 
     
     /**
@@ -292,19 +448,33 @@ public class LoginPage extends javax.swing.JFrame {
             @Override
             public void run() {
                 new LoginPage().setVisible(true);
+                
+                
+                
+                
             }
         });
         
-           
+        
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton forgotPassBtn;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel loginBasePanel;
     private javax.swing.JPasswordField passField;
     private javax.swing.JPanel rootPanel;
     private javax.swing.JTextField userField;
     // End of variables declaration//GEN-END:variables
+
+    
+    public void setIcon() {
+        setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\clare\\Documents\\Programming\\JavaNetbeans\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\src\\Images\\Icons\\bus_window_icon_64x64.png"));
+    }
+    
 }

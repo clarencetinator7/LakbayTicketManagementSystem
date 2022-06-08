@@ -1,10 +1,11 @@
-/*
+    /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package Forms;
 
 import UtilityClasses.Driver;
+import UtilityClasses.JTextFieldCharLimit;
 
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import javax.swing.UIManager;
@@ -17,6 +18,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import com.mysql.cj.jdbc.result.ResultSetMetaData;
 import com.mysql.cj.xdevapi.Statement;
+import java.awt.Toolkit;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,6 +39,10 @@ public class AddDriver extends javax.swing.JFrame {
         sqlConnect();
         fetch();
         setID();
+        
+        setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\clare\\Documents\\Programming\\JavaNetbeans\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\src\\Images\\Icons\\bus_window_icon_64x64.png"));
+        
+        contactNoField.setDocument(new JTextFieldCharLimit(11));
     }
 
     /**
@@ -70,6 +76,7 @@ public class AddDriver extends javax.swing.JFrame {
         deleteBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Manage Drivers");
         setResizable(false);
 
         rootPanel.setPreferredSize(new java.awt.Dimension(1280, 720));
@@ -119,27 +126,37 @@ public class AddDriver extends javax.swing.JFrame {
         ovrvwTxt.setText("Staff Details");
 
         lastNameField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        lastNameField.setToolTipText("HELLO");
+        lastNameField.setToolTipText("");
         lastNameField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Last Name:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
 
         firstNameField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        firstNameField.setToolTipText("HELLO");
+        firstNameField.setToolTipText("");
         firstNameField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "First Name:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
 
         middleNameField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        middleNameField.setToolTipText("HELLO");
+        middleNameField.setToolTipText("");
         middleNameField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Middle Name (Optional)", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
 
         emailField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        emailField.setToolTipText("HELLO");
+        emailField.setToolTipText("");
         emailField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Email:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
 
         contactNoField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        contactNoField.setToolTipText("HELLO");
+        contactNoField.setToolTipText("");
         contactNoField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Contact No.:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
+        contactNoField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                contactNoFieldActionPerformed(evt);
+            }
+        });
+        contactNoField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                contactNoFieldKeyTyped(evt);
+            }
+        });
 
         driverIdField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        driverIdField.setToolTipText("HELLO");
+        driverIdField.setToolTipText("");
         driverIdField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Driver ID:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
         driverIdField.setEnabled(false);
 
@@ -392,6 +409,8 @@ public class AddDriver extends javax.swing.JFrame {
         contactNoField.setText("");
         emailField.setText("");
         warningTxt.setText("");
+        
+        setID();
     }
     
     public void fetch()
@@ -734,6 +753,21 @@ public class AddDriver extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_deleteBtnActionPerformed
+
+    private void contactNoFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contactNoFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_contactNoFieldActionPerformed
+
+    private void contactNoFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_contactNoFieldKeyTyped
+        // TODO add your handling code here:
+        
+        char c = evt.getKeyChar();
+        if(!Character.isDigit(c))
+        {
+            evt.consume();
+        }
+        
+    }//GEN-LAST:event_contactNoFieldKeyTyped
     
     
     /**

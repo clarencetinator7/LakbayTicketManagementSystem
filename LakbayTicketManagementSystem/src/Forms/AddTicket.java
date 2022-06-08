@@ -4,9 +4,46 @@
  */
 package Forms;
 
+import UtilityClasses.BookingDetails;
+import UtilityClasses.JTextFieldCharLimit;
+import UtilityClasses.Passenger;
+import UtilityClasses.Person;
+import UtilityClasses.StaticVar;
+import UtilityClasses.Ticket;
+
+import java.sql.Date;
 import com.formdev.flatlaf.FlatIntelliJLaf;
+import com.mysql.cj.xdevapi.Statement;
+import java.awt.Toolkit;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Time;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperPrintManager;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -19,6 +56,16 @@ public class AddTicket extends javax.swing.JFrame {
      */
     public AddTicket() {
         initComponents();
+        
+        sqlConnect();
+        populateComboBox();
+        fetch();
+        setNo();
+        setId();
+        
+        contactNoField.setDocument(new JTextFieldCharLimit(11));
+        
+        setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\clare\\Documents\\Programming\\JavaNetbeans\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\src\\Images\\Icons\\bus_window_icon_64x64.png"));
     }
 
     /**
@@ -33,6 +80,7 @@ public class AddTicket extends javax.swing.JFrame {
         rootPanel = new javax.swing.JPanel();
         headerPanel = new javax.swing.JPanel();
         ovrvwTxt2 = new javax.swing.JLabel();
+        backBtn = new javax.swing.JButton();
         passengerDetailsPanel = new javax.swing.JPanel();
         ovrvwTxt = new javax.swing.JLabel();
         lastNameField = new javax.swing.JTextField();
@@ -40,13 +88,14 @@ public class AddTicket extends javax.swing.JFrame {
         middleNameField = new javax.swing.JTextField();
         emailField = new javax.swing.JTextField();
         contactNoField = new javax.swing.JTextField();
-        discountField = new javax.swing.JComboBox<>();
-        jLabel10 = new javax.swing.JLabel();
+        passengerNoField = new javax.swing.JTextField();
         bookingDetailsPanel = new javax.swing.JPanel();
         ovrvwTxt1 = new javax.swing.JLabel();
         seatsField = new javax.swing.JTextField();
         routeField = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
+        discountField = new javax.swing.JComboBox<>();
+        jLabel10 = new javax.swing.JLabel();
         receiptPanel = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -54,18 +103,20 @@ public class AddTicket extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
+        fareAmtTxt = new javax.swing.JLabel();
+        totalSeatsTxt = new javax.swing.JLabel();
+        discountTxt = new javax.swing.JLabel();
+        totalAmtTxt = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        routeTable = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         addTicketsBtn = new javax.swing.JButton();
         clearFieldsBtn = new javax.swing.JButton();
+        computeBtn = new javax.swing.JButton();
         warningTxt = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Add Passengers");
         setResizable(false);
 
         rootPanel.setPreferredSize(new java.awt.Dimension(1280, 720));
@@ -77,21 +128,34 @@ public class AddTicket extends javax.swing.JFrame {
         ovrvwTxt2.setForeground(new java.awt.Color(255, 159, 28));
         ovrvwTxt2.setText("ADD PASSENGERS");
 
+        backBtn.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
+        backBtn.setForeground(new java.awt.Color(255, 159, 28));
+        backBtn.setText("Back");
+        backBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout headerPanelLayout = new javax.swing.GroupLayout(headerPanel);
         headerPanel.setLayout(headerPanelLayout);
         headerPanelLayout.setHorizontalGroup(
             headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(headerPanelLayout.createSequentialGroup()
-                .addGap(548, 548, 548)
+                .addGap(35, 35, 35)
+                .addComponent(backBtn)
+                .addGap(439, 439, 439)
                 .addComponent(ovrvwTxt2)
-                .addContainerGap(554, Short.MAX_VALUE))
+                .addContainerGap(556, Short.MAX_VALUE))
         );
         headerPanelLayout.setVerticalGroup(
             headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerPanelLayout.createSequentialGroup()
-                .addContainerGap(27, Short.MAX_VALUE)
-                .addComponent(ovrvwTxt2)
-                .addGap(15, 15, 15))
+            .addGroup(headerPanelLayout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addGroup(headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ovrvwTxt2)
+                    .addComponent(backBtn))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         passengerDetailsPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -102,32 +166,39 @@ public class AddTicket extends javax.swing.JFrame {
         ovrvwTxt.setText("Passenger Details");
 
         lastNameField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        lastNameField.setToolTipText("HELLO");
-        lastNameField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Last Name", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
+        lastNameField.setToolTipText("");
+        lastNameField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Last Name (Optional)", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
 
         firstNameField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        firstNameField.setToolTipText("HELLO");
+        firstNameField.setToolTipText("");
         firstNameField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "First Name:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
 
         middleNameField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        middleNameField.setToolTipText("HELLO");
+        middleNameField.setToolTipText("");
         middleNameField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Middle Name (Optional)", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
 
         emailField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        emailField.setToolTipText("HELLO");
+        emailField.setToolTipText("");
         emailField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Email (Optional)", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
 
         contactNoField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        contactNoField.setToolTipText("HELLO");
+        contactNoField.setToolTipText("");
         contactNoField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Contact No.", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
+        contactNoField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                contactNoFieldActionPerformed(evt);
+            }
+        });
+        contactNoField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                contactNoFieldKeyTyped(evt);
+            }
+        });
 
-        discountField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        discountField.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None", "PWD", "Student", "Senior Citizen", "Front Liner" }));
-        discountField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true));
-
-        jLabel10.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel10.setText("Discount:");
+        passengerNoField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        passengerNoField.setToolTipText("");
+        passengerNoField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "Passenger No.", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
+        passengerNoField.setEnabled(false);
 
         javax.swing.GroupLayout passengerDetailsPanelLayout = new javax.swing.GroupLayout(passengerDetailsPanel);
         passengerDetailsPanel.setLayout(passengerDetailsPanelLayout);
@@ -135,40 +206,34 @@ public class AddTicket extends javax.swing.JFrame {
             passengerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(passengerDetailsPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(passengerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lastNameField)
-                    .addComponent(firstNameField, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(middleNameField)
-                    .addComponent(contactNoField)
-                    .addComponent(emailField)
-                    .addComponent(discountField, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(passengerDetailsPanelLayout.createSequentialGroup()
-                        .addGroup(passengerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(ovrvwTxt)
-                            .addComponent(jLabel10))
-                        .addGap(0, 186, Short.MAX_VALUE)))
-                .addContainerGap())
+                .addGroup(passengerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(passengerNoField, javax.swing.GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE)
+                    .addComponent(emailField, javax.swing.GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE)
+                    .addComponent(contactNoField, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lastNameField, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(firstNameField, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ovrvwTxt, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(middleNameField, javax.swing.GroupLayout.Alignment.LEADING))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
         passengerDetailsPanelLayout.setVerticalGroup(
             passengerDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(passengerDetailsPanelLayout.createSequentialGroup()
-                .addGap(15, 15, 15)
+                .addContainerGap()
                 .addComponent(ovrvwTxt)
                 .addGap(18, 18, 18)
+                .addComponent(passengerNoField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addComponent(firstNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44)
+                .addGap(26, 26, 26)
                 .addComponent(middleNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addGap(28, 28, 28)
                 .addComponent(lastNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(48, 48, 48)
+                .addGap(30, 30, 30)
                 .addComponent(contactNoField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(51, 51, 51)
+                .addGap(30, 30, 30)
                 .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25)
-                .addComponent(jLabel10)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(discountField, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33))
+                .addGap(56, 56, 56))
         );
 
         bookingDetailsPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -179,7 +244,7 @@ public class AddTicket extends javax.swing.JFrame {
         ovrvwTxt1.setText("Booking");
 
         seatsField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        seatsField.setToolTipText("HELLO");
+        seatsField.setToolTipText("");
         seatsField.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true), "No. of Seats", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Open Sans", 0, 14), new java.awt.Color(102, 102, 102))); // NOI18N
         seatsField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -190,9 +255,32 @@ public class AddTicket extends javax.swing.JFrame {
         routeField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         routeField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true));
         routeField.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        routeField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                routeFieldActionPerformed(evt);
+            }
+        });
+        routeField.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                routeFieldPropertyChange(evt);
+            }
+        });
 
         jLabel9.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         jLabel9.setText("Route");
+
+        discountField.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        discountField.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None", "PWD / Student / Senior Citizen" }));
+        discountField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 2, true));
+        discountField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                discountFieldActionPerformed(evt);
+            }
+        });
+
+        jLabel10.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel10.setText("Discount:");
 
         javax.swing.GroupLayout bookingDetailsPanelLayout = new javax.swing.GroupLayout(bookingDetailsPanel);
         bookingDetailsPanel.setLayout(bookingDetailsPanelLayout);
@@ -201,13 +289,15 @@ public class AddTicket extends javax.swing.JFrame {
             .addGroup(bookingDetailsPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(bookingDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(routeField, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(seatsField)
-                    .addComponent(routeField, 0, 325, Short.MAX_VALUE)
                     .addGroup(bookingDetailsPanelLayout.createSequentialGroup()
-                        .addGroup(bookingDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(ovrvwTxt1)
-                            .addComponent(jLabel9))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGroup(bookingDetailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(ovrvwTxt1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(discountField, 0, 306, Short.MAX_VALUE))
                 .addContainerGap())
         );
         bookingDetailsPanelLayout.setVerticalGroup(
@@ -217,11 +307,15 @@ public class AddTicket extends javax.swing.JFrame {
                 .addComponent(ovrvwTxt1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(seatsField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(routeField, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19))
+                .addGap(12, 12, 12)
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(discountField, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         receiptPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -270,40 +364,40 @@ public class AddTicket extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel5.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        jLabel5.setText("P100.00");
+        fareAmtTxt.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        fareAmtTxt.setText("P000.00");
 
-        jLabel6.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        jLabel6.setText("2");
+        totalSeatsTxt.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        totalSeatsTxt.setText("0");
 
-        jLabel7.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        jLabel7.setText("None");
+        discountTxt.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        discountTxt.setText("None");
 
-        jLabel8.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        jLabel8.setText("P200.00");
+        totalAmtTxt.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        totalAmtTxt.setText("P000.00");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel8))
-                .addGap(0, 133, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(totalAmtTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+                    .addComponent(fareAmtTxt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(discountTxt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(totalSeatsTxt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jLabel5)
+                .addComponent(fareAmtTxt)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel6)
+                .addComponent(totalSeatsTxt)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel7)
+                .addComponent(discountTxt)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel8)
+                .addComponent(totalAmtTxt)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -324,7 +418,7 @@ public class AddTicket extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        routeTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -332,16 +426,31 @@ public class AddTicket extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Route ID", "Starting Point", "Destination", "Time"
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(routeTable);
+        if (routeTable.getColumnModel().getColumnCount() > 0) {
+            routeTable.getColumnModel().getColumn(0).setResizable(false);
+            routeTable.getColumnModel().getColumn(1).setResizable(false);
+            routeTable.getColumnModel().getColumn(2).setResizable(false);
+            routeTable.getColumnModel().getColumn(3).setResizable(false);
+        }
 
         addTicketsBtn.setBackground(new java.awt.Color(255, 159, 28));
         addTicketsBtn.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
         addTicketsBtn.setForeground(new java.awt.Color(255, 255, 255));
         addTicketsBtn.setText("Confirm Booking");
         addTicketsBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 159, 28), 1, true));
+        addTicketsBtn.setEnabled(false);
         addTicketsBtn.setPreferredSize(new java.awt.Dimension(104, 39));
         addTicketsBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -361,9 +470,17 @@ public class AddTicket extends javax.swing.JFrame {
             }
         });
 
-        warningTxt.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        warningTxt.setForeground(new java.awt.Color(204, 0, 0));
-        warningTxt.setToolTipText("");
+        computeBtn.setBackground(new java.awt.Color(255, 159, 28));
+        computeBtn.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
+        computeBtn.setForeground(new java.awt.Color(255, 255, 255));
+        computeBtn.setText("Compute");
+        computeBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 159, 28), 1, true));
+        computeBtn.setPreferredSize(new java.awt.Dimension(104, 39));
+        computeBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                computeBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -371,25 +488,29 @@ public class AddTicket extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(addTicketsBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(65, 65, 65)
-                .addComponent(clearFieldsBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(computeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(66, 66, 66)
+                        .addComponent(clearFieldsBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(addTicketsBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(warningTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 467, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addTicketsBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(clearFieldsBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(warningTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(clearFieldsBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(computeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(addTicketsBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(9, Short.MAX_VALUE))
         );
+
+        warningTxt.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        warningTxt.setForeground(new java.awt.Color(204, 0, 0));
+        warningTxt.setToolTipText("");
 
         javax.swing.GroupLayout rootPanelLayout = new javax.swing.GroupLayout(rootPanel);
         rootPanel.setLayout(rootPanelLayout);
@@ -400,17 +521,18 @@ public class AddTicket extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(rootPanelLayout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(passengerDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addComponent(passengerDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(rootPanelLayout.createSequentialGroup()
-                        .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(bookingDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(receiptPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(receiptPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 318, Short.MAX_VALUE)
+                            .addComponent(bookingDetailsPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 318, Short.MAX_VALUE)
+                            .addComponent(warningTxt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane1))
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         rootPanelLayout.setVerticalGroup(
             rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -419,18 +541,18 @@ public class AddTicket extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(rootPanelLayout.createSequentialGroup()
-                        .addComponent(passengerDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 6, Short.MAX_VALUE))
-                    .addGroup(rootPanelLayout.createSequentialGroup()
-                        .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(rootPanelLayout.createSequentialGroup()
-                                .addComponent(bookingDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(bookingDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(receiptPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(6, 6, 6))
+                                .addComponent(receiptPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(warningTxt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(passengerDetailsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 537, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(8, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -453,14 +575,47 @@ public class AddTicket extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     //STATIC VAR
-    static float fareAmt = 100;
+    private static final DecimalFormat df = new DecimalFormat("0.00");
+    private static boolean isComputing;
+    public static String ticketNo;
+    
+    
+    // REGION - sql connection
+    
+    Connection con;
+    PreparedStatement ps;
+    ResultSet rs;
+    Statement st;
+    
+    public void sqlConnect()
+    {
+        
+        try {
+           String url1 = "jdbc:mysql://localhost:3306/lakbay_ticket_management_system";
+           String user = "root";
+           String password = "Cj06032002";
+           
+           con = DriverManager.getConnection(url1, user, password);
+           if(con != null)
+           {
+               //System.out.println("Connected to the database.");
+           }
+           
+        } catch (SQLException ex) {
+            System.out.println("An error occurred. Maybe user/password is invalid");
+            ex.printStackTrace();
+        }
+    }
+    
+    // END REGION 
+    
     
     // REGION - local methods
     
     
     public boolean isFieldempty()
     {
-        if(firstNameField.getText().isEmpty() || middleNameField.getText().isEmpty() || lastNameField.getText().isEmpty() || contactNoField.getText().isEmpty() || emailField.getText().isEmpty() || seatsField.getText().isEmpty())
+        if(firstNameField.getText().isEmpty() | contactNoField.getText().isEmpty() || seatsField.getText().isEmpty())
         {
             return true;
         }
@@ -477,8 +632,373 @@ public class AddTicket extends javax.swing.JFrame {
         emailField.setText("");
         seatsField.setText("");
         discountField.setSelectedIndex(0);
+        fareAmtTxt.setText("P000.00");
+        totalSeatsTxt.setText("0");
+        discountTxt.setText("none");
+        totalAmtTxt.setText("P000.00");
+        setId();
+        setNo();
     }
     
+    public float discountPercent(int i)
+    {
+          float discountPercent = 0f;
+        
+        switch(i) {
+            case 0:
+                discountPercent = 0f;
+                break;
+            case 1:
+                discountPercent = .20f;
+                break;
+        }
+        
+        return discountPercent;
+    }
+    
+    public void populateComboBox()
+    {
+        
+        String query = 
+               "SELECT route_id FROM travel_route";
+
+        try {
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
+            
+            while(rs.next())
+            {
+                
+                routeField.addItem(rs.getString("route_id"));
+                
+            }
+            
+        } catch (Exception e) {
+            //System.out.println("May error populate: "+ e);
+            e.printStackTrace();    
+            
+        }
+    }
+
+    public boolean isSameNo(String id)
+    {
+        try {
+            String query = "SELECT * FROM passenger WHERE passenger_no = ?";
+            
+            ps = con.prepareStatement(query);
+            ps.setString(1, id);
+            
+            rs = ps.executeQuery();
+            
+            while(rs.next())
+            {
+                String idc = rs.getString("passenger_no");
+                
+                if(idc.equals(id))
+                {
+                  return true;
+                }
+                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AddDriver.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return false;
+    }
+    
+    public void setNo()
+    {
+        int id = 1;
+        String initFormat = String.format("1%05d", id);
+        String initDrvId = initFormat;
+
+        while (isSameNo(initDrvId)) {
+            id++;
+            initDrvId = String.format("1%05d", id);
+        }
+
+        passengerNoField.setText(initDrvId);
+    }
+    
+    public boolean isSameId(String id)
+    {
+        try {
+            String query = "SELECT * FROM ticket WHERE ticket_no = ?";
+            
+            ps = con.prepareStatement(query);
+            ps.setString(1, id);
+            
+            rs = ps.executeQuery();
+            
+            while(rs.next())
+            {
+                String idc = rs.getString("ticket_no");
+                
+                if(idc.equals(id))
+                {
+                  return true;
+                }
+                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AddDriver.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return false;
+    }
+    
+    public void setId()
+    {
+        int id = 1;
+        String initFormat = String.format("1%05d", id);
+        String initDrvId = initFormat;
+
+        while (isSameNo(initDrvId)) {
+            id++;
+            initDrvId = String.format("1%05d", id);
+        }
+
+        ticketNo = initDrvId;
+        System.out.println(ticketNo);
+    }
+    
+    
+    public Date dateNow()
+    {
+        java.util.Date date = new java.util.Date();
+        java.sql.Date sqlDate=new java.sql.Date(date.getTime());
+        
+        return sqlDate;
+    }
+    
+    public Time stringTimeToSqlTime(String sTime)
+    {
+        LocalTime stringTime = LocalTime.parse(sTime);
+        Time sqlTime = Time.valueOf(stringTime);
+        
+        return sqlTime;
+    }
+    
+    public String sqlTimeToString(java.sql.Time sqlTime)
+    {
+        java.sql.Time sqlDepartTime = sqlTime;
+        String formattedTime = new SimpleDateFormat("HH:mm").format(sqlDepartTime.getTime());
+        
+        return formattedTime;
+    }
+    
+    public Float getFareAmt(String pk)
+    {
+        float fareAmt = 0f;
+        
+        try {
+            
+            String query = "SELECT fare_amount FROM travel_route WHERE route_id = ?";
+            
+            ps = con.prepareStatement(query);
+            ps.setString(1, pk);
+            
+            rs = ps.executeQuery();
+            
+            while(rs.next())
+            {    
+                fareAmt = rs.getFloat("fare_amount");
+                return fareAmt;
+            }
+            
+            
+            
+        } catch (Exception e) {
+            System.out.println("Error in getColumnInRoute: " + e);
+        }
+        return fareAmt;
+    }
+    
+    public Time getDepartTime(String pk)
+    {
+        Time columnData = null;
+        
+        try {
+            
+            String query = "SELECT departure_time FROM travel_route WHERE route_id = ?";
+            
+            ps = con.prepareStatement(query);
+            ps.setString(1, pk);
+            
+            rs = ps.executeQuery();
+            
+            while(rs.next())
+            {    
+                columnData = rs.getTime("departure_time");
+                return columnData;
+            }
+            
+            
+            
+        } catch (Exception e) {
+            System.out.println("Error in getDepartTime: " + e);
+        }
+        return columnData;
+    }
+    
+    public void fetch()
+    {
+        
+        int q;
+        String query = "SELECT * FROM travel_route";
+        
+        try {
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
+            java.sql.ResultSetMetaData rss = rs.getMetaData();
+            q = rss.getColumnCount();
+            
+            DefaultTableModel df = (DefaultTableModel)routeTable.getModel();
+            df.setRowCount(0);
+            
+            while (rs.next()) {                
+                Vector v2 = new Vector();
+                for(int a=1; a<=q; a++)
+                {        
+                    v2.add(rs.getString("route_id"));
+                    v2.add(rs.getString("starting_point"));
+                    v2.add(rs.getString("destination"));
+                    v2.add(sqlTimeToString(rs.getTime("departure_time")));
+                }
+                df.addRow(v2);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AddStaff.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        
+    }
+    
+    public boolean insertRecord()
+    {
+        sqlConnect();
+        
+        Passenger pass = new Passenger();
+
+        pass.setPassengerNo(passengerNoField.getText());
+        pass.setfName(firstNameField.getText());
+        pass.setmName(middleNameField.getText());
+        pass.setlName(lastNameField.getText());
+        pass.setPhoneNo(contactNoField.getText());
+        pass.setEmail(emailField.getText());
+        pass.setStaffId(StaticVar.userId);
+           
+        try {
+           String query = "INSERT INTO passenger "
+                   + "(passenger_no, first_name, middle_name, last_name, email_address, contact_number, staff_id) VALUES "
+                   + "(?,?,?,?,?,?,?)";
+           
+           
+           ps = con.prepareStatement(query);
+           
+           ps.setString(1, pass.getPassengerNo());
+           ps.setString(2, pass.getfName());
+           ps.setString(3, pass.getmName());
+           ps.setString(4, pass.getlName());
+           ps.setString(5, pass.getEmail());
+           ps.setString(6, pass.getPhoneNo());
+           ps.setString(7, pass.getStaffId());
+           
+           int k = ps.executeUpdate();
+           
+           if (k == 1) {
+                System.out.println("pasok si passenger");
+                return true;
+                
+            }else
+            {
+                System.out.println("di pasok si passenger");
+                return false;
+            } 
+           
+           //ps.close();
+           
+            
+        } catch (Exception e) {
+            System.out.println("Error in inserting passenger: " + e);
+        }
+        
+        return false;
+    }
+    
+    public boolean insertTicket()
+    {
+        try {
+            String query = "INSERT INTO ticket "
+                    + "(ticket_no, no_of_seats, fare_amount, total_amount, date_of_booking, departure_time, passenger_no, route_id, staff_id) VALUES "
+                    + "(?,?,?,?,?,?,?,?,?)";
+            
+            Ticket tx = new Ticket();
+            
+            tx.setTicketNo(ticketNo);
+            tx.setNoOfSeats(Integer.parseInt(seatsField.getText()));
+            tx.setFareAmount(Float.valueOf(fareAmtTxt.getText()));
+            tx.setTotalAmount(Float.valueOf(totalAmtTxt.getText()));
+            tx.setDate(dateNow());
+            tx.setRouteId(routeField.getSelectedItem().toString());
+            tx.setDepartureTime(getDepartTime(tx.getRouteId()));
+            tx.setPassengerNo(passengerNoField.getText());
+            tx.setStaffId(StaticVar.userId);
+            
+            ps = con.prepareStatement(query);
+            
+            ps.setString(1, tx.getTicketNo());
+            ps.setInt(2, tx.getNoOfSeats());
+            ps.setFloat(3, tx.getFareAmount());
+            ps.setFloat(4, tx.getTotalAmount());
+            ps.setDate(5, tx.getDate());
+            ps.setTime(6, tx.getDepartureTime());
+            ps.setString(7, tx.getPassengerNo());
+            ps.setString(8, tx.getRouteId());
+            ps.setString(9, tx.getStaffId());
+            
+            int k = ps.executeUpdate();
+           
+           if (k == 1) {
+                //JOptionPane.showMessageDialog(this, "Record Added Successfuly");
+                return true;
+                
+            }else
+            {
+                JOptionPane.showMessageDialog(this, "Record is not added");
+                return false;
+            } 
+    
+        } catch (Exception e) {
+            System.out.println("Error in inserting ticket: " + e);
+        }
+        return false;
+    }
+    
+    public void printInvoice(String ticket, String route)
+    {
+        sqlConnect();
+        HashMap m = new HashMap();
+        m.put("ticketno", ticket);
+        m.put("routeid", route);
+        
+        try {
+                JasperDesign jdesign = JRXmlLoader.load("C:\\Users\\clare\\Documents\\Programming\\JavaNetbeans\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\LakbayTicketManagementSystem\\src\\Forms\\TicketReport.jrxml");
+                
+                JasperReport ireport = JasperCompileManager.compileReport(jdesign);
+                JasperPrint jprint = JasperFillManager.fillReport(ireport, m, con);
+                
+                //JasperViewer.viewReport(jprint);
+                
+                //TO PRINT IMMEDIATELY
+                JasperPrintManager.printReport(jprint, false);
+                
+            } catch (JRException ex) {
+                Logger.getLogger(AddTicket.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        
+    }
     
     // END REGION
     
@@ -487,25 +1007,135 @@ public class AddTicket extends javax.swing.JFrame {
         
         if (!isFieldempty()) {
             // proceed
+            //insertRecord();
+            //insertTicket();
+            
+            if (insertRecord()) {
+                
+                if (insertTicket()) {
+                   
+                    JOptionPane.showMessageDialog(this, "Record Added Successfuly \n Printing Ticket...");
+                    String lastInsertTicket = passengerNoField.getText();
+                    String lastInsertRoute = routeField.getSelectedItem().toString();
+                    printInvoice(lastInsertTicket, lastInsertRoute); 
+                    
+                    computeBtn.setEnabled(true);
+                    addTicketsBtn.setEnabled(false);
+                    seatsField.setEnabled(true);
+                    routeField.setEnabled(true);
+                    discountField.setEnabled(true);
+                    isComputing = false;
+
+                    clearFields();
+
+                }
+            }
+            
+            
+            
+            
+            
+            //System.out.println(selectPassengerID(firstNameField.getText()));
+            
+            
         }
         else
         {
-            //complete the forms
+            warningTxt.setText("Make sure to fill all required spaces.");
         }
       
     }//GEN-LAST:event_addTicketsBtnActionPerformed
 
     private void clearFieldsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearFieldsBtnActionPerformed
         // TODO add your handling code here:
-        clearFields();
+        
+        
+        if (!isComputing) {
+            clearFields();
+        }
+        else if(isComputing)
+        {
+            isComputing = false;
+            clearFields();
+            addTicketsBtn.setEnabled(false);
+            seatsField.setEnabled(true);
+            routeField.setEnabled(true);
+            discountField.setEnabled(true);
+            
+        }
+        
     }//GEN-LAST:event_clearFieldsBtnActionPerformed
 
     private void seatsFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seatsFieldActionPerformed
+        // TODO add your handling code here:    
+    }//GEN-LAST:event_seatsFieldActionPerformed
+
+    private void discountFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_discountFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_discountFieldActionPerformed
+
+    private void computeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_computeBtnActionPerformed
         // TODO add your handling code here:
         
+        if (!isFieldempty()) {
+            isComputing = true;
+
+            computeBtn.setEnabled(false);
+
+            fareAmtTxt.setText(String.valueOf(getFareAmt(routeField.getSelectedItem().toString())));
+            int noOfSeats = Integer.parseInt(seatsField.getText());
+            float routeFare = Float.valueOf(fareAmtTxt.getText());
+
+            BookingDetails bd = new BookingDetails(noOfSeats, routeFare, discountPercent(discountField.getSelectedIndex()));
+
+            fareAmtTxt.setText(String.valueOf(df.format(routeFare)));
+            totalSeatsTxt.setText(String.valueOf(noOfSeats));
+            totalAmtTxt.setText(String.valueOf(df.format(bd.computeAll())));
+            discountTxt.setText(String.valueOf(df.format(bd.computeDiscount())));
+
+            addTicketsBtn.setEnabled(true);
+            seatsField.setEnabled(false);
+            routeField.setEnabled(false);
+            discountField.setEnabled(false);
+        }
+        
+        else
+        {
+            warningTxt.setText("Make sure to fill all required spaces.");
+        }
+    }//GEN-LAST:event_computeBtnActionPerformed
+
+    private void routeFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_routeFieldActionPerformed
+        //TODO add your handling code here:
+            
+            //populateComboBox();
         
         
-    }//GEN-LAST:event_seatsFieldActionPerformed
+    }//GEN-LAST:event_routeFieldActionPerformed
+
+    private void routeFieldPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_routeFieldPropertyChange
+        
+    }//GEN-LAST:event_routeFieldPropertyChange
+
+    private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
+        // TODO add your handling code here:
+        HomePage hp = new HomePage();
+        hp.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_backBtnActionPerformed
+
+    private void contactNoFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contactNoFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_contactNoFieldActionPerformed
+
+    private void contactNoFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_contactNoFieldKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if(!Character.isDigit(c))
+        {
+            evt.consume();
+        }
+    }//GEN-LAST:event_contactNoFieldKeyTyped
 
     /**
      * @param args the command line arguments
@@ -529,11 +1159,15 @@ public class AddTicket extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addTicketsBtn;
+    private javax.swing.JButton backBtn;
     private javax.swing.JPanel bookingDetailsPanel;
     private javax.swing.JButton clearFieldsBtn;
+    private javax.swing.JButton computeBtn;
     private javax.swing.JTextField contactNoField;
     private javax.swing.JComboBox<String> discountField;
+    private javax.swing.JLabel discountTxt;
     private javax.swing.JTextField emailField;
+    private javax.swing.JLabel fareAmtTxt;
     private javax.swing.JTextField firstNameField;
     private javax.swing.JPanel headerPanel;
     private javax.swing.JLabel jLabel1;
@@ -541,26 +1175,25 @@ public class AddTicket extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField lastNameField;
     private javax.swing.JTextField middleNameField;
     private javax.swing.JLabel ovrvwTxt;
     private javax.swing.JLabel ovrvwTxt1;
     private javax.swing.JLabel ovrvwTxt2;
     private javax.swing.JPanel passengerDetailsPanel;
+    private javax.swing.JTextField passengerNoField;
     private javax.swing.JPanel receiptPanel;
     private javax.swing.JPanel rootPanel;
     private javax.swing.JComboBox<String> routeField;
+    private javax.swing.JTable routeTable;
     private javax.swing.JTextField seatsField;
+    private javax.swing.JLabel totalAmtTxt;
+    private javax.swing.JLabel totalSeatsTxt;
     private javax.swing.JLabel warningTxt;
     // End of variables declaration//GEN-END:variables
 }
