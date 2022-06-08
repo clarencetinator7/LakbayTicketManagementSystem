@@ -988,10 +988,10 @@ public class AddTicket extends javax.swing.JFrame {
                 JasperReport ireport = JasperCompileManager.compileReport(jdesign);
                 JasperPrint jprint = JasperFillManager.fillReport(ireport, m, con);
                 
-                JasperViewer.viewReport(jprint);
+                //JasperViewer.viewReport(jprint);
                 
                 //TO PRINT IMMEDIATELY
-                //JasperPrintManager.printReport(jprint, false);
+                JasperPrintManager.printReport(jprint, false);
                 
             } catch (JRException ex) {
                 Logger.getLogger(AddTicket.class.getName()).log(Level.SEVERE, null, ex);
